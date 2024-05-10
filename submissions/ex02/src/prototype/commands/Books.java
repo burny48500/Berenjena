@@ -32,4 +32,7 @@ public class Books {
     public static void importBook(String title, String author, String year, String genre) {
         System.out.println("Importing...");
     }
+    public static void importBookCopy(String title, String author, String year, String genre) {
+        System.out.println("Importing...");
+    }
 }
