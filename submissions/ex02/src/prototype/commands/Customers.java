@@ -1,6 +1,6 @@
 package prototype.commands;
 
-public class Accounts {
+public class Customers {
     public static void modifyMail(String userid, String newMail){
 
     }
@@ -15,6 +15,6 @@ public class Accounts {
 
     }
     public static void importAccount(String name, String mail, String phoneNumber){
-
+        // This method will call to the method create with the needed attributes.
     }
 }

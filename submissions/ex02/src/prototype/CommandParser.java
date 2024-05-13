@@ -1,13 +1,10 @@
 package prototype;
 
-import prototype.commands.Accounts;
 import prototype.commands.Books;
 import prototype.commands.Exit;
 import prototype.commands.Reports;
+import prototype.commands.BookCopies;
 import prototype.prompt.Prompter;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 public class CommandParser {
     private final Prompter prompter = new Prompter();
@@ -15,7 +12,7 @@ public class CommandParser {
     {
         if (text)
         {
-            System.out.println("Intial Menu:\n|0|: Books\n|1|: Accounts\n|2|: Reporting\n|3|: Exit\n");
+            System.out.println("Intial Menu:\n|0|: Books\n|1|: Customer\n|2|: Reporting\n|3|: Exit\n");
         }
         String answer = prompter.nextInput().strip();
         switch (answer)
@@ -24,7 +21,7 @@ public class CommandParser {
                 booksMenu(true);
                 break;
             case "1":
-                accountsMenu(true);
+                customersMenu(true);
                 break;
             case "2":
                 reportMenu(true);
@@ -55,14 +52,14 @@ public class CommandParser {
                 System.out.println("Enter the ID of the customer:");
                 userId = prompter.nextInput();
                 String borrowDays = prompter.nextInput();
-                Books.borrow(bookId, userId,borrowDays);
+                BookCopies.borrow(bookId, userId,borrowDays);
                 break;
             case "2":
                 System.out.println("Enter the ID of the book:");
                 bookId = prompter.nextInput();
                 System.out.println("Enter the ID of the customer:");
                 userId = prompter.nextInput();
-                Books.returnBook(bookId, userId);
+                BookCopies.returnBook(bookId, userId);
                 break;
             case "3":
                 bookId = prompter.nextInput();
@@ -88,7 +85,7 @@ public class CommandParser {
                 year = prompter.nextInput();
                 System.out.println("Enter a genre:");
                 genre = prompter.nextInput();
-                Books.importBookCopy(title, author, year, genre);
+                BookCopies.importBookCopy(title, author, year, genre);
             case "6":
                 initialMenu(true);
                 break;
@@ -133,15 +130,15 @@ public class CommandParser {
         }
     }
 
-    private void accountsMenu(boolean text) {
+    private void customersMenu(boolean text) {
         if (text){
-            System.out.println("|0|: Modify Mail\n|1|: Create\n|2|: Delete\n|3|: Import Customer file\n|4|:Back to Accounts Menu\n");
+            System.out.println("|0|: Modify \n|1|: Create\n|2|: Delete\n|3|: Import Customer file\n|4|: Back to Customer Menu\n");
         }
         String answer = prompter.nextInput();
         String userId, name, mail, phoneNumber;
         switch (answer) {
             case "0":
-                modifyAccounts(true);
+                modifyCustomers(true);
                 break;
             case "1":
                 System.out.println("Enter the name of the customer:");
@@ -151,12 +148,12 @@ public class CommandParser {
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                Accounts.create(name, mail, phoneNumber);
+                prototype.commands.Customers.create(name, mail, phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
                 userId = prompter.nextInput();
-                Accounts.delete(userId);
+                prototype.commands.Customers.delete(userId);
                 break;
             case "3":
                 System.out.println("Enter the name of the customer:");
@@ -164,18 +161,18 @@ public class CommandParser {
                 System.out.println("Enter the email of the customer:");
                 mail = prompter.nextInput();
                 phoneNumber = prompter.nextInput();
-                Accounts.importAccount(name, mail, phoneNumber);
+                prototype.commands.Customers.importAccount(name, mail, phoneNumber);
             case "4":
                 initialMenu(true);
                 break;
             default:
                 System.out.println("Wrong input. Try again.");
-                accountsMenu(false);
+                customersMenu(false);
         }
     }
-    private void modifyAccounts(boolean text) {
+    private void modifyCustomers(boolean text) {
         if (text) {
-            System.out.println("What do you want to modify? \n|0|: Mail\n|1|: Phone Number\n|2|: Back to Accounts Menu\n");
+            System.out.println("What do you want to modify? \n|0|: Mail\n|1|: Phone Number\n|2|: Back to Customer Menu\n");
         }
         String answer = prompter.nextInput();
         String userId;
@@ -185,21 +182,21 @@ public class CommandParser {
                 userId = prompter.nextInput();
                 System.out.println("Enter the new email of the customer:");
                 String newMail = prompter.nextInput();
-                Accounts.modifyMail(userId,newMail);
+                prototype.commands.Customers.modifyMail(userId,newMail);
                 break;
             case "1":
                 System.out.println("Enter the ID of the customer:");
                 userId = prompter.nextInput();
                 System.out.println("Enter the new phone number of the customer:");
                 String newPhoneNumber = prompter.nextInput();
-                Accounts.modifyPhoneNumber(userId,newPhoneNumber);
+                prototype.commands.Customers.modifyPhoneNumber(userId,newPhoneNumber);
                 break;
             case "2":
-                accountsMenu(true);
+                customersMenu(true);
                 break;
             default:
                 System.out.println("Wrong input. Try again.");
-                modifyAccounts(false);
+                modifyCustomers(false);
         }
     }
     private void reportMenu(boolean text) {
