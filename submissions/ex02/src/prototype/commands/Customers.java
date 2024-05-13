@@ -1,6 +1,10 @@
 package prototype.commands;
 
 public class Customers {
+    String userId;
+    String mail, newMail;
+    String phoneNumber, newPhoneNumber;
+
     public static void modifyMail(String userid, String newMail){
 
     }

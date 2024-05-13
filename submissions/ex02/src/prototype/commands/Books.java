@@ -3,6 +3,8 @@ package prototype.commands;
 import java.time.LocalDate;
 
 public class Books {
+    String title,author,year,genre;
+    String userId, bookId;
     public static void searchByTitle(String title) {
         System.out.println("Searching...");
     }

@@ -3,6 +3,8 @@ package prototype.commands;
 import java.time.LocalDate;
 
 public class BookCopies {
+    String title,author,year,genre;
+    String userId, bookId;
     public static void importBookCopy(String title, String author, String year, String genre) {
         System.out.println("Importing...");
     }
