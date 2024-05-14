@@ -7,12 +7,14 @@ This Java project implements a library management system with functionalities fo
 - Java JDK (Java Development Kit) installed on your system.
 
 ## Directory Structure
-- `Main.java` - The main entry point of the application.
-- `CommandParser.java` - Handles user input and navigates through the menu.
-- `Books.java`, `BookCopies.java` - Manage book and book copy related functionalities.
-- `Customers.java` - Manage customer-related functionalities.
-- `Reports.java` - Handles the generation of different reports.
-- `Exit.java` - Provides functionality to exit the application.
+- `/Main.java` - The main entry point of the application.
+- `/CommandParser.java` - Handles user input and navigates through the menu.
+- `/cli/CLIRunner.java` - Initiate command line interface
+- `/prompt/Prompter.java` - Handles the scanner input
+- `/commands/Books.java`, `BookCopies.java` - Manage book and book copy related functionalities.
+- `/commands/Customers.java` - Manage customer-related functionalities.
+- `/commands/Reports.java` - Handles the generation of different reports.
+- `/commands/Exit.java` - Provides functionality to exit the application.
 
 ## Compilation Instructions
 1. Open your terminal or command prompt.
@@ -20,7 +22,7 @@ This Java project implements a library management system with functionalities fo
 3. Compile the Java files using the following command:
    ```bash
    javac *.java
-   
+   ```
 ## Run application
 To run the application, use the following command after compiling:
    ```bash
