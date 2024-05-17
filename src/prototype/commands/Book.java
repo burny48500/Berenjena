@@ -41,11 +41,11 @@ public class Book {
     public static void deleteBook(String isbn) {
         ArrayList<Integer> copiesToDelete = new ArrayList<>();
 
-        for (int copyId : BookCopy.relationsBooks.keySet()) {
-            if (Objects.equals(BookCopy.relationsBooks.get(copyId), isbn) && BookCopy.borrowStatus.get(copyId)) {
+        for (int copyId : BookCopy.copyToBookMap.keySet()) {
+            if (Objects.equals(BookCopy.copyToBookMap.get(copyId), isbn) && BookCopy.borrowStatus.get(copyId)) {
                 System.out.println("Cannot delete book because there are copies currently borrowed.");
                 return;
-            } else if (Objects.equals(BookCopy.relationsBooks.get(copyId), isbn)) {
+            } else if (Objects.equals(BookCopy.copyToBookMap.get(copyId), isbn)) {
                 copiesToDelete.add(copyId);
             }
         }

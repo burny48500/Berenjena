@@ -32,14 +32,15 @@ public class Customer {
     public static void create(String name,String mail, String phoneNumber){
         // Create an userId so that its unique
     }
+
     public static void delete(int userId){
         Iterator<Customer> iterator = customers.iterator();
         while (iterator.hasNext()) {
             Customer customer = iterator.next();
             if (customer.userId == userId) {
-                for (Map.Entry<Integer, String> entry : BookCopy.relationsBooks.entrySet()) {
-                    if (entry.getValue().equals(String.valueOf(userId))) {
-                        System.out.println("Cannot delete customer; they have borrowed books.");
+                for (Map.Entry<Integer, Integer> entry : BookCopy.copyBorrowers.entrySet()) {
+                    if (entry.getValue() == userId) {
+                        System.out.println("Cannot delete customer because they have borrowed books.");
                         return;
                     }
                 }

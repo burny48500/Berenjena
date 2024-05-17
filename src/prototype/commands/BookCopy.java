@@ -1,5 +1,6 @@
 package prototype.commands;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class BookCopy {
@@ -7,13 +8,15 @@ public class BookCopy {
     int copyId;
     static boolean borrowed;
     String isbn;
-    static HashMap<Integer, String> relationsBooks = new HashMap<>();
+    static HashMap<Integer, String> copyToBookMap = new HashMap<>();
     static HashMap<Integer, Boolean> borrowStatus = new HashMap<>();
+    static HashMap<Integer, Integer> copyBorrowers = new HashMap<>();
+    // static HashMap<Integer, LocalDate> borrowDates = new HashMap<>(); // In the future we can implement something for delayed returned etc.
 
     public BookCopy(String isbn) {
         this.isbn = isbn;
         this.copyId = nextBookId++;
-        relationsBooks.put(copyId, isbn);
+        copyToBookMap.put(copyId, isbn);
         borrowed = false;
         borrowStatus.put(copyId, false);
     }
@@ -30,8 +33,8 @@ public class BookCopy {
     }
 
     public static void delete(int copyId){
-        if (relationsBooks.containsKey(copyId) && !borrowStatus.get(copyId)) {
-            relationsBooks.remove(copyId);
+        if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId)) {
+            copyToBookMap.remove(copyId);
             borrowStatus.remove(copyId);
             System.out.println("Book copy deleted successfully.");
         } else {
@@ -44,38 +47,55 @@ public class BookCopy {
     }
 
     public static void borrow(int copyId, int userId, String borrowDays) {
-        // LocalDate returnDate = LocalDate.now().plusDays(Integer.parseInt(borrowDays));
-        if (relationsBooks.containsKey(copyId) && !borrowStatus.get(copyId)) {
+        // here we should add a conditional for limiting the amount of books a userId can borrow
+        if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId)) {
             borrowStatus.put(copyId, true);
-            System.out.println("Book copy borrowed successfully." + relationsBooks.get(copyId));
+            copyBorrowers.put(copyId, userId);
+            System.out.println("Book copy borrowed successfully.");
         } else {
-            if (borrowStatus.get(copyId)){
-                System.out.println("book copy is already borrowed");
+            if (borrowStatus.get(copyId)) {
+                System.out.println("Book copy is already borrowed.");
             } else {
-                System.out.println("No book copies with that ID");
+                System.out.println("No book copies with that ID.");
             }
         }
     }
+
     public static void returnBook(int copyId, int userId) {
-        if (relationsBooks.containsKey(copyId) && borrowStatus.get(copyId)) {
-            borrowStatus.put(copyId, false);
+        if (copyToBookMap.containsKey(copyId) && borrowStatus.get(copyId) && copyBorrowers.get(copyId) == userId) {
             System.out.println("Book copy returned successfully.");
+            borrowStatus.put(copyId, false);
+            copyBorrowers.remove(copyId); // Remove borrower record
         } else {
-            System.out.println("Book copy is not borrowed or does not exist.");
+            if (!copyToBookMap.containsKey(copyId)){
+                System.out.println("Book copy does not exist.");
+            } else if (!borrowStatus.get(copyId)) {
+                System.out.println("The book is not borrowed.");
+            } else if (!(copyBorrowers.get(copyId) == userId)) {
+                System.out.println("The book is borrowed by another user.");
+            }
         }
     }
 
-    public static void overdueFee(int userId) {
-        // If Localdate.now is after the returnDate then it applies a fee.
-        // Read the returnDate in the file and see if the Customer need to pay a fee.
-        System.out.println("Overdue...");
+    public static double calculateOverdueFee(long overdueDays) {
+        return overdueDays * 1.0;
     }
 
     public boolean isBorrowed() {
         return borrowed;
     }
 
-    public static void setBorrowed(boolean borrowed) {
-        BookCopy.borrowed = borrowed;
+    public static void setBorrowed(int copyId, boolean borrowed) {
+        if (borrowStatus.containsKey(copyId)) {
+            borrowStatus.put(copyId, borrowed);
+        }
+    }
+
+    public int getCopyId() {
+        return copyId;
+    }
+
+    public static int getBorrowerId(int copyId) {
+        return copyBorrowers.getOrDefault(copyId, -1);
     }
 }
