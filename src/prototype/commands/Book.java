@@ -16,13 +16,15 @@ public class Book {
         this.year = year;
         this.genre = genre;
         this.bookId = nextBookId++;
+        books.add(this);
     }
 
+    /**
+     * This method creates some examples to be able to test
+     */
     public static void creationBooks(){
-        Book berenjena = new Book("Berenjena", "0-7642-1858-1", "Group", "2024", "University");
-        books.add(berenjena);
-        Book tomatoes = new Book("Tomatoes", "0-7050-3533-6", "Group", "2024", "University");
-        books.add(tomatoes);
+        new Book("Berenjena", "0-7642-1858-1", "Group", "2024", "University");
+        new Book("Tomatoes", "0-7050-3533-6", "Group", "2024", "University");
     }
 
     public static void searchByTitle(String title) {
@@ -52,7 +54,6 @@ public class Book {
 
         for (int copyId : copiesToDelete) {
             BookCopy.delete(copyId);
-            System.out.println("Book copies deleted.");
         }
 
         Iterator<Book> iterator = books.iterator();

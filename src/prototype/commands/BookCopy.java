@@ -8,8 +8,17 @@ public class BookCopy {
     int copyId;
     static boolean borrowed;
     String isbn;
+    /**
+     * copyToBookMap maps every copyId with a ISBN.
+     */
     static HashMap<Integer, String> copyToBookMap = new HashMap<>();
+    /**
+     * borrowStatus maps every copyId with a boolean, to know if the book was borrowed or not.
+     */
     static HashMap<Integer, Boolean> borrowStatus = new HashMap<>();
+    /**
+     * copyBorrowers maps every copyId with a userId. Useful after to know quickly if that person borrowed the book.
+     */
     static HashMap<Integer, Integer> copyBorrowers = new HashMap<>();
     // static HashMap<Integer, LocalDate> borrowDates = new HashMap<>(); // In the future we can implement something for delayed returned etc.
 
@@ -21,46 +30,72 @@ public class BookCopy {
         borrowStatus.put(copyId, false);
     }
 
+    /**
+     * This method creates some examples to be able to test.
+     */
     public static void creationBookCopies(){
-        BookCopy berenjena = new BookCopy("0-7642-1858-1");
-        BookCopy tomatoes = new BookCopy("0-7050-3533-6");
-        BookCopy tomatoes2 = new BookCopy("0-7642-1858-2");
+        new BookCopy("0-7642-1858-1");
+        new BookCopy("0-7050-3533-6");
+        new BookCopy("0-7642-1858-1");
     }
 
+    /**
+     * Method to import a book copy, creating a new object.
+     * @param isbn You need the isbn to know which books object refers to.
+     */
     public static void importBookCopy(String isbn) {
         new BookCopy(isbn);
         System.out.println("Book copy imported successfully.");
     }
 
+    /**
+     * This method deletes a book copy, making sure it exists and is not borrowed.
+     * @param copyId
+     */
     public static void delete(int copyId){
         if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId)) {
             copyToBookMap.remove(copyId);
             borrowStatus.remove(copyId);
-            System.out.println("Book copy deleted successfully.");
+            System.out.println("Book copy (id = " + copyId + ") was deleted successfully");
         } else {
-            if (borrowStatus.get(copyId)){
-                System.out.println("Book copy is currently borrowed.");
-            } else {
+            if (!copyToBookMap.containsKey(copyId)){
                 System.out.println("No book copies with that ID");
+            } else {
+                System.out.println("Book copy is currently borrowed.");
             }
         }
     }
 
+    /**
+     * This method allows a valid userId to borrow a book copy. In the borrowStatus Hashmap you specify its true
+     * and in the copyBorrowers you specify who did borrow that book with the userId.
+     * @param copyId The id of the copy to be borrowed
+     * @param userId The id of the user who wants the book copy
+     * @param borrowDays It will be to specify how many days you want to borrow the book (Not implemented yet)
+     */
     public static void borrow(int copyId, int userId, String borrowDays) {
         // here we should add a conditional for limiting the amount of books a userId can borrow
-        if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId)) {
+        if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId) && Customer.customerExists(userId)) {
             borrowStatus.put(copyId, true);
             copyBorrowers.put(copyId, userId);
             System.out.println("Book copy borrowed successfully.");
         } else {
-            if (borrowStatus.get(copyId)) {
+            if (!copyToBookMap.containsKey(copyId)) {
+                System.out.println("There doesnt exist any book copies with that ID");
+            } else if (borrowStatus.get(copyId)) {
                 System.out.println("Book copy is already borrowed.");
-            } else {
-                System.out.println("No book copies with that ID.");
+            } else if (!Customer.customerExists(userId)) {
+                System.out.println("The given user does not exist.");
             }
         }
     }
 
+    /**
+     * This method allows a userId to return a copyId if previous he borrowed it. You check if the copyId is valid, then
+     * if the borrowStatus is true (means borrowed) and the copyBorrowers matches, so we know the person is the same.
+     * @param copyId The id of the book to be returned
+     * @param userId The id of the user who wants to return the book copy.
+     */
     public static void returnBook(int copyId, int userId) {
         if (copyToBookMap.containsKey(copyId) && borrowStatus.get(copyId) && copyBorrowers.get(copyId) == userId) {
             System.out.println("Book copy returned successfully.");
@@ -76,7 +111,7 @@ public class BookCopy {
             }
         }
     }
-
+    // Not implemented yet.
     public static double calculateOverdueFee(long overdueDays) {
         return overdueDays * 1.0;
     }

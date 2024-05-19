@@ -14,12 +14,15 @@ public class Customer {
         this.userId += 1;
         this.mail = mail;
         this.phoneNumber = phoneNumber;
+        customers.add(this);
     }
+
+    /**
+     * This method creates some examples to be able to test.
+     */
     public static void creationCustomers(){
-        Customer miguel = new Customer("miguel.cid@tum.de", "0034640882288");
-        customers.add(miguel);
-        Customer urko = new Customer("urko.cornejo@tum.de", "0034640932256");
-        customers.add(urko);
+        new Customer("miguel.cid@tum.de", "0034640882288");
+        new Customer("urko.cornejo@tum.de", "0034640932256");
     }
 
     public static void modifyMail(int userid, String newMail){
@@ -29,10 +32,24 @@ public class Customer {
 
     }
 
-    public static void create(String name,String mail, String phoneNumber){
-        // Create an userId so that its unique
+    /**
+     * Method creates an Account of a new Customer.
+     * @param mail The mail of the new customer
+     * @param phoneNumber the phone number of the new customer
+     */
+    public static void create(String mail, String phoneNumber){
+        customers.add(new Customer(mail, phoneNumber));
+        System.out.println("Customer imported successfully.");
     }
 
+    public static void importCustomer(String mail, String phoneNumber){
+        // Import a customer file
+    }
+
+    /**
+     * @param userId it gets from CommandParser the id of the user
+     * Iterator is used to be able to delete the customer once we know it exists and does not have any borrowed books.
+     */
     public static void delete(int userId){
         Iterator<Customer> iterator = customers.iterator();
         while (iterator.hasNext()) {
@@ -52,8 +69,17 @@ public class Customer {
         System.out.println("Customer with that ID was not found.");
     }
 
-    public static void importAccount(String mail, String phoneNumber){
-        customers.add(new Customer(mail, phoneNumber));
-        System.out.println("Customer imported successfully.");
+    /**
+     * This method only is helpful to not have to search if a customer exists or not in other classes.
+     * @param userId
+     * @return Depends on if the user exists or not
+     */
+    public static boolean customerExists(int userId) {
+        for (Customer customer : customers) {
+            if (customer.userId == userId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -32,7 +32,7 @@ public class CommandParser {
                 booksMenu(true);
                 break;
             case "1":
-                booksCopiesMenu(true);
+                booksCopiesMenu();
                 break;
             case "2":
                 customersMenu(true);
@@ -135,16 +135,14 @@ public class CommandParser {
         System.out.println();
         initialMenu(true);
     }
-    private void booksCopiesMenu(boolean text) {
-        if (text){
-            System.out.println("""
-                    |0|: Borrow
-                    |1|: Return
-                    |2|: Import Books Copies
-                    |3|: Delete BookCopy
-                    |4|: Back to Initial Menu
-                    """);
-        }
+    private void booksCopiesMenu() {
+        System.out.println("""
+                |0|: Borrow
+                |1|: Return
+                |2|: Import Books Copies
+                |3|: Delete BookCopy
+                |4|: Back to Initial Menu
+                """);
         String answer = prompter.nextInput();
         int userId, copyId;
         String isbn;
@@ -198,21 +196,19 @@ public class CommandParser {
                     """);
         }
         String answer = prompter.nextInput();
-        String name, mail, phoneNumber;
+        String mail, phoneNumber;
         int userId;
         switch (answer) {
             case "0":
                 modifyCustomers(true);
                 break;
             case "1":
-                System.out.println("Enter the name of the customer:");
-                name = prompter.nextInput();
                 System.out.println("Enter the email of the customer:");
                 mail = prompter.nextInput();
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                Customer.create(name, mail, phoneNumber);
+                Customer.create(mail, phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
@@ -224,7 +220,7 @@ public class CommandParser {
                 mail = prompter.nextInput();
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
-                Customer.importAccount(mail, phoneNumber);
+                Customer.importCustomer(mail, phoneNumber);
             case "4":
                 initialMenu(true);
                 break;
