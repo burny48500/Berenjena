@@ -30,26 +30,34 @@ public class BookCopy {
         borrowStatus.put(copyId, false);
     }
 
-    public static HashMap<Integer, Integer> getCopyBorrowers() {
-        return copyBorrowers;
-    }
 
-    public static int getNextBookId() {
-        return nextBookId;
-    }
 
+    /**
+     * @param isbn The ISBN of the book
+     * @return the number of existing copies of a book
+     */
+    public static int quantityCopiesOfABook(String isbn) {
+        int count = 0;
+        for (String value : copyToBookMap.values()) {
+            if (value.equals(isbn)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     /**
      * This method creates some examples to be able to test.
      */
-    public static void creationBookCopies(){
+    public static void creationBookCopies() {
         new BookCopy("0-7642-1858-1");
         new BookCopy("0-7050-3533-6");
-        new BookCopy("0-7642-1858-1");
+        new BookCopy("0-5472-1458-7");
     }
 
     /**
      * Method to import a book copy, creating a new object.
+     *
      * @param isbn You need the isbn to know which books object refers to.
      */
     public static void importBookCopy(String isbn) {
@@ -59,27 +67,31 @@ public class BookCopy {
 
     /**
      * This method deletes a book copy, making sure it exists and is not borrowed.
+     *
      * @param copyId
      */
-    public static void delete(int copyId){
+    public static boolean delete(int copyId) {
         if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId)) {
             copyToBookMap.remove(copyId);
             borrowStatus.remove(copyId);
             System.out.println("Book copy (id = " + copyId + ") was deleted successfully");
+            return true;
         } else {
-            if (!copyToBookMap.containsKey(copyId)){
+            if (!copyToBookMap.containsKey(copyId)) {
                 System.out.println("No book copies with that ID");
             } else {
                 System.out.println("Book copy is currently borrowed.");
             }
         }
+        return false;
     }
 
     /**
      * This method allows a valid userId to borrow a book copy. In the borrowStatus Hashmap you specify its true
      * and in the copyBorrowers you specify who did borrow that book with the userId.
-     * @param copyId The id of the copy to be borrowed
-     * @param userId The id of the user who wants the book copy
+     *
+     * @param copyId     The id of the copy to be borrowed
+     * @param userId     The id of the user who wants the book copy
      * @param borrowDays It will be to specify how many days you want to borrow the book (Not implemented yet)
      */
     public static void borrow(int copyId, int userId, String borrowDays) {
@@ -102,6 +114,7 @@ public class BookCopy {
     /**
      * This method allows a userId to return a copyId if previous he borrowed it. You check if the copyId is valid, then
      * if the borrowStatus is true (means borrowed) and the copyBorrowers matches, so we know the person is the same.
+     *
      * @param copyId The id of the book to be returned
      * @param userId The id of the user who wants to return the book copy.
      */
@@ -111,7 +124,7 @@ public class BookCopy {
             borrowStatus.put(copyId, false);
             copyBorrowers.remove(copyId); // Remove borrower record
         } else {
-            if (!copyToBookMap.containsKey(copyId)){
+            if (!copyToBookMap.containsKey(copyId)) {
                 System.out.println("Book copy does not exist.");
             } else if (!borrowStatus.get(copyId)) {
                 System.out.println("The book is not borrowed.");
@@ -120,6 +133,7 @@ public class BookCopy {
             }
         }
     }
+
     // Not implemented yet.
     public static double calculateOverdueFee(long overdueDays) {
         return overdueDays * 1.0;
@@ -137,6 +151,17 @@ public class BookCopy {
 
     public int getCopyId() {
         return copyId;
+    }
+
+    public static int getNextBookId() {
+        return nextBookId;
+    }
+    public static HashMap<Integer, String> getCopyToBookMap() {
+        return copyToBookMap;
+    }
+
+    public static HashMap<Integer, Boolean> getBorrowStatus() {
+        return borrowStatus;
     }
 
     public static int getBorrowerId(int copyId) {
