@@ -30,6 +30,15 @@ public class BookCopy {
         borrowStatus.put(copyId, false);
     }
 
+    public static HashMap<Integer, Integer> getCopyBorrowers() {
+        return copyBorrowers;
+    }
+
+    public static int getNextBookId() {
+        return nextBookId;
+    }
+
+
     /**
      * This method creates some examples to be able to test.
      */

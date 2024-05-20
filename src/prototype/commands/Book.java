@@ -68,7 +68,13 @@ public class Book {
         System.out.println("No books with that ISBN were found.");
     }
     public static void importBook(String title, String isbn, String author, String year, String genre) {
-        books.add(new Book(title, isbn, author, year, genre));
-        System.out.println("Book imported successfully.");
+        Book bookToBeImported= new Book(title, isbn, author, year, genre);
+        if (!books.contains(bookToBeImported)) {
+            books.add(bookToBeImported);
+            System.out.println("Book imported successfully.");
+        }else {
+            System.out.println("Book already imported.");
+        }
+
     }
 }

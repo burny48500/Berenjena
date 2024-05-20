@@ -5,16 +5,21 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Customer {
+    private static int nextId = 1;
     private int userId;
     private String mail;
     private String phoneNumber;
     public static ArrayList<Customer> customers = new ArrayList<>();
 
     public Customer(String mail, String phoneNumber) {
-        this.userId += 1;
+        this.userId = nextId++;
         this.mail = mail;
         this.phoneNumber = phoneNumber;
         customers.add(this);
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     /**
@@ -44,6 +49,7 @@ public class Customer {
 
     public static void importCustomer(String mail, String phoneNumber){
         // Import a customer file
+        // don't forgot to check for already existing customers first
     }
 
     /**
@@ -68,6 +74,7 @@ public class Customer {
         }
         System.out.println("Customer with that ID was not found.");
     }
+
 
     /**
      * This method only is helpful to not have to search if a customer exists or not in other classes.
