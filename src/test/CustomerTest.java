@@ -9,10 +9,7 @@ import prototype.prompt.Prompter;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {
-    private Customer customer;
-    private BookCopy bookCopy;
-    private CommandParser commandParser;
-    private final Prompter prompter = new Prompter();
+
     @BeforeEach
     void setUp() {
         Customer.creationCustomers();
