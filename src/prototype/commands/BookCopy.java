@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class BookCopy {
     private static int nextBookId = 1;
-    int copyId;
-    static boolean borrowed;
-    String isbn;
+    private final int copyId;
+    private static boolean borrowed;
+    private final String isbn;
     /**
      * copyToBookMap maps every copyId with a ISBN.
      */
@@ -57,13 +57,14 @@ public class BookCopy {
 
     /**
      * Method to import a book copy, creating a new object.
-     *
+     * Not implemented yet
      * @param isbn You need the isbn to know which books object refers to.
      */
-    public static void importBookCopy(String isbn) {
+    /*public static void importBookCopy(String isbn) {
         new BookCopy(isbn);
         System.out.println("Book copy imported successfully.");
     }
+     */
 
     /**
      * This method deletes a book copy, making sure it exists and is not borrowed.
