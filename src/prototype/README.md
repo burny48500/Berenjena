@@ -33,3 +33,27 @@ The application provides functionalities through a menu-driven interface:
 1. Books Menu: Search, Borrow, Return, Delete, and Import books and book copies.
 2. Customer Menu: Create, Modify, Delete, and Import customer records.
 3. Report Menu: Generate reports on all books, borrowed, not borrowed, and customers.
+
+## Running Tests
+
+### Prerequisites
+Before running the tests, ensure that you have the following installed:
+- Java JDK (Java Development Kit)
+- JUnit testing framework
+
+If you're using Gradle, JUnit might be included automatically as part of your project's dependencies. However, if you're running the tests manually or outside of a build system, you might need to install JUnit separately.
+
+
+### Test Directory Structure
+The test directory (`/test/`) contains the following files:
+- `CustomerTest.java`: Contains unit tests for customer deletion functionalities.
+- `BookDeletionTest.java`: Includes unit tests for book deletion functionalities.
+- `BookCopyDeletionTest.java`: Consists of unit tests for book copy deletion functionalities.
+
+## Test Execution
+To execute the unit tests using Gradle, follow these steps after compiling the Java files:
+1. Open your terminal or command prompt.
+2. Navigate to the root directory of your project.
+3. Run the following Gradle command to execute the tests:
+   ```bash
+   ./gradlew test
