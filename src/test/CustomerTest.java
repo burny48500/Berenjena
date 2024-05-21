@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
 import prototype.commands.Customer;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {

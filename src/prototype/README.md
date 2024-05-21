@@ -41,7 +41,7 @@ Before running the tests, ensure that you have the following installed:
 - Java JDK (Java Development Kit)
 - JUnit testing framework
 
-If you're using Gradle, JUnit might be included automatically as part of your project's dependencies. However, if you're running the tests manually or outside of a build system, you might need to install JUnit separately.
+(If you're using Gradle, JUnit might be included automatically as part of your project's dependencies. However, if you're running the tests manually or outside of a build system, you might need to install JUnit separately.)
 
 
 ### Test Directory Structure
