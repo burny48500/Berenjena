@@ -17,6 +17,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         if (!sameCustomer(mail)) {
             customers.add(this);
+            System.out.println("The customer was added successfully!");
         }
     }
 
@@ -34,17 +35,6 @@ public class Customer {
 
     public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
 
-    }
-
-    /**
-     * Method creates an Account of a new Customer.
-     *
-     * @param mail        The mail of the new customer
-     * @param phoneNumber the phone number of the new customer
-     */
-    public static void create(String mail, String phoneNumber) {
-        customers.add(new Customer(mail, phoneNumber));
-        System.out.println("Customer imported successfully.");
     }
 
     public static void importCustomer(String mail, String phoneNumber) {

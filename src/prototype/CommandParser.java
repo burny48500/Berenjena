@@ -3,7 +3,7 @@ package prototype;
 import prototype.commands.*;
 import prototype.prompt.Prompter;
 
-public class CommandParser {
+public class  CommandParser {
     private final Prompter prompter = new Prompter();
 
     public void creation(){
@@ -166,7 +166,8 @@ public class CommandParser {
             case "2":
                 System.out.println("Enter the ID of the book:");
                 isbn = prompter.nextInput();
-                BookCopy.importBookCopy(isbn);
+                //Not implemented yet
+                //BookCopy.importBookCopy(isbn);
                 break;
             case "3":
                 System.out.println("Enter the ID of the book copy:");
@@ -208,7 +209,7 @@ public class CommandParser {
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                Customer.create(mail, phoneNumber);
+                new Customer(mail,phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
