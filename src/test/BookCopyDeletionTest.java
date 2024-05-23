@@ -29,7 +29,7 @@ public class BookCopyDeletionTest {
                 break;
             }
         }
-        //assertFalse("Found non-existent copyID during deletion test", foundId); //just an extra check:)
+        assertFalse(foundId, "Found non-existent copyID during deletion test"); //just an extra check:)
         assertFalse(BookCopy.delete(nonExistentId));
     }
     @Test

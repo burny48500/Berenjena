@@ -35,7 +35,7 @@ public class BookDeletionTest {
                 break;
             }
         }
-        //assertFalse("Found non-existent ISBN during deletion test", foundCount); //extra check:)
+        assertFalse(foundCount, "Found non-existent ISBN during deletion test"); //extra check:)
         int bookSizeBeforeDeleting = Book.getBooks().size();
         Book.deleteBook(nonExistentISBN);
         assertEquals(bookSizeBeforeDeleting, Book.getBooks().size());

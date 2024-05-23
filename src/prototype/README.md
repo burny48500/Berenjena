@@ -70,4 +70,5 @@ The test coverage itself is calculated on the following formulas (for an example
 - line coverage = number of used lines in test cases / number of lines in class
 - branche coverage = number of executed branches in test cases / number of unique distinguishable branches in class
 
+(Reference: https://www.baeldung.com/cs/code-coverage)
 (Disclaimer: somehow the test code coverage with our repository in IntelliJ only worked when the test classes themselves also were in the commands directory)
