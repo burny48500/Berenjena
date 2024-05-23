@@ -12,7 +12,7 @@ public class BookDeletionTest {
     public void DeleteBookSuccessfullyTest() {
         Book bookToDelete = new Book("Frankenstein", "0-2456-4821-5", "Mary Shelley", "1818", "Science Fiction");
         Book book = new Book("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
-        Book.importBook("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
+        //Book.importBook("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
         assertTrue(Book.getBooks().contains(bookToDelete));
         assertTrue(Book.getBooks().contains(bookToDelete));
         int bookSizeBeforeDeleting = Book.getBooks().size();
@@ -49,7 +49,7 @@ public class BookDeletionTest {
         BookCopy bookCopy = new BookCopy(book.getIsbn());
 
         Book.getBooks().add(book);
-        BookCopy.borrow(bookCopy.getCopyId(), customer.getUserId(), "30 days");
+        BookCopy.borrow(bookCopy.getCopyId(), customer.getUserId());
         Book.deleteBook(book.getIsbn());
         assertTrue(Book.getBooks().contains(book));
     }

@@ -65,17 +65,6 @@ public class  CommandParser {
                 searchMenu(true);
                 break;
             case "1":
-                System.out.println("Enter a title:");
-                title = prompter.nextInput();
-                System.out.println("Enter a ISBN:");
-                isbn = prompter.nextInput();
-                System.out.println("Enter the author:");
-                author = prompter.nextInput();
-                System.out.println("Enter a year:");
-                year = prompter.nextInput();
-                System.out.println("Enter a genre:");
-                genre = prompter.nextInput();
-                Book.importBook(title, isbn, author, year, genre);
                 break;
             case "2":
                 System.out.println("Enter the ISBN of the book:");
@@ -98,9 +87,8 @@ public class  CommandParser {
                     Search by:
                     |0|: Title
                     |1|: Author
-                    |2|: Year
-                    |3|: Genre
-                    |4|: Back to Books Menu
+                    |2|: ISBN
+                    |3|: Back to Books Menu
                     """);
         }
         String answer = prompter.nextInput();
@@ -116,16 +104,11 @@ public class  CommandParser {
                 Book.searchByAuthor(author);
                 break;
             case "2":
-                System.out.println("Enter a year:");
-                String year = prompter.nextInput();
-                Book.searchByYear(year);
+                System.out.println("Enter a ISBN:");
+                String isbn = prompter.nextInput();
+                Book.searchByISBN(isbn);
                 break;
             case "3":
-                System.out.println("Enter a genre:");
-                String genre = prompter.nextInput();
-                Book.searchByGenre(genre);
-                break;
-            case "4":
                 booksMenu(true);
                 break;
             default:
@@ -152,9 +135,7 @@ public class  CommandParser {
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                System.out.println("For how many days do he wants to borrow it?");
-                String borrowDays = prompter.nextInput();
-                BookCopy.borrow(copyId, userId,borrowDays);
+                BookCopy.borrow(copyId, userId);
                 break;
             case "1":
                 System.out.println("Enter the ID of the book copy:");

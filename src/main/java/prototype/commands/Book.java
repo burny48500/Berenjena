@@ -18,7 +18,7 @@ public class Book {
         this.year = year;
         this.genre = genre;
         this.bookId = nextBookId++;
-        if (!SameBook(isbn)) {
+        if (!sameBook(isbn)) {
             books.add(this);
         }
     }
@@ -39,11 +39,7 @@ public class Book {
         System.out.println("Searching...");
     }
 
-    public static void searchByYear(String year) {
-        System.out.println("Searching...");
-    }
-
-    public static void searchByGenre(String genre) {
+    public static void searchByISBN(String year) {
         System.out.println("Searching...");
     }
 
@@ -75,6 +71,7 @@ public class Book {
         System.out.println("No books with that ISBN were found.");
     }
 
+    /*
     public static void importBook(String title, String isbn, String author, String year, String genre) {
         Book bookToBeImported= new Book(title, isbn, author, year, genre);
         if (!books.contains(bookToBeImported)) {
@@ -84,8 +81,9 @@ public class Book {
             System.out.println("Book already imported.");
         }
     }
+    */
 
-    public static boolean SameBook(String isbn) {
+    public static boolean sameBook(String isbn) {
         for (Book book : books) {
             if (Objects.equals(book.isbn, isbn)) {
                 return true;
