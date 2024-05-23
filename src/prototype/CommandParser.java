@@ -17,7 +17,7 @@ public class  CommandParser {
         if (text)
         {
             System.out.println("""
-                    Initial Menu:
+                    Initial Menu DEVELOPMENT:
                     |0|: Books
                     |1|: Books Copies
                     |2|: Customer
