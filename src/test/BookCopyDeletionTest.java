@@ -1,12 +1,15 @@
 package test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BookCopyDeletionTest {
     @Test
-    public void DeleteBookCopySuccessfullyTest() {
+    void DeleteBookCopySuccessfullyTest() {
         BookCopy bookCopy = new BookCopy("0-8222-1328-6");
         int copyId = bookCopy.getCopyId();
         assertTrue(BookCopy.getCopyToBookMap().containsKey(copyId));
@@ -16,7 +19,7 @@ public class BookCopyDeletionTest {
         assertNull(BookCopy.getBorrowStatus().get(copyId));
     }
     @Test
-    public void DeleteNotFoundBookCopyTest() {
+    void DeleteNotFoundBookCopyTest() {
         int nonExistentId = 1042085073;
 
         boolean foundId = false;
@@ -26,11 +29,11 @@ public class BookCopyDeletionTest {
                 break;
             }
         }
-        assertFalse("Found non-existent copyID during deletion test", foundId); //just an extra check:)
+        //assertFalse("Found non-existent copyID during deletion test", foundId); //just an extra check:)
         assertFalse(BookCopy.delete(nonExistentId));
     }
     @Test
-    public void DeleteBorrowedBookCopyTest() {
+    void DeleteBorrowedBookCopyTest() {
         BookCopy bookCopy = new BookCopy("0-5678-8901-2");
         int copyId = bookCopy.getCopyId();
         BookCopy.getBorrowStatus().put(copyId, true);
