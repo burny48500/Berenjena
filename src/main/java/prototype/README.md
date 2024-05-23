@@ -71,3 +71,4 @@ The test coverage itself is calculated on the following formulas (for an example
 - branch coverage = number of executed branches in test cases / number of unique distinguishable branches in class
 
 (Reference: https://www.baeldung.com/cs/code-coverage)
+

@@ -135,7 +135,7 @@ public class  CommandParser {
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                BookCopy.borrow(copyId, userId);
+                BookCopy.borrow(copyId, userId, "15");
                 break;
             case "1":
                 System.out.println("Enter the ID of the book copy:");
@@ -289,3 +289,5 @@ public class  CommandParser {
         initialMenu(true);
     }
 }
+
+
