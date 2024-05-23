@@ -57,3 +57,17 @@ To execute the unit tests using Gradle, follow these steps after compiling the J
 3. Run the following Gradle command to execute the tests:
    ```bash
    ./gradlew test
+
+## Calculating Test coverage Record
+To calculate the test coverage of our project we can use a tool e.g. JaCoCo which can then display us the coverage of
+1. classes
+2. methods
+3. lines
+4. branches
+
+The test coverage itself is calculated on the following formulas (for an example class):
+- method coverage = number of executed methods in test cases / number of methods in clas
+- line coverage = number of used lines in test cases / number of lines in class
+- branche coverage = number of executed branches in test cases / number of unique distinguishable branches in class
+
+(Disclaimer: somehow the test code coverage in IntelliJ only worked when the test classes themselves also were in the commands directory)
