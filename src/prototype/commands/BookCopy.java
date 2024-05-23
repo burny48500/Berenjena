@@ -1,7 +1,9 @@
 package prototype.commands;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BookCopy {
     private static int nextBookId = 1;
@@ -20,7 +22,11 @@ public class BookCopy {
      * copyBorrowers maps every copyId with a userId. Useful after to know quickly if that person borrowed the book.
      */
     static HashMap<Integer, Integer> copyBorrowers = new HashMap<>();
-    // static HashMap<Integer, LocalDate> borrowDates = new HashMap<>(); // In the future we can implement something for delayed returned etc.
+
+    /**
+     * borrowDates maps every copyId with the date in which the book was borrowed.
+     */
+    static HashMap<Integer, String> borrowDates = new HashMap<>();
 
     public BookCopy(String isbn) {
         this.isbn = isbn;
@@ -50,6 +56,9 @@ public class BookCopy {
      * This method creates some examples to be able to test.
      */
     public static void creationBookCopies() {
+        new BookCopy("0-7642-1858-1");
+        new BookCopy("0-7050-3533-6");
+        new BookCopy("0-5472-1458-7");
         new BookCopy("0-7642-1858-1");
         new BookCopy("0-7050-3533-6");
         new BookCopy("0-5472-1458-7");
@@ -93,22 +102,31 @@ public class BookCopy {
      *
      * @param copyId     The id of the copy to be borrowed
      * @param userId     The id of the user who wants the book copy
-     * @param borrowDays It will be to specify how many days you want to borrow the book (Not implemented yet)
      */
-    public static void borrow(int copyId, int userId, String borrowDays) {
-        // here we should add a conditional for limiting the amount of books a userId can borrow
-        if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId) && Customer.customerExists(userId)) {
-            borrowStatus.put(copyId, true);
-            copyBorrowers.put(copyId, userId);
-            System.out.println("Book copy borrowed successfully.");
-        } else {
-            if (!copyToBookMap.containsKey(copyId)) {
-                System.out.println("There doesnt exist any book copies with that ID");
-            } else if (borrowStatus.get(copyId)) {
-                System.out.println("Book copy is already borrowed.");
-            } else if (!Customer.customerExists(userId)) {
-                System.out.println("The given user does not exist.");
+    public static void borrow(int copyId, int userId) {
+        if (amountOfBooksPerCustomer(copyBorrowers, userId) <= 5){
+            if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId) && Customer.customerExists(userId)) {
+                borrowStatus.put(copyId, true);
+                // DATES
+                LocalDate currentDate = LocalDate.now();
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+                String formattedDate = currentDate.format(formatter);
+                borrowDates.put(copyId, formattedDate);
+                copyBorrowers.put(copyId, userId);
+                System.out.println("Book copy borrowed successfully.");
+            } else {
+                if (!copyToBookMap.containsKey(copyId)) {
+                    System.out.println("There doesnt exist any book copies with that ID");
+                } else if (borrowStatus.get(copyId)) {
+                    System.out.println("Book copy is already borrowed.");
+                } else if (!Customer.customerExists(userId)) {
+                    System.out.println("The given user does not exist.");
+                }
             }
+        }else {
+            System.out.println("This customer can not borrow more book copies.");
         }
     }
 
@@ -123,7 +141,8 @@ public class BookCopy {
         if (copyToBookMap.containsKey(copyId) && borrowStatus.get(copyId) && copyBorrowers.get(copyId) == userId) {
             System.out.println("Book copy returned successfully.");
             borrowStatus.put(copyId, false);
-            copyBorrowers.remove(copyId); // Remove borrower record
+            copyBorrowers.remove(copyId);
+            borrowDates.remove(copyId);
         } else {
             if (!copyToBookMap.containsKey(copyId)) {
                 System.out.println("Book copy does not exist.");
@@ -133,6 +152,16 @@ public class BookCopy {
                 System.out.println("The book is borrowed by another user.");
             }
         }
+    }
+
+    public static int amountOfBooksPerCustomer(HashMap<Integer, Integer> copyBorrowers, int userId) {
+        int count = 0;
+        for (Map.Entry<Integer, Integer> entry : copyBorrowers.entrySet()) {
+            if (entry.getValue().equals(userId)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     // Not implemented yet.
