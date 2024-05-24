@@ -10,6 +10,7 @@ public class Customer {
     private String mail;
     private String phoneNumber;
     public static ArrayList<Customer> customers = new ArrayList<>();
+    private static boolean text = false;
 
     public Customer(String mail, String phoneNumber) {
         this.userId = nextId++;
@@ -17,7 +18,9 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         if (!sameCustomer(mail)) {
             customers.add(this);
-            System.out.println("The customer was added successfully!");
+            if(text){
+                System.out.println("The customer was added successfully!");
+            }
         }
     }
 
@@ -27,6 +30,7 @@ public class Customer {
     public static void creationCustomers() {
         new Customer("miguel.cid@tum.de", "0034640882288");
         new Customer("urko.cornejo@tum.de", "0034640932256");
+        text = true;
     }
 
     public static void modifyMail(int userid, String newMail) {
@@ -50,7 +54,7 @@ public class Customer {
         while (iterator.hasNext()) {
             Customer customer = iterator.next();
             if (customer.userId == userId) {
-                for (Map.Entry<Integer, Integer> entry : BookCopy.copyBorrowers.entrySet()) {
+                for (Map.Entry<Integer, Integer> entry : BookCopy.getCopyBorrowers().entrySet()) {
                     if (entry.getValue() == userId) {
                         System.out.println("Cannot delete customer because they have borrowed books.");
                         return;
@@ -117,5 +121,13 @@ public class Customer {
 
     public static void setCustomers(ArrayList<Customer> customers) {
         Customer.customers = customers;
+    }
+
+    public static boolean isText() {
+        return text;
+    }
+
+    public static void setText(boolean text) {
+        Customer.text = text;
     }
 }

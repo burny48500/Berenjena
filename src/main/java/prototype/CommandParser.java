@@ -3,31 +3,28 @@ package prototype;
 import prototype.commands.*;
 import prototype.prompt.Prompter;
 
-public class  CommandParser {
-    private final Prompter prompter = new Prompter();
+public class CommandParser {
+    private static final Prompter prompter = new Prompter();
 
-    public void creation(){
+    public void creation() {
         Customer.creationCustomers();
         Book.creationBooks();
         BookCopy.creationBookCopies();
     }
 
-    public void initialMenu(boolean text)
-    {
-        if (text)
-        {
+    public static void initialMenu(boolean text) {
+        if (text) {
             System.out.println("""
                     Initial Menu DEVELOPMENT:
                     |0|: Books
                     |1|: Books Copies
-                    |2|: Customer
+                    |2|: Customers
                     |3|: Reporting
                     |4|: Exit
                     """);
         }
         String answer = prompter.nextInput().strip();
-        switch (answer)
-        {
+        switch (answer) {
             case "0":
                 booksMenu(true);
                 break;
@@ -49,29 +46,26 @@ public class  CommandParser {
         }
     }
 
-    private void booksMenu(boolean text) {
-        if (text){
-            System.out.println("""
-                    |0|: Search
-                    |1|: Import Books
-                    |2|: Delete
-                    |3|: Back to Initial Menu
+    private static void booksMenu(boolean text) {
+        if (text) {
+            System.out.println("Book Menu:\n"+"""
+                    |0|: Import Books
+                    |1|: Delete
+                    |2|: Back to Initial Menu
                     """);
         }
         String answer = prompter.nextInput().strip();
-        String title, isbn, author, year, genre;
+        String isbn;
         switch (answer) {
             case "0":
-                searchMenu(true);
+                Importer.importBook();
                 break;
             case "1":
-                break;
-            case "2":
                 System.out.println("Enter the ISBN of the book:");
                 isbn = prompter.nextInput();
                 Book.deleteBook(isbn);
                 break;
-            case "3":
+            case "2":
                 initialMenu(true);
                 break;
             default:
@@ -81,10 +75,10 @@ public class  CommandParser {
         System.out.println();
         initialMenu(true);
     }
-    private void searchMenu(boolean text) {
+    private static void searchMenu(boolean text) {
         if (text) {
             System.out.println("""
-                    Search by:
+                    Search Book Copy by:
                     |0|: Title
                     |1|: Author
                     |2|: ISBN
@@ -96,17 +90,17 @@ public class  CommandParser {
             case "0":
                 System.out.println("Enter a title:");
                 String title = prompter.nextInput();
-                Book.searchByTitle(title);
+                BookCopy.searchByTitle(title);
                 break;
             case "1":
                 System.out.println("Enter an author:");
                 String author = prompter.nextInput();
-                Book.searchByAuthor(author);
+                BookCopy.searchByAuthor(author);
                 break;
             case "2":
                 System.out.println("Enter a ISBN:");
                 String isbn = prompter.nextInput();
-                Book.searchByISBN(isbn);
+                BookCopy.searchByISBN(isbn);
                 break;
             case "3":
                 booksMenu(true);
@@ -118,24 +112,24 @@ public class  CommandParser {
         System.out.println();
         initialMenu(true);
     }
-    private void booksCopiesMenu() {
-        System.out.println("""
+    private static void booksCopiesMenu() {
+        System.out.println("Book Copies Menu:\n"+"""
                 |0|: Borrow
                 |1|: Return
-                |2|: Import Books Copies
-                |3|: Delete BookCopy
-                |4|: Back to Initial Menu
+                |2|: Search
+                |3|: Import
+                |4|: Delete
+                |5|: Back to Initial Menu
                 """);
         String answer = prompter.nextInput();
         int userId, copyId;
-        String isbn;
         switch (answer) {
             case "0":
                 System.out.println("Enter the ID of the book copy:");
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                BookCopy.borrow(copyId, userId, "15");
+                BookCopy.borrow(copyId, userId);
                 break;
             case "1":
                 System.out.println("Enter the ID of the book copy:");
@@ -145,17 +139,17 @@ public class  CommandParser {
                 BookCopy.returnBook(copyId, userId);
                 break;
             case "2":
-                System.out.println("Enter the ID of the book:");
-                isbn = prompter.nextInput();
-                //Not implemented yet
-                //BookCopy.importBookCopy(isbn);
+                searchMenu(true);
                 break;
             case "3":
+                Importer.importBookCopy();
+                break;
+            case "4":
                 System.out.println("Enter the ID of the book copy:");
                 copyId = Integer.parseInt(prompter.nextInput());
                 BookCopy.delete(copyId);
                 break;
-            case "4":
+            case "5":
                 initialMenu(true);
                 break;
             default:
@@ -166,8 +160,8 @@ public class  CommandParser {
         initialMenu(true);
     }
 
-    private void customersMenu(boolean text) {
-        if (text){
+    private static void customersMenu(boolean text) {
+        if (text) {
             System.out.println("""
                     Select an action:
                     |0|: Modify
@@ -198,11 +192,8 @@ public class  CommandParser {
                 Customer.delete(userId);
                 break;
             case "3":
-                System.out.println("Enter the email of the customer:");
-                mail = prompter.nextInput();
-                System.out.println("Enter the phone number of the customer:");
-                phoneNumber = prompter.nextInput();
-                Customer.importCustomer(mail, phoneNumber);
+                Importer.importCustomer();
+                break;
             case "4":
                 initialMenu(true);
                 break;
@@ -213,7 +204,7 @@ public class  CommandParser {
         System.out.println();
         initialMenu(true);
     }
-    private void modifyCustomers(boolean text) {
+    private static void modifyCustomers(boolean text) {
         if (text) {
             System.out.println("""
                     What do you want to modify?
@@ -247,9 +238,10 @@ public class  CommandParser {
                 modifyCustomers(false);
         }
         System.out.println();
-        initialMenu(true);    }
-    private void reportMenu(boolean text) {
-        if (text){
+        initialMenu(true);
+    }
+    private static void reportMenu(boolean text) {
+        if (text) {
             System.out.println("""
                     Enter the desired output: |0|: All books
                     |1|: All borrowed book copies

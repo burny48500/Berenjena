@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
@@ -35,4 +33,3 @@ public class CustomerTest {
         assertFalse(Customer.customerExists(999));
     }
 }
-
