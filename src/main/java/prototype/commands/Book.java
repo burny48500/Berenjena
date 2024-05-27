@@ -10,11 +10,10 @@ public class Book {
     private final int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
-    public Book(String title, String isbn, String author, String shelfLocation) {
+    public Book(String title, String isbn, String author) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
-        this.shelfLocation = shelfLocation;
         bookId = nextBookId++;
         if (!sameBook(isbn)) {
             books.add(this);
@@ -25,8 +24,8 @@ public class Book {
      * This method creates some examples to be able to test
      */
     public static void creationBooks() {
-        new Book("Berenjena", "0-7642-1858-1", "Group", "A1");
-        new Book("Tomatoes", "0-7050-3533-6", "Group", "B3");
+        new Book("Berenjena", "0-7642-1858-1", "Group");
+        new Book("Tomatoes", "0-7050-3533-6", "Group");
     }
 
     public static void deleteBook(String isbn) {

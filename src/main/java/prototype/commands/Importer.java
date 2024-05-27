@@ -34,29 +34,40 @@ public class Importer {
         if (filename != null) {
             File selectedFile = new File(directory, filename);
 
+            boolean isCSVIncorrect = false;
+
             try (Reader reader = new FileReader(selectedFile);
                  CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
 
                 for (CSVRecord csvRecord : csvParser) {
-                    String column1 = csvRecord.get("Title");
-                    String column2 = csvRecord.get("ISBN");
-                    String column3 = csvRecord.get("Author");
-                    String column4 = csvRecord.get("Shelf Location");
+                    try {
+                        String column1 = csvRecord.get("Title");
+                        String column2 = csvRecord.get("ISBN");
+                        String column3 = csvRecord.get("Author");
 
-                    System.out.println("\nBook " + csvRecord.getRecordNumber());
-                    System.out.println("---------------");
-                    System.out.println("Title: " + column1);
-                    System.out.println("ISBN: " + column2);
-                    System.out.println("Author: " + column3);
-                    System.out.println("Shelf Location: " + column4);
-                    System.out.println("---------------");
-                    if (!Book.sameBook(column2)){
-                        new Book(column1, column2, column3, column4);
-                    }else {
-                        System.out.println("The book is already created.");
+                        System.out.println("\nBook " + csvRecord.getRecordNumber());
+                        System.out.println("---------------");
+                        System.out.println("Title: " + column1);
+                        System.out.println("ISBN: " + column2);
+                        System.out.println("Author: " + column3);
+                        System.out.println("---------------");
+                        if (!Book.sameBook(column2)) {
+                            new Book(column1, column2, column3);
+                        } else {
+                            System.out.println("The book is already created.");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        isCSVIncorrect = true;
+                        break;
                     }
                 }
-                System.out.println("All books were imported successfully!");
+
+                if (isCSVIncorrect) {
+                    System.out.println("The CSV file is incorrect.");
+                } else {
+                    System.out.println("All books were imported successfully!");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,22 +82,32 @@ public class Importer {
             File selectedFile = new File(directory, filename);
 
             try (Reader reader = new FileReader(selectedFile);
-                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                boolean isCSVIncorrect = false;
+                try {
+                    for (CSVRecord csvRecord : csvParser) {
+                        String column1 = csvRecord.get("ISBN");
+                        String column2 = csvRecord.get("Shelf Location");
 
-                for (CSVRecord csvRecord : csvParser) {
-                    String column1 = csvRecord.get("ISBN");
-
-                    System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
-                    System.out.println("---------------");
-                    System.out.println("ISBN: " + column1);
-                    System.out.println("---------------");
-                    if (Book.sameBook(column1)){
-                        new BookCopy(column1);
-                    }else {
-                        System.out.println("Book copy not added, cause no book has that ISBN");
+                        System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
+                        System.out.println("---------------");
+                        System.out.println("ISBN: " + column1);
+                        System.out.println("Shelf Location: " + column2);
+                        System.out.println("---------------");
+                        if (Book.sameBook(column1)) {
+                            new BookCopy(column1, column2);
+                        } else {
+                            System.out.println("Book copy not added, cause no book has that ISBN");
+                        }
                     }
+                } catch (IllegalArgumentException e) {
+                    isCSVIncorrect = true;
                 }
-                System.out.println("All book copies were imported successfully!");
+                if (isCSVIncorrect) {
+                    System.out.println("The CSV file is incorrect.");
+                } else {
+                    System.out.println("All books were imported successfully!");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,26 +123,36 @@ public class Importer {
             File selectedFile = new File(directory, filename);
 
             try (Reader reader = new FileReader(selectedFile);
-                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
-                Customer.setText(false);
-                for (CSVRecord csvRecord : csvParser) {
-                    String column1 = csvRecord.get("Mail");
-                    String column2 = csvRecord.get("Phone Number");
+                CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                Customer.setText(false); // No message of adding every time a new customer
+                boolean isCSVIncorrect = false;
+                try {
+                    for (CSVRecord csvRecord : csvParser) {
+                        String column1 = csvRecord.get("Mail");
+                        String column2 = csvRecord.get("Phone Number");
 
-                    System.out.println("\nCustomer " + csvRecord.getRecordNumber());
-                    System.out.println("---------------");
-                    System.out.println("Mail: " + column1);
-                    System.out.println("Phone Number: " + column2);
-                    System.out.println("---------------");
+                        System.out.println("\nCustomer " + csvRecord.getRecordNumber());
+                        System.out.println("---------------");
+                        System.out.println("Mail: " + column1);
+                        System.out.println("Phone Number: " + column2);
+                        System.out.println("---------------");
 
-                    if (!Customer.sameCustomer(column1)){
-                        new Customer(column1, column2);
-                    }else {
-                        System.out.println("Customer with same mail is already created.\n");
+                        if (!Customer.sameCustomer(column1)) {
+                            new Customer(column1, column2);
+                        } else {
+                            System.out.println("Customer with same mail is already created.\n");
+                        }
                     }
+
+                } catch (IllegalArgumentException e){
+                    isCSVIncorrect = true;
                 }
-                System.out.println("Customers imported successfully!");
-                Customer.setText(true);
+                if (isCSVIncorrect) {
+                    System.out.println("The CSV file is incorrect.");
+                } else {
+                    System.out.println("All books were imported successfully!");
+                }
+                Customer.setText(true); // Put it again as normally
             } catch (IOException e) {
                 e.printStackTrace();
             }

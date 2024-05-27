@@ -1,6 +1,6 @@
-Title,ISBN,Author,Shelf Location
-Effective Java,978-0134685991,Joshua Bloch,B2
-Clean Code,978-0132350884,Robert C. Martin,A1
-Design Patterns,978-0201633610,Erich Gamma,C5
-Refactoring,978-0201485677,Martin Fowler,D9
-The Pragmatic Programmer,978-0201616224,Andrew Hunt,C2
+Title,ISBN,Author
+Effective Java,978-0134685991,Joshua Bloch
+Clean Code,978-0132350884,Robert C. Martin
+Design Patterns,978-0201633610,Erich Gamma
+Refactoring,978-0201485677,Martin Fowler
+The Pragmatic Programmer,978-0201616224,Andrew Hunt

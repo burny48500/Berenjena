@@ -10,6 +10,7 @@ public class BookCopy {
     private final int copyId;
     private static boolean borrowed;
     private final String isbn;
+    private static String shelfLocation;
     /**
      * copyToBookMap maps every copyId with a ISBN.
      */
@@ -23,14 +24,18 @@ public class BookCopy {
      */
     private static HashMap<Integer, Integer> copyBorrowers = new HashMap<>();
 
-    static HashMap<Integer, String> borrowDates = new HashMap<>(); // In the future we can implement something for delayed returned etc.
+    private static HashMap<Integer, String> copyShelfLocation = new HashMap<>();
 
-    public BookCopy(String isbn) {
+    private static HashMap<Integer, String> borrowDates = new HashMap<>(); // In the future we can implement something for delayed returned etc.
+
+    public BookCopy(String isbn, String shelfLocation) {
         this.isbn = isbn;
+        this.shelfLocation = shelfLocation;
         this.copyId = nextBookId++;
         copyToBookMap.put(copyId, isbn);
         borrowed = false;
         borrowStatus.put(copyId, false);
+        copyShelfLocation.put(copyId, shelfLocation);
     }
 
     /**
@@ -51,21 +56,11 @@ public class BookCopy {
      * This method creates some examples to be able to test.
      */
     public static void creationBookCopies() {
-        new BookCopy("0-7642-1858-1");
-        new BookCopy("0-7050-3533-6");
-        new BookCopy("0-5472-1458-7");
+        new BookCopy("0-7642-1858-1", "A2");
+        new BookCopy("0-7050-3533-6", "B3");
+        new BookCopy("0-5472-1458-7", "C7");
     }
 
-    /**
-     * Method to import a book copy, creating a new object.
-     * Not implemented yet
-     * @param isbn You need the isbn to know which books object refers to.
-     */
-    /*public static void importBookCopy(String isbn) {
-        new BookCopy(isbn);
-        System.out.println("Book copy imported successfully.");
-    }
-     */
 
     /**
      * This method deletes a book copy, making sure it exists and is not borrowed.
@@ -163,7 +158,7 @@ public class BookCopy {
             Book book = Book.getBookByIsbn(isbn);
             if (book != null && book.getTitle().equals(title)) {
                 System.out.println("[" + book.getTitle() + ", "+ book.getAuthor() + ", " + book.getIsbn() + ", "
-                        + copyId + ", " + book.getShelfLocation() + ", "
+                        + copyId + ", " + copyShelfLocation.get(copyId) + ", "
                         + getBorrowingDateStatus(copyId) + "]");
             }
         }
@@ -176,7 +171,7 @@ public class BookCopy {
             Book book = Book.getBookByIsbn(isbn);
             if (book != null && book.getAuthor().equals(author)) {
                 System.out.println("[" + book.getTitle() + ", "+ book.getAuthor() + ", " + book.getIsbn() + ", "
-                        + copyId + ", " + book.getShelfLocation() + ", "
+                        + copyId + ", " + copyShelfLocation.get(copyId) + ", "
                         + getBorrowingDateStatus(copyId) + "]");
             }
         }
@@ -189,7 +184,7 @@ public class BookCopy {
             Book book = Book.getBookByIsbn(isbnTemp);
             if (book != null && book.getIsbn().equals(isbn)) {
                 System.out.println("[" + book.getTitle() + ", "+ book.getAuthor() + ", " + book.getIsbn() + ", "
-                        + copyId + ", " + book.getShelfLocation() + ", "
+                        + copyId + ", " + copyShelfLocation.get(copyId) + ", "
                         + getBorrowingDateStatus(copyId) + "]");
             }
         }
@@ -247,5 +242,21 @@ public class BookCopy {
 
     public static HashMap<Integer, String> getBorrowDates() {
         return borrowDates;
+    }
+
+    public static String getShelfLocation() {
+        return shelfLocation;
+    }
+
+    public void setShelfLocation(String shelfLocation) {
+        this.shelfLocation = shelfLocation;
+    }
+
+    public static HashMap<Integer, String> getCopyShelfLocation() {
+        return copyShelfLocation;
+    }
+
+    public static void setCopyShelfLocation(HashMap<Integer, String> copyShelfLocation) {
+        BookCopy.copyShelfLocation = copyShelfLocation;
     }
 }
