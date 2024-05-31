@@ -5,15 +5,16 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class Book {
-    private String title, isbn, author, shelfLocation;
+    private String title, author, isbn, year;
     private static int nextBookId = 1;
     private final int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
-    public Book(String title, String isbn, String author) {
+    public Book(String title, String isbn, String author, String year) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
+        this.year = year;
         bookId = nextBookId++;
         if (!sameBook(isbn)) {
             books.add(this);
@@ -24,8 +25,8 @@ public class Book {
      * This method creates some examples to be able to test
      */
     public static void creationBooks() {
-        new Book("Berenjena", "0-7642-1858-1", "Group");
-        new Book("Tomatoes", "0-7050-3533-6", "Group");
+        new Book("Berenjena", "0-7642-1858-1", "Dr Pepper", "1980");
+        new Book("Tomatoes", "0-7050-3533-6", "Ibañez", "2005");
     }
 
     public static void deleteBook(String isbn) {
@@ -114,8 +115,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getShelfLocation() {
-        return shelfLocation;
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public int getBookId() {

@@ -9,10 +9,15 @@ public class Customer {
     private int userId;
     private String mail;
     private String phoneNumber;
+    private String name;
+    private String firstName;
+    private boolean paymentStatus;
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
-    public Customer(String mail, String phoneNumber) {
+    public Customer(String name, String firstName, String mail, String phoneNumber) {
+        this.name = name;
+        this.firstName = firstName;
         this.userId = nextId++;
         this.mail = mail;
         this.phoneNumber = phoneNumber;
@@ -22,14 +27,15 @@ public class Customer {
                 System.out.println("The customer was added successfully!");
             }
         }
+        this.paymentStatus = false;
     }
 
     /**
      * This method creates some examples to be able to test.
      */
     public static void creationCustomers() {
-        new Customer("miguel.cid@tum.de", "0034640882288");
-        new Customer("urko.cornejo@tum.de", "0034640932256");
+        new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
+        new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         text = true;
     }
 
@@ -129,5 +135,29 @@ public class Customer {
 
     public static void setText(boolean text) {
         Customer.text = text;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

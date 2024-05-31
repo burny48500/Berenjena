@@ -42,17 +42,19 @@ public class Importer {
                 for (CSVRecord csvRecord : csvParser) {
                     try {
                         String column1 = csvRecord.get("Title");
-                        String column2 = csvRecord.get("ISBN");
-                        String column3 = csvRecord.get("Author");
+                        String column2 = csvRecord.get("Author");
+                        String column3 = csvRecord.get("ISBN");
+                        String column4 = csvRecord.get("Year");
 
                         System.out.println("\nBook " + csvRecord.getRecordNumber());
                         System.out.println("---------------");
                         System.out.println("Title: " + column1);
-                        System.out.println("ISBN: " + column2);
-                        System.out.println("Author: " + column3);
+                        System.out.println("Author: " + column2);
+                        System.out.println("ISBN: " + column3);
+                        System.out.println("Year: " + column4);
                         System.out.println("---------------");
                         if (!Book.sameBook(column2)) {
-                            new Book(column1, column2, column3);
+                            new Book(column1, column2, column3, column4);
                         } else {
                             System.out.println("The book is already created.");
                         }
@@ -128,17 +130,21 @@ public class Importer {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
-                        String column1 = csvRecord.get("Mail");
-                        String column2 = csvRecord.get("Phone Number");
+                        String column1 = csvRecord.get("Name");
+                        String column2 = csvRecord.get("First Name");
+                        String column3 = csvRecord.get("Mail");
+                        String column4 = csvRecord.get("Phone Number");
 
                         System.out.println("\nCustomer " + csvRecord.getRecordNumber());
                         System.out.println("---------------");
-                        System.out.println("Mail: " + column1);
-                        System.out.println("Phone Number: " + column2);
+                        System.out.println("First Name: " + column2);
+                        System.out.println("Name: " + column1);
+                        System.out.println("Mail: " + column3);
+                        System.out.println("Phone Number: " + column4);
                         System.out.println("---------------");
 
                         if (!Customer.sameCustomer(column1)) {
-                            new Customer(column1, column2);
+                            new Customer(column1, column2, column3, column4);
                         } else {
                             System.out.println("Customer with same mail is already created.\n");
                         }

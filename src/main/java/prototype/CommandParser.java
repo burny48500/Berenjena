@@ -179,12 +179,16 @@ public class CommandParser {
                 modifyCustomers(true);
                 break;
             case "1":
+                System.out.println("Enter the first name of the customer:");
+                String firstName = prompter.nextInput();
+                System.out.println("Enter the name of the customer:");
+                String name = prompter.nextInput();
                 System.out.println("Enter the email of the customer:");
                 mail = prompter.nextInput();
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                new Customer(mail,phoneNumber);
+                new Customer(name, firstName, mail ,phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
@@ -243,7 +247,8 @@ public class CommandParser {
     private static void reportMenu(boolean text) {
         if (text) {
             System.out.println("""
-                    Enter the desired output: |0|: All books
+                    Enter the desired output:
+                    |0|: All books
                     |1|: All borrowed book copies
                     |2|: All non-borrowed book copies
                     |3|: All customers
@@ -252,23 +257,23 @@ public class CommandParser {
                     """);
         }
         String answer = prompter.nextInput();
-        String userId;
+        int userId;
         switch (answer) {
             case "0":
                 Reports.allBooks();
                 break;
             case "1":
-                Reports.allBorrowed();
+                Reports.allBorrowedCopies();
                 break;
             case "2":
-                Reports.allNonBorrowed();
+                Reports.allNonBorrowedCopies();
                 break;
             case "3":
                 Reports.allCustomers();
                 break;
             case "4":
                 System.out.println("Enter the ID of the customer:");
-                userId = prompter.nextInput();
+                userId = Integer.parseInt(prompter.nextInput());
                 Reports.BorrowedCustomer(userId);
             case "5":
                 initialMenu(true);

@@ -14,6 +14,7 @@ public class BookCopy {
     /**
      * copyToBookMap maps every copyId with a ISBN.
      */
+
     private static HashMap<Integer, String> copyToBookMap = new HashMap<>();
     /**
      * borrowStatus maps every copyId with a boolean, to know if the book was borrowed or not.
@@ -38,6 +39,10 @@ public class BookCopy {
         copyShelfLocation.put(copyId, shelfLocation);
     }
 
+    public static String copyIdToIsbn (int copyId) {
+        return copyToBookMap.get(copyId);
+    }
+
     /**
      * @param isbn The ISBN of the book
      * @return the number of existing copies of a book
@@ -57,8 +62,8 @@ public class BookCopy {
      */
     public static void creationBookCopies() {
         new BookCopy("0-7642-1858-1", "A2");
-        new BookCopy("0-7050-3533-6", "B3");
-        new BookCopy("0-5472-1458-7", "C7");
+        new BookCopy("0-7642-1858-1", "B3");
+        new BookCopy("0-7050-3533-6", "C7");
     }
 
 
