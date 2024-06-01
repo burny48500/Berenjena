@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
 
@@ -10,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class BookCopyDeletionTest {
     @Test
     void DeleteBookCopySuccessfullyTest() {
-        BookCopy bookCopy = new BookCopy("0-8222-1328-6");
+        BookCopy bookCopy = new BookCopy("0-8222-1328-6", "B3");
         int copyId = bookCopy.getCopyId();
         assertTrue(BookCopy.getCopyToBookMap().containsKey(copyId));
         assertFalse(BookCopy.getBorrowStatus().get(copyId));
@@ -34,7 +32,7 @@ public class BookCopyDeletionTest {
     }
     @Test
     void DeleteBorrowedBookCopyTest() {
-        BookCopy bookCopy = new BookCopy("0-5678-8901-2");
+        BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2");
         int copyId = bookCopy.getCopyId();
         BookCopy.getBorrowStatus().put(copyId, true);
         assertTrue(BookCopy.getBorrowStatus().get(copyId));

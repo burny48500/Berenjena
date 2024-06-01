@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
@@ -16,7 +14,7 @@ public class CustomerTest {
 
     @Test
     void deletingCustomerWithBorrowedBooksTest() {
-        BookCopy.borrow(1, 1, "7");
+        BookCopy.borrow(1, 1);
         int customerId = 1;
         Customer.delete(customerId);
         assertTrue(Customer.customerExists(customerId));

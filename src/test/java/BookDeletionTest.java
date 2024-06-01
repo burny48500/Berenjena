@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
 import prototype.commands.Book;
@@ -10,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookDeletionTest {
     @Test
     public void DeleteBookSuccessfullyTest() {
-        Book bookToDelete = new Book("Frankenstein", "0-2456-4821-5", "Mary Shelley", "1818", "Science Fiction");
-        Book book = new Book("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
-        Book.importBook("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
+        Book bookToDelete = new Book("Frankenstein", "0-2456-4821-5", "Mary Shelley", "2007");
+        Book book = new Book("Dune", "0-3756-9921-4", "Frank Herbert", "1972");
+        //Book.importBook("Dune", "0-3756-9921-4", "Frank Herbert", "1965", "Science Fiction");
         assertTrue(Book.getBooks().contains(bookToDelete));
         assertTrue(Book.getBooks().contains(bookToDelete));
         int bookSizeBeforeDeleting = Book.getBooks().size();
@@ -24,8 +22,8 @@ public class BookDeletionTest {
 
     @Test
     public void DeleteNotFoundBookTest() {
-        Book book1 = new Book("The Lord of the Rings", "0-4956-9661-9", "J. R. R. Tolkien", "1954", "Fantasy");
-        Book book2 = new Book("The Adventures of Sherlock Holmes", "0-1250-9821-7", "Arthur Conan Doyle", "1892", "Mystery");
+        Book book1 = new Book("The Lord of the Rings", "0-4956-9661-9", "J. R. R. Tolkien", "1976");
+        Book book2 = new Book("The Adventures of Sherlock Holmes", "0-1250-9821-7", "Arthur Conan Doyle", "2002");
 
         String nonExistentISBN = "0-0000-0000-0";
         boolean foundCount = false;
@@ -44,12 +42,12 @@ public class BookDeletionTest {
     @Test
     public void DeleteBookWithBorrowedBookCopiesTest() {
         // Create a sample book
-        Book book = new Book("The Great Gatsby", "0-4545-3215-8", "F. Scott Fitzgerald", "1925", "Social Commentary, Jazz Age");
-        Customer customer = new Customer("urko.cornejo@tum.de", "0034640932256");
-        BookCopy bookCopy = new BookCopy(book.getIsbn());
+        Book book = new Book("The Great Gatsby", "0-4545-3215-8", "F. Scott Fitzgerald", "1990");
+        Customer customer = new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
+        BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3");
 
         Book.getBooks().add(book);
-        BookCopy.borrow(bookCopy.getCopyId(), customer.getUserId(), "30 days");
+        BookCopy.borrow(bookCopy.getCopyId(), customer.getUserId());
         Book.deleteBook(book.getIsbn());
         assertTrue(Book.getBooks().contains(book));
     }
