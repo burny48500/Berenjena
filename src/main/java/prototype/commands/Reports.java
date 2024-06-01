@@ -17,7 +17,6 @@ public class Reports {
             System.out.println("Title: "+book.getTitle()+"; Author: "+book.getAuthor()+
                     "; Year: "+book.getYear()+"; ISBN: "+book.getIsbn()+ "; Copy ID: "+copyId);
         }
-
     }
     public static void allNonBorrowedCopies(){
         for (Map.Entry<Integer, Boolean> entry : BookCopy.getBorrowStatus().entrySet()) {

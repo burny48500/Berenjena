@@ -2,34 +2,36 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
 import prototype.commands.Customer;
+import prototype.commands.Manager;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {
 
     @BeforeEach
     void setUp() {
-        Customer.creationCustomers();
-        BookCopy.creationBookCopies();
+        Manager.creationCustomers();
+        Manager.creationBookCopies();
     }
 
     @Test
     void deletingCustomerWithBorrowedBooksTest() {
-        BookCopy.borrow(1, 1);
+        Manager.borrowBook(1, 1);
         int customerId = 1;
-        Customer.delete(customerId);
-        assertTrue(Customer.customerExists(customerId));
+        Manager.deleteCustomer(customerId);
+        assertTrue(Manager.customerExistsTests(customerId));
     }
 
     @Test
     void deletingCustomerWithNoBorrowedBooksTest() {
         int customerId = 2;
-        Customer.delete(customerId);
-        assertFalse(Customer.customerExists(customerId), "not deleted");
+        Manager.deleteCustomer(customerId);
+        assertFalse(Manager.customerExistsTests(customerId), "not deleted");
     }
 
     @Test
     void deletingNonExistingCustomerTest() {
-        Customer.delete(999);
-        assertFalse(Customer.customerExists(999));
+        Manager.deleteCustomer(999);
+        assertFalse(Manager.customerExistsTests(999));
     }
 }

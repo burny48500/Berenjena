@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import prototype.commands.BookCopy;
 import prototype.commands.Book;
 import prototype.commands.Customer;
+import prototype.commands.Manager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,7 @@ public class BookDeletionTest {
         assertTrue(Book.getBooks().contains(bookToDelete));
         assertTrue(Book.getBooks().contains(bookToDelete));
         int bookSizeBeforeDeleting = Book.getBooks().size();
-        Book.deleteBook("0-2456-4821-5");
+        Manager.deleteBook("0-2456-4821-5");
         assertEquals(bookSizeBeforeDeleting - 1, Book.getBooks().size());
         assertTrue(Book.getBooks().contains(book));
         assertFalse(Book.getBooks().contains(bookToDelete));
@@ -27,15 +28,15 @@ public class BookDeletionTest {
 
         String nonExistentISBN = "0-0000-0000-0";
         boolean foundCount = false;
-        for (String isbn : BookCopy.getCopyToBookMap().values()) {
-            if (isbn.equals(nonExistentISBN)) {
+        for (Book book : Book.getBooks()) {
+            if (book.getIsbn().equals(nonExistentISBN)) {
                 foundCount = true;
                 break;
             }
         }
         assertFalse(foundCount, "Found non-existent ISBN during deletion test"); //extra check:)
         int bookSizeBeforeDeleting = Book.getBooks().size();
-        Book.deleteBook(nonExistentISBN);
+        Manager.deleteBook(nonExistentISBN);
         assertEquals(bookSizeBeforeDeleting, Book.getBooks().size());
     }
 
@@ -47,8 +48,8 @@ public class BookDeletionTest {
         BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3");
 
         Book.getBooks().add(book);
-        BookCopy.borrow(bookCopy.getCopyId(), customer.getUserId());
-        Book.deleteBook(book.getIsbn());
+        Manager.borrowBook(bookCopy.getCopyId(), customer.getUserId());
+        Manager.deleteBook(book.getIsbn());
         assertTrue(Book.getBooks().contains(book));
     }
 }
