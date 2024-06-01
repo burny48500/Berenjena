@@ -1,6 +1,6 @@
-Mail,Phone Number
-miguel.cid@tum.de,123-456-7890
-customer2@example.com,234-567-8901
-customer3@example.com,345-678-9012
-customer4@example.com,456-789-0123
-customer5@example.com,567-890-1234
+Name,First Name,Mail,Phone Number
+Cid,Miguel,miguel.cid@tum.de,123-456-7890
+Gonzalez,Juan,customer2@example.com,234-567-8901
+Felipez,Javier,customer3@example.com,345-678-9012
+Garcia,Diego,customer4@example.com,456-789-0123
+Lopez,Pablo,customer5@example.com,567-890-1234
