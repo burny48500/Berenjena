@@ -8,6 +8,7 @@ public class CLIRunner {
         parser.creation(); // This method will create some books, bookCopies and customers.
         CommandParser.initialMenu(true);
     }
+
 }
 
 

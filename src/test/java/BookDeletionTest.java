@@ -52,4 +52,6 @@ public class BookDeletionTest {
         Manager.deleteBook(book.getIsbn());
         assertTrue(Book.getBooks().contains(book));
     }
+
 }
+

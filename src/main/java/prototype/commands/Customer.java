@@ -15,6 +15,7 @@ public class Customer {
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
+
     public Customer(String name, String firstName, String mail, String phoneNumber) {
         this.name = name;
         this.firstName = firstName;

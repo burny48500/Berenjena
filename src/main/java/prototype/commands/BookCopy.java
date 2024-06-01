@@ -16,6 +16,7 @@ public class BookCopy {
     private int userId;
     static ArrayList<BookCopy> bookCopies = new ArrayList<>();
 
+
     public BookCopy(String isbn, String shelfLocation) {
         this.isbn = isbn;
         this.shelfLocation = shelfLocation;

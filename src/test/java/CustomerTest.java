@@ -35,3 +35,4 @@ public class CustomerTest {
         assertFalse(Manager.customerExistsTests(999));
     }
 }
+
