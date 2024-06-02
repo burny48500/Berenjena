@@ -96,7 +96,7 @@ public class BookCopy {
      * @param userId     The id of the user who wants the book copy
      */
     public static void borrow(int copyId, int userId) {
-        if (amountOfBooksPerCustomer(getCopyBorrowers(), userId) <= 5){
+        if (amountOfBooksPerCustomer(getCopyBorrowers(), userId) < 5){
             if (copyToBookMap.containsKey(copyId) && !borrowStatus.get(copyId) && Customer.customerExists(userId)) {
                 borrowStatus.put(copyId, true);
                 // DATES

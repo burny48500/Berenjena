@@ -16,6 +16,22 @@ public class Importer {
     private static String directory;
     private static String filename;
 
+    public static String getDirectory() {
+        return directory;
+    }
+
+    public static void setDirectory(String directory) {
+        Importer.directory = directory;
+    }
+
+    public static String getFilename() {
+        return filename;
+    }
+
+    public static void setFilename(String filename) {
+        Importer.filename = filename;
+    }
+
     public static void selectFile() {
         Frame frame = new Frame();
         frame.setVisible(true);
