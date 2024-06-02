@@ -44,7 +44,7 @@ public class BookCopyReturnTest {
 
     @Test
     public void testReturnBookNotExists() {
-        int invalidCopyId = 100;
+        int invalidCopyId = 999999999;
         int userId = 1;
 
         boolean found = false;
