@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Manager {
     // CREATION OF BOOKS;BOOK COPIES;CUSTOMERS
     public static void creationBooks(){
-        new Book("Berenjena", "0-7642-1858-1", "Dr Pepper", "1980");
-        new Book("Tomatoes", "0-7050-3533-6", "Ibañez", "2005");
+        new Book("Berenjena", "Dr Pepper","0-7642-1858-1", "1980");
+        new Book("Tomatoes", "Ibañez","0-7050-3533-6", "2005");
     }
     public static void creationBookCopies(){
         new BookCopy("0-7642-1858-1", "A2");
@@ -51,7 +51,7 @@ public class Manager {
     }
     // BORROW AND RETURN OF A BOOK COPY
     public static void borrowBook(int copyId, int userId){
-        if (amountOfBooksPerCustomer(userId) <= 5 && customerExistsTests(userId)){
+        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)){
             for (BookCopy bookCopy : BookCopy.bookCopies){
                 if (bookCopy.getCopyId() == copyId){
                     if (!bookCopy.isBorrowed()){

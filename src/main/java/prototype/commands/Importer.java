@@ -15,18 +15,39 @@ public class Importer {
 
     private static String directory;
     private static String filename;
+    private static boolean testMode = false;
 
+    public static String getDirectory() {
+        return directory;
+    }
+
+    public static void setDirectory(String directory) {
+        Importer.directory = directory;
+    }
+
+    public static String getFilename() {
+        return filename;
+    }
+
+    public static void setFilename(String filename) {
+        Importer.filename = filename;
+    }
+    public static void setTestMode(boolean testMode) {
+        Importer.testMode = testMode;
+    }
     public static void selectFile() {
-        Frame frame = new Frame();
-        frame.setVisible(true);
+        if (!testMode) {
+            Frame frame = new Frame();
+            frame.setVisible(true);
 
-        FileDialog fileDialog = new FileDialog(frame, "Select a CSV file", FileDialog.LOAD);
-        fileDialog.setFile("*.csv");
-        fileDialog.setVisible(true);
+            FileDialog fileDialog = new FileDialog(frame, "Select a CSV file", FileDialog.LOAD);
+            fileDialog.setFile("*.csv");
+            fileDialog.setVisible(true);
 
-        directory = fileDialog.getDirectory();
-        filename = fileDialog.getFile();
-        frame.dispose();
+            directory = fileDialog.getDirectory();
+            filename = fileDialog.getFile();
+            frame.dispose();
+        }
     }
 
     public static void importBook(){
@@ -53,7 +74,7 @@ public class Importer {
                         System.out.println("ISBN: " + column3);
                         System.out.println("Year: " + column4);
                         System.out.println("---------------");
-                        if (!Book.sameBook(column2)) {
+                        if (!Book.sameBook(column3)) {
                             new Book(column1, column2, column3, column4);
                         } else {
                             System.out.println("The book is already created.");
