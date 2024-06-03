@@ -1,5 +1,7 @@
 package prototype.commands;
 
+import prototype.prompt.Prompter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -91,7 +93,8 @@ public class Manager {
 
     public static void returnBookCopy(int copyId, int userId) {
         boolean temp = false;
-        if (customerExists(userId) != null) {
+        Customer customer = customerExists(userId);
+        if (customer != null) {
             for (BookCopy bookCopy : BookCopy.bookCopies) {
                 if (bookCopy.getCopyId() == copyId) {
                     temp = true;
@@ -100,12 +103,22 @@ public class Manager {
                             bookCopy.setBorrowed(false);
                             bookCopy.setUserId(-1);
                             System.out.println("Book copy (id = " + copyId + ") was returned successfully");
-                            Objects.requireNonNull(customerExists(userId)).setPaymentStatus(true);
                         } else {
                             bookCopy.setBorrowed(false);
                             bookCopy.setUserId(-1);
-                            Objects.requireNonNull(customerExists(userId)).setPaymentStatus(true);
-                            System.out.println("The maximum borrowing time is exceeded. Book returned successfully");
+                            System.out.println("The maximum borrowing time is exceeded. An overdue fine will be charged");
+                            System.out.println("Did the customer pay?");
+                            System.out.println("Type yes/no");
+                            Prompter prompter = new Prompter();
+                            String answer = prompter.nextInput();
+                            if (answer.equals("yes")) {
+                                System.out.println("The payment has been successful");
+                                Objects.requireNonNull(customerExists(userId)).setPaymentStatus(1);
+                            } else {
+                                System.out.println("The customer hasn't payed yet");
+                                Objects.requireNonNull(customerExists(userId)).setPaymentStatus(2);
+                            }
+
                         }
                         return;
                     }

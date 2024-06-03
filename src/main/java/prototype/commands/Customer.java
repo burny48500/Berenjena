@@ -11,7 +11,7 @@ public class Customer {
     private String phoneNumber;
     private String name;
     private String firstName;
-    private boolean paymentStatus;
+    private int paymentStatus;
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
@@ -28,7 +28,7 @@ public class Customer {
                 System.out.println("The customer was added successfully!");
             }
         }
-        this.paymentStatus = false;
+        this.paymentStatus = 0;
     }
 
     public static void modifyMail(int userid, String newMail) {
@@ -104,11 +104,11 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public boolean isPaymentStatus() {
+    public int getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(boolean paymentStatus) {
+    public void setPaymentStatus(int paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
