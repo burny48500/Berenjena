@@ -57,8 +57,8 @@ public class ReportsTest {
         Manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allCustomers();
-        String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: Paid; Number of Books Currently Borrowed: 1\n" +
-                "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: Not Paid; Number of Books Currently Borrowed: 0\n" ;
+        String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: Paid; Number of Books Currently Borrowed: 1" + System.lineSeparator() +
+                "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: Not Paid; Number of Books Currently Borrowed: 0" + System.lineSeparator() ;
         assertEquals(expectedOutput, outContent.toString());
     }
 
