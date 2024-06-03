@@ -164,7 +164,7 @@ public class Importer {
                         System.out.println("Phone Number: " + column4);
                         System.out.println("---------------");
 
-                        if (!Customer.sameCustomer(column1)) {
+                        if (!Customer.sameCustomer(column3)) {
                             new Customer(column1, column2, column3, column4);
                         } else {
                             System.out.println("Customer with same mail is already created.\n");

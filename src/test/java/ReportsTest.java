@@ -51,35 +51,15 @@ public class ReportsTest {
     }
 
     @Test
-    public void testAllCustomers_Case1_PaidCustomerNoBooks() {
-        Customer paidCustomerNoBooks = new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
-        paidCustomerNoBooks.setPaymentStatus(true);
-        assertDoesNotThrow(() -> Reports.allCustomers());
-    }
-
-    @Test
-    public void testAllCustomers_Case2_UnpaidCustomerNoBooks() {
-        Customer unpaidCustomerNoBooks = new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
-        unpaidCustomerNoBooks.setPaymentStatus(false);
-        assertDoesNotThrow(() -> Reports.allCustomers());
-    }
-
-    @Test
-    public void testAllCustomers_Case3_PaidCustomerWithBooks() {
-        Customer paidCustomerWithBooks = new Customer("Paid", "User", "paid_borrowed@example.com", "123123123");
-        paidCustomerWithBooks.setPaymentStatus(true);
-        Manager.borrowBookCopy(1, paidCustomerWithBooks.getUserId());
-        assertDoesNotThrow(() -> Reports.allCustomers());
-        Manager.returnBookCopy(1, paidCustomerWithBooks.getUserId());
-    }
-
-    @Test
-    public void testAllCustomers_Case4_UnpaidCustomerWithBooks() {
-        Customer unpaidCustomerWithBooks = new Customer("Unpaid", "User", "unpaid_borrowed@example.com", "456456456");
-        unpaidCustomerWithBooks.setPaymentStatus(false);
-        Manager.borrowBookCopy(2, unpaidCustomerWithBooks.getUserId());
-        assertDoesNotThrow(() -> Reports.allCustomers());
-        Manager.returnBookCopy(2, unpaidCustomerWithBooks.getUserId());
+    public void testAllCustomers() {
+        Manager.borrowBookCopy(1, 1);
+        Manager.returnBookCopy(1,1);
+        Manager.borrowBookCopy(1, 1);
+        outContent.reset();
+        Reports.allCustomers();
+        String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: Paid; Number of Books Currently Borrowed: 1\n" +
+                "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: Not Paid; Number of Books Currently Borrowed: 0\n" ;
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test

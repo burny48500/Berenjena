@@ -9,6 +9,7 @@ import prototype.commands.Manager;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -70,7 +71,110 @@ public class ManagerTest {
     }
 
     //BOOK COPY
+        //BORROW TESTS
+    @Test
+    void borrowValidBookCopySuccessfullyTest() {
+        int copyId = 1;
+        int userId = 1;
+        Manager.borrowBookCopy(copyId, userId);
+        BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
+                .filter(copy -> copy.getCopyId() == copyId)
+                .findFirst()
+                .orElse(null);
 
+        assertNotNull(borrowedCopy);
+        assertTrue(borrowedCopy.isBorrowed());
+        assertEquals(userId, borrowedCopy.getUserId());
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = currentDate.format(formatter);
+        assertEquals(formattedDate, borrowedCopy.getBorrowedDate().format(formatter));
+    }
+    @Test
+    void borrowNonExistentBookCopyTest() {
+        int nonExistentId = 999999999;
+        int userId = 1;
+        Manager.borrowBookCopy(nonExistentId, userId);
+        BookCopy nonExistentCopy = BookCopy.getBookCopies().stream()
+                .filter(copy -> copy.getCopyId() == nonExistentId)
+                .findFirst()
+                .orElse(null);
+
+        assertNull(nonExistentCopy);
+    }
+
+    @Test
+    void borrowAlreadyBorrowedBookCopyTest() {
+        int copyId = 2;
+        int userId = 1;
+        Manager.borrowBookCopy(copyId, userId);
+        BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
+                .filter(copy -> copy.getCopyId() == copyId)
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(borrowedCopy);
+        assertTrue(borrowedCopy.isBorrowed());
+        assertEquals(userId, borrowedCopy.getUserId());
+
+        int newUserId = 2;
+        Manager.borrowBookCopy(copyId, newUserId);
+        assertNotEquals(newUserId, borrowedCopy.getUserId());
+        assertTrue(borrowedCopy.isBorrowed());
+    }
+
+    @Test
+    void borrowBookCopyByNonExistentUserTest() {
+        int copyId = 3;
+        int nonExistentUserId = 999999999;
+        Manager.borrowBookCopy(copyId, nonExistentUserId);
+        BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
+                .filter(copy -> copy.getCopyId() == copyId)
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(borrowedCopy);
+        assertFalse(borrowedCopy.isBorrowed());
+        assertEquals(-1, borrowedCopy.getUserId());
+    }
+    @Test
+    void borrowBookCopyExceedingLimitTest() {
+        new BookCopy("978-0201485677", "A2");
+        new BookCopy("978-0201485677", "B3");
+        new BookCopy("978-0201485677", "C9");
+        new BookCopy("0-7050-3533-99", "D2");
+        new BookCopy("0-7050-3533-6", "E1");
+        new BookCopy("0-7050-3533-6", "C4");
+
+        int userId = 1;
+        for (int copyId = 1; copyId <= 5; copyId++) {
+            final int finalCopyId = copyId;
+            Manager.borrowBookCopy(finalCopyId, userId);
+            BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
+                    .filter(copy -> copy.getCopyId() == finalCopyId)
+                    .findFirst()
+                    .orElse(null);
+
+            assertNotNull(borrowedCopy);
+            assertTrue(borrowedCopy.isBorrowed());
+            assertEquals(userId, borrowedCopy.getUserId());
+        }
+
+        int newCopyId = 6;
+        final int finalNewCopyId = newCopyId;
+        Manager.borrowBookCopy(finalNewCopyId, userId);
+        BookCopy newBorrowedCopy = BookCopy.getBookCopies().stream()
+                .filter(copy -> copy.getCopyId() == finalNewCopyId)
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(newBorrowedCopy);
+        assertFalse(newBorrowedCopy.isBorrowed());
+        assertEquals(-1, newBorrowedCopy.getUserId());
+    }
+
+        //DELETE TESTS
     @Test
     void deleteBookCopySuccessfullyTest() {
         BookCopy bookCopy = new BookCopy("0-7642-1858-1", "A2");

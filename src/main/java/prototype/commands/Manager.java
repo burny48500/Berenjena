@@ -10,13 +10,12 @@ public class Manager {
         new Book("Berenjena", "Dr Pepper", "0-7642-1858-1", "1980");
         new Book("Tomatoes", "Ibañez", "0-7050-3533-6", "2005");
     }
-
     public static void deletionBooks() {
         Book.setBooks(new ArrayList<>());
         Book.setNextBookId(1);
     }
 
-    public static void creationBookCopies() {
+    public static void creationBookCopies(){
         new BookCopy("0-7642-1858-1", "A2");
         new BookCopy("0-7642-1858-1", "B3");
         new BookCopy("0-7050-3533-6", "C7");
@@ -32,13 +31,13 @@ public class Manager {
         new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         Customer.setText(true);
     }
-
     public static void deletionCustomers() {
         Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
     }
 
-    private static int amountOfBooksPerCustomer(int userId) {
+
+    private static int amountOfBooksPerCustomer(int userId){
         int count = 0;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
             if (bookCopy.getUserId() == userId) {
@@ -67,11 +66,11 @@ public class Manager {
     }
 
     // BORROW AND RETURN OF A BOOK COPY
-    public static void borrowBookCopy(int copyId, int userId) {
-        if (amountOfBooksPerCustomer(userId) <= 5 && customerExistsTests(userId)) {
-            for (BookCopy bookCopy : BookCopy.bookCopies) {
-                if (bookCopy.getCopyId() == copyId) {
-                    if (!bookCopy.isBorrowed()) {
+    public static void borrowBookCopy(int copyId, int userId){
+        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)){
+            for (BookCopy bookCopy : BookCopy.bookCopies){
+                if (bookCopy.getCopyId() == copyId){
+                    if (!bookCopy.isBorrowed()){
                         bookCopy.setBorrowedDate(LocalDate.now());
                         bookCopy.setBorrowed(true);
                         bookCopy.setUserId(userId);

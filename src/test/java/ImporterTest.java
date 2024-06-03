@@ -83,11 +83,10 @@ class ImporterTest {
 
     @Test
     void testImportCustomerWithDuplicate() throws IOException {
-        new Customer("Jana", "Elagamy", "jana.elagamy@tum.de", "0034640882288");
-        // Write test data to the CSV file
+        new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
         try (Writer writer = new FileWriter(tempFile)) {
-            writer.write("Mail,Phone Number\n");
-            writer.write("miguel.cid@tum.de,123-456-7890\n");
+            writer.write("Name,First Name,Mail,Phone Number\n");
+            writer.write("Cid,Miguel,miguel.cid@tum.de,123-456-7890\n");
         }
         Importer.importCustomer();
     }
