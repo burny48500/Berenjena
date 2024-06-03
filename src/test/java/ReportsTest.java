@@ -17,13 +17,13 @@ public class ReportsTest {
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outContent));
+        Manager.creationBooks();
+        Manager.creationBookCopies();
+        Manager.creationCustomers();
     }
 
     @Test
     public void testAllBooks() {
-        Manager.creationBooks();
-        Manager.creationBookCopies();
-        Manager.creationCustomers();
         Manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allBooks();
@@ -34,6 +34,7 @@ public class ReportsTest {
 
     @Test
     public void testAllBorrowedCopies() {
+        Manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allBorrowedCopies();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 1" + System.lineSeparator();
@@ -44,7 +45,7 @@ public class ReportsTest {
     public void testAllNonBorrowedCopies() {
         outContent.reset();
         Reports.allNonBorrowedCopies();
-        String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 2" + System.lineSeparator() +
+        String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 1" + System.lineSeparator() + "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 2" + System.lineSeparator() +
                 "Title: Tomatoes; Author: Ibañez; Year: 2005; ISBN: 0-7050-3533-6; Copy ID: 3" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -113,5 +114,8 @@ public class ReportsTest {
     @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
+        Manager.deletionBooks();
+        Manager.deletionBooksCopies();
+        Manager.deletionCustomers();
     }
 }
