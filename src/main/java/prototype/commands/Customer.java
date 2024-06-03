@@ -24,7 +24,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         if (!sameCustomer(mail)) {
             customers.add(this);
-            if(text){
+            if (text) {
                 System.out.println("The customer was added successfully!");
             }
         }
@@ -110,5 +110,13 @@ public class Customer {
 
     public void setPaymentStatus(boolean paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Customer.nextId = nextId;
     }
 }

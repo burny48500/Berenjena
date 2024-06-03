@@ -24,7 +24,7 @@ public class ReportsTest {
         Manager.creationBooks();
         Manager.creationBookCopies();
         Manager.creationCustomers();
-        Manager.borrowBook(1, 1);
+        Manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allBooks();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1" + System.lineSeparator() +
@@ -67,24 +67,24 @@ public class ReportsTest {
     public void testAllCustomers_Case3_PaidCustomerWithBooks() {
         Customer paidCustomerWithBooks = new Customer("Paid", "User", "paid_borrowed@example.com", "123123123");
         paidCustomerWithBooks.setPaymentStatus(true);
-        Manager.borrowBook(1, paidCustomerWithBooks.getUserId());
+        Manager.borrowBookCopy(1, paidCustomerWithBooks.getUserId());
         assertDoesNotThrow(() -> Reports.allCustomers());
-        Manager.returnBook(1, paidCustomerWithBooks.getUserId());
+        Manager.returnBookCopy(1, paidCustomerWithBooks.getUserId());
     }
 
     @Test
     public void testAllCustomers_Case4_UnpaidCustomerWithBooks() {
         Customer unpaidCustomerWithBooks = new Customer("Unpaid", "User", "unpaid_borrowed@example.com", "456456456");
         unpaidCustomerWithBooks.setPaymentStatus(false);
-        Manager.borrowBook(2, unpaidCustomerWithBooks.getUserId());
+        Manager.borrowBookCopy(2, unpaidCustomerWithBooks.getUserId());
         assertDoesNotThrow(() -> Reports.allCustomers());
-        Manager.returnBook(2, unpaidCustomerWithBooks.getUserId());
+        Manager.returnBookCopy(2, unpaidCustomerWithBooks.getUserId());
     }
 
     @Test
     public void testBorrowedCustomer_Case1_ValidUserIdWithBorrowedBooks() {
         int userIdWithBorrowedBooks = 1;
-        Manager.borrowBook(1, userIdWithBorrowedBooks);
+        Manager.borrowBookCopy(1, userIdWithBorrowedBooks);
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithBorrowedBooks));
     }
 
@@ -103,11 +103,11 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case4_UserIdWithMultipleBorrowedBooks() {
         int userIdWithMultipleBorrowedBooks = 3;
-        Manager.borrowBook(2, userIdWithMultipleBorrowedBooks);
-        Manager.borrowBook(2, userIdWithMultipleBorrowedBooks);
+        Manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
+        Manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
-        Manager.returnBook(2, userIdWithMultipleBorrowedBooks);
-        Manager.returnBook(3, userIdWithMultipleBorrowedBooks);
+        Manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
+        Manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
     }
 
     @AfterEach

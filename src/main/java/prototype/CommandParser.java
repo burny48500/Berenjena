@@ -48,7 +48,7 @@ public class CommandParser {
 
     private static void booksMenu(boolean text) {
         if (text) {
-            System.out.println("Book Menu:\n"+"""
+            System.out.println("Book Menu:\n" + """
                     |0|: Import Books
                     |1|: Delete
                     |2|: Back to Initial Menu
@@ -75,6 +75,7 @@ public class CommandParser {
         System.out.println();
         initialMenu(true);
     }
+
     private static void searchMenu(boolean text) {
         if (text) {
             System.out.println("""
@@ -112,8 +113,9 @@ public class CommandParser {
         System.out.println();
         initialMenu(true);
     }
+
     private static void booksCopiesMenu() {
-        System.out.println("Book Copies Menu:\n"+"""
+        System.out.println("Book Copies Menu:\n" + """
                 |0|: Borrow
                 |1|: Return
                 |2|: Search
@@ -129,14 +131,14 @@ public class CommandParser {
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Manager.borrowBook(copyId, userId);
+                Manager.borrowBookCopy(copyId, userId);
                 break;
             case "1":
                 System.out.println("Enter the ID of the book copy:");
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Manager.returnBook(copyId, userId);
+                Manager.returnBookCopy(copyId, userId);
                 break;
             case "2":
                 searchMenu(true);
@@ -188,7 +190,7 @@ public class CommandParser {
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                Manager.createCustomer(firstName,name,mail,phoneNumber);
+                Manager.createCustomer(firstName, name, mail, phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
@@ -208,6 +210,7 @@ public class CommandParser {
         System.out.println();
         initialMenu(true);
     }
+
     private static void modifyCustomers(boolean text) {
         if (text) {
             System.out.println("""
@@ -225,14 +228,14 @@ public class CommandParser {
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new email of the customer:");
                 String newMail = prompter.nextInput();
-                Customer.modifyMail(userId,newMail);
+                Customer.modifyMail(userId, newMail);
                 break;
             case "1":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new phone number of the customer:");
                 String newPhoneNumber = prompter.nextInput();
-                Customer.modifyPhoneNumber(userId,newPhoneNumber);
+                Customer.modifyPhoneNumber(userId, newPhoneNumber);
                 break;
             case "2":
                 customersMenu(true);
@@ -244,6 +247,7 @@ public class CommandParser {
         System.out.println();
         initialMenu(true);
     }
+
     private static void reportMenu(boolean text) {
         if (text) {
             System.out.println("""

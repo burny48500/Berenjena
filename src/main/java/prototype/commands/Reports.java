@@ -1,41 +1,42 @@
 package prototype.commands;
 
-import java.util.Map;
-
 public class Reports {
-    public static void allBooks(){
+    public static void allBooks() {
         for (Book book : Book.getBooks()) {
-            System.out.println("Title: "+book.getTitle()+"; Author: "+book.getAuthor()+
-                    "; Year: "+book.getYear()+"; ISBN: "+book.getIsbn());
+            System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                    "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn());
         }
     }
-    public static void allBorrowedCopies(){
+
+    public static void allBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.isBorrowed()) {
                 Book book = Book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
-                System.out.println("Title: "+book.getTitle()+"; Author: "+book.getAuthor()+
-                        "; Year: "+book.getYear()+"; ISBN: "+book.getIsbn()+ "; Copy ID: "+bookCopy.getCopyId());
+                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
 
         }
     }
-    public static void allNonBorrowedCopies(){
+
+    public static void allNonBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
                 Book book = Book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
-                System.out.println("Title: "+book.getTitle()+"; Author: "+book.getAuthor()+
-                        "; Year: "+book.getYear()+"; ISBN: "+book.getIsbn()+ "; Copy ID: "+bookCopy.getCopyId());
+                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
 
         }
     }
-    public static void allCustomers(){
+
+    public static void allCustomers() {
         for (Customer customer : Customer.getCustomers()) {
             String status;
             int userId = customer.getUserId();
-            int booksBorrowed=0;
+            int booksBorrowed = 0;
 
             if (customer.isPaymentStatus()) {
                 status = "Paid";
@@ -49,13 +50,14 @@ public class Reports {
                 }
             }
             System.out.println("User ID: " + customer.getUserId() + "; First Name: " + customer.getFirstName() +
-                    "; Name: " + customer.getName() + "; Payment Status: " +status+"; Number of Books Currently Borrowed: "
+                    "; Name: " + customer.getName() + "; Payment Status: " + status + "; Number of Books Currently Borrowed: "
                     + booksBorrowed);
 
         }
 
     }
-    public static void BorrowedCustomer(int userId){
+
+    public static void BorrowedCustomer(int userId) {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
 
             if (userId == bookCopy.getUserId()) {

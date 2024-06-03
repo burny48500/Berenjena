@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Book {
     private String title, author, isbn, year;
     private static int nextBookId = 1;
-    private final int bookId;
-    public static ArrayList<Book> books = new ArrayList<>();
+    private static int bookId;
+    private static ArrayList<Book> books = new ArrayList<>();
 
-    public Book(String title, String author,String isbn, String year) {
+    public Book(String title, String author, String isbn, String year) {
         this.title = title;
-        this.author = author;
         this.isbn = isbn;
+        this.author = author;
         this.year = year;
         bookId = nextBookId++;
         if (!sameBook(isbn)) {

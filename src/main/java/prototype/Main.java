@@ -8,7 +8,4 @@ public class Main {
         CLIRunner runner = new CLIRunner();
         runner.run();
     }
-
 }
-
-
