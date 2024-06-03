@@ -97,7 +97,7 @@ public class Manager {
                 if (bookCopy.getCopyId() == copyId) {
                     temp = true;
                     if (bookCopy.getUserId() == userId) {
-                        if (bookCopy.getBorrowedDate().isBefore(bookCopy.getBorrowedDate().plusDays(30))) {
+                        if (LocalDate.now().isBefore(bookCopy.getBorrowedDate().plusDays(30))) {
                             bookCopy.setBorrowed(false);
                             bookCopy.setUserId(-1);
                             System.out.println("Book copy (id = " + copyId + ") was returned successfully");
