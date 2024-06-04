@@ -6,6 +6,7 @@ import prototype.commands.BookCopy;
 import prototype.commands.Customer;
 import prototype.commands.Manager;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -271,7 +272,7 @@ public class ManagerTest {
     }
 
     @Test
-    void returnBookCopyExceedingBorrowingTimeTest() {
+    void returnBookCopyExceedingBorrowingTime_CaseUnpaid_Test() {
         int userId = 1;
         int copyId = 1;
         BookCopy bookCopy = BookCopy.getBookCopies().stream().filter(bc -> bc.getCopyId() == copyId).findFirst().orElse(null);
@@ -281,10 +282,31 @@ public class ManagerTest {
         bookCopy.setBorrowedDate(LocalDate.now().minusDays(40));
 
         Manager.returnBookCopy(copyId, userId);
-        assertEquals("The maximum borrowing time is exceeded. Book returned successfully", outContent.toString().trim());
+        String output = outContent.toString().trim();
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
-        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus()==0));
+        assertTrue(output.contains("The maximum borrowing time is exceeded"));
+        assertTrue(output.contains("The customer hasn't payed yet"));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
+    }
+    @Test
+    void returnBookCopyExceedingBorrowingTime_CasePaying_Test() {
+        int userId = 1;
+        int copyId = 1;
+        BookCopy bookCopy = BookCopy.getBookCopies().stream().filter(bc -> bc.getCopyId() == copyId).findFirst().orElse(null);
+        assertNotNull(bookCopy);
+        bookCopy.setUserId(userId);
+        bookCopy.setBorrowed(true);
+        bookCopy.setBorrowedDate(LocalDate.now().minusDays(40));
+        String simulatedInput = "yes\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Manager.returnBookCopy(copyId, userId);
+        String output = outContent.toString().trim();
+        assertFalse(bookCopy.isBorrowed());
+        assertEquals(-1, bookCopy.getUserId());
+        assertTrue(output.contains("The maximum borrowing time is exceeded"));
+        assertTrue(output.contains("The payment has been successful"));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 
     //CUSTOMER
@@ -321,6 +343,7 @@ public class ManagerTest {
         String output = outContent.toString().trim();
         assertTrue(output.contains("Tomatoes"));
     }
+
 
     @Test
     void searchByAuthorTest() {

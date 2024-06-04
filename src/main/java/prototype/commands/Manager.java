@@ -110,7 +110,10 @@ public class Manager {
                             System.out.println("Did the customer pay?");
                             System.out.println("Type yes/no");
                             Prompter prompter = new Prompter();
-                            String answer = prompter.nextInput();
+                            String answer = "";
+                            if(prompter.hasnextLine()){
+                                answer = prompter.nextInput();
+                            }
                             if (answer.equals("yes")) {
                                 System.out.println("The payment has been successful");
                                 Objects.requireNonNull(customerExists(userId)).setPaymentStatus(1);
