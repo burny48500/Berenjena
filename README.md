@@ -23,11 +23,9 @@ Before running the tests, ensure that you have the following installed:
 
 ### Test Directory Structure
 The test directory (`/test/`) contains the following files:
-- `CustomerTest.java`: Contains unit tests for customer deletion functionalities.
-- `BookDeletionTest.java`: Includes unit tests for book deletion functionalities.
-- `BookCopyDeletionTest.java`: Consists of unit tests for book copy deletion functionalities.
-- `BookCopyReturnTest.java`: Consists of unit tests for book copy returning functionalities.
-- `BookCopySearchTest.java`: Consists of unit tests for book copy searching functionalities.
+- `Importer.java`: Consists of unit tests for the import of Customers, Books and BookCopies.
+- `ManagerTest.java`: Consists of unit tests for most of the functionality of the system with regards to the customer, the books and book copies.
+- `ReportsTest.java`: Consists of unit tests for the methods in the Reports class.
 
 
 ## How to Build, Run, and Test the Application
