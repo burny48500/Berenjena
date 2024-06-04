@@ -34,14 +34,20 @@ public class Reports {
 
     public static void allCustomers() {
         for (Customer customer : Customer.getCustomers()) {
-            String status;
+            String status = "";
             int userId = customer.getUserId();
             int booksBorrowed = 0;
 
-            if (customer.isPaymentStatus()) {
-                status = "Paid";
-            } else {
-                status = "Not Paid";
+            switch (customer.getPaymentStatus()) {
+                case 0:
+                    status = "No fee";
+                    break;
+                case 1:
+                    status = "Fee payed";
+                    break;
+                case 2:
+                    status = "Fee not payed";
+                    break;
             }
 
             for (BookCopy bookCopy : BookCopy.getBookCopies()) {
@@ -52,8 +58,7 @@ public class Reports {
             System.out.println("User ID: " + customer.getUserId() + "; First Name: " + customer.getFirstName() +
                     "; Name: " + customer.getName() + "; Payment Status: " + status + "; Number of Books Currently Borrowed: "
                     + booksBorrowed);
-
-        }
+            }
 
     }
 

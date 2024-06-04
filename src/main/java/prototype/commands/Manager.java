@@ -1,5 +1,7 @@
 package prototype.commands;
 
+import prototype.prompt.Prompter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,8 +38,7 @@ public class Manager {
         Customer.setNextId(1);
     }
 
-
-    private static int amountOfBooksPerCustomer(int userId){
+    private static int amountOfBooksPerCustomer(int userId) {
         int count = 0;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
             if (bookCopy.getUserId() == userId) {
@@ -66,11 +67,11 @@ public class Manager {
     }
 
     // BORROW AND RETURN OF A BOOK COPY
-    public static void borrowBookCopy(int copyId, int userId){
-        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)){
-            for (BookCopy bookCopy : BookCopy.bookCopies){
-                if (bookCopy.getCopyId() == copyId){
-                    if (!bookCopy.isBorrowed()){
+    public static void borrowBookCopy(int copyId, int userId) {
+        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
+            for (BookCopy bookCopy : BookCopy.bookCopies) {
+                if (bookCopy.getCopyId() == copyId) {
+                    if (!bookCopy.isBorrowed()) {
                         bookCopy.setBorrowedDate(LocalDate.now());
                         bookCopy.setBorrowed(true);
                         bookCopy.setUserId(userId);
@@ -91,7 +92,8 @@ public class Manager {
 
     public static void returnBookCopy(int copyId, int userId) {
         boolean temp = false;
-        if (customerExists(userId) != null) {
+        Customer customer = customerExists(userId);
+        if (customer != null) {
             for (BookCopy bookCopy : BookCopy.bookCopies) {
                 if (bookCopy.getCopyId() == copyId) {
                     temp = true;
@@ -100,12 +102,24 @@ public class Manager {
                             bookCopy.setBorrowed(false);
                             bookCopy.setUserId(-1);
                             System.out.println("Book copy (id = " + copyId + ") was returned successfully");
-                            Objects.requireNonNull(customerExists(userId)).setPaymentStatus(true);
                         } else {
                             bookCopy.setBorrowed(false);
                             bookCopy.setUserId(-1);
-                            Objects.requireNonNull(customerExists(userId)).setPaymentStatus(true);
-                            System.out.println("The maximum borrowing time is exceeded. Book returned successfully");
+                            System.out.println("The maximum borrowing time is exceeded. An overdue fine will be charged");
+                            System.out.println("Did the customer pay?");
+                            System.out.println("Type yes/no");
+                            Prompter prompter = new Prompter();
+                            String answer = "";
+                            if(prompter.hasnextLine()){
+                                answer = prompter.nextInput();
+                            }
+                            if (answer.equals("yes")) {
+                                System.out.println("The payment has been successful. Book copy returned successfully");
+                                Objects.requireNonNull(customerExists(userId)).setPaymentStatus(1);
+                            } else {
+                                System.out.println("The customer hasn't paid yet, the return is only possible after the payment of the fee");
+                                Objects.requireNonNull(customerExists(userId)).setPaymentStatus(2);
+                            }
                         }
                         return;
                     }
