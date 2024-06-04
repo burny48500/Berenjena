@@ -38,8 +38,7 @@ public class Manager {
         Customer.setNextId(1);
     }
 
-
-    private static int amountOfBooksPerCustomer(int userId){
+    private static int amountOfBooksPerCustomer(int userId) {
         int count = 0;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
             if (bookCopy.getUserId() == userId) {
@@ -68,11 +67,11 @@ public class Manager {
     }
 
     // BORROW AND RETURN OF A BOOK COPY
-    public static void borrowBookCopy(int copyId, int userId){
-        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)){
-            for (BookCopy bookCopy : BookCopy.bookCopies){
-                if (bookCopy.getCopyId() == copyId){
-                    if (!bookCopy.isBorrowed()){
+    public static void borrowBookCopy(int copyId, int userId) {
+        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
+            for (BookCopy bookCopy : BookCopy.bookCopies) {
+                if (bookCopy.getCopyId() == copyId) {
+                    if (!bookCopy.isBorrowed()) {
                         bookCopy.setBorrowedDate(LocalDate.now());
                         bookCopy.setBorrowed(true);
                         bookCopy.setUserId(userId);
@@ -115,13 +114,12 @@ public class Manager {
                                 answer = prompter.nextInput();
                             }
                             if (answer.equals("yes")) {
-                                System.out.println("The payment has been successful");
+                                System.out.println("The payment has been successful. Book copy returned successfully");
                                 Objects.requireNonNull(customerExists(userId)).setPaymentStatus(1);
                             } else {
-                                System.out.println("The customer hasn't payed yet");
+                                System.out.println("The customer hasn't paid yet, the return is only possible after the payment of the fee");
                                 Objects.requireNonNull(customerExists(userId)).setPaymentStatus(2);
                             }
-
                         }
                         return;
                     }

@@ -286,7 +286,7 @@ public class ManagerTest {
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded"));
-        assertTrue(output.contains("The customer hasn't payed yet"));
+        assertTrue(output.contains("The customer hasn't paid yet, the return is only possible after the payment of the fee"));
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
     }
     @Test
@@ -304,8 +304,8 @@ public class ManagerTest {
         String output = outContent.toString().trim();
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
-        assertTrue(output.contains("The maximum borrowing time is exceeded"));
-        assertTrue(output.contains("The payment has been successful"));
+        assertTrue(output.contains("The maximum borrowing time is exceeded."));
+        assertTrue(output.contains("The payment has been successful. Book copy returned successfully"));
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 
@@ -343,7 +343,6 @@ public class ManagerTest {
         String output = outContent.toString().trim();
         assertTrue(output.contains("Tomatoes"));
     }
-
 
     @Test
     void searchByAuthorTest() {
