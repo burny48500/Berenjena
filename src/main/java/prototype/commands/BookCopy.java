@@ -14,10 +14,11 @@ public class BookCopy {
     private final String isbn;
     private String shelfLocation;
     private int userId;
+    private String publisher;
     static ArrayList<BookCopy> bookCopies = new ArrayList<>();
 
 
-    public BookCopy(String isbn, String shelfLocation) {
+    public BookCopy(String isbn, String shelfLocation, String publisher) {
         this.isbn = isbn;
         this.shelfLocation = shelfLocation;
         this.copyId = nextBookId++;
@@ -25,6 +26,7 @@ public class BookCopy {
         userId = -1;
         borrowedDate = LocalDate.now();
         bookCopies.add(this);
+        this.publisher = publisher;
     }
 
     public static int getNextBookId() {
@@ -81,5 +83,13 @@ public class BookCopy {
 
     public static void setBookCopies(ArrayList<BookCopy> bookCopies) {
         BookCopy.bookCopies = bookCopies;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 }

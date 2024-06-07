@@ -111,14 +111,16 @@ public class Importer {
                     for (CSVRecord csvRecord : csvParser) {
                         String column1 = csvRecord.get("ISBN");
                         String column2 = csvRecord.get("Shelf Location");
+                        String column3 = csvRecord.get("Publisher");
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
                         System.out.println("---------------");
                         System.out.println("ISBN: " + column1);
                         System.out.println("Shelf Location: " + column2);
+                        System.out.println("Publisher: " + column3);
                         System.out.println("---------------");
                         if (Book.sameBook(column1)) {
-                            new BookCopy(column1, column2);
+                            new BookCopy(column1, column2, column3);
                         } else {
                             System.out.println("Book copy not added, cause no book has that ISBN");
                         }

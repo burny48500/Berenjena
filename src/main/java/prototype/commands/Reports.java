@@ -1,5 +1,10 @@
 package prototype.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class Reports {
     public static void allBooks() {
         for (Book book : Book.getBooks()) {
@@ -71,6 +76,20 @@ public class Reports {
                 System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
                         "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
+        }
+    }
+
+    public static void NumberOfBookVopiesPerPublisher() {
+        ArrayList<String> listOfPublishers = new ArrayList<>();
+        for (BookCopy bookCopy : BookCopy.getBookCopies()) {
+            listOfPublishers.add(bookCopy.getPublisher());
+        }
+        long numberOfBookCopies = listOfPublishers.size();
+        Map<String, Long> counts = listOfPublishers.
+                stream().sorted().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " book copies (" +
+                    (entry.getValue()*100)/numberOfBookCopies + "%)");
         }
     }
 

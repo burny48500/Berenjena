@@ -47,8 +47,8 @@ class ImporterTest {
         new Book("Another Book", "Another Author","0-7050-3533-6", "2005");
 
         try (Writer writer = new FileWriter(tempFile)) {
-            writer.write("ISBN,Shelf Location\n");
-            writer.write("978-0201485677,A2\n");
+            writer.write("ISBN,Shelf Location,Publisher\n");
+            writer.write("978-0201485677,A2,LibrosPeter\n");
         }
         Importer.importBookCopy();
         assertTrue(Book.sameBook("978-0201485677"));
@@ -66,8 +66,8 @@ class ImporterTest {
     @Test
     void testImportBookWithIncorrectCSV() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
-            writer.write("IncorrectHeader1,IncorrectHeader2,IncorrectHeader3\n");
-            writer.write("Test Book,123456789,Test Author\n");
+            writer.write("IncorrectHeader1,IncorrectHeader2,IncorrectHeader3,IncorrectHeader4\n");
+            writer.write("Test Book,123456789,Test Author,Hola\n");
         }
         Importer.importBook();
     }
@@ -75,8 +75,8 @@ class ImporterTest {
     @Test
     void testImportBookCopyWithNonExistentBook() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
-            writer.write("ISBN,Shelf Location\n");
-            writer.write("0-7050-3533-99,NonExistent Shelf\n");
+            writer.write("ISBN,Shelf Location,LibrosPeter\n");
+            writer.write("0-7050-3533-99,NonExistent Shelf,Anaya\n");
         }
 
         Importer.importBookCopy();

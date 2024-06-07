@@ -18,10 +18,11 @@ public class Manager {
     }
 
     public static void creationBookCopies(){
-        new BookCopy("0-7642-1858-1", "A2");
-        new BookCopy("0-7642-1858-1", "B3");
-        new BookCopy("0-7050-3533-6", "C7");
+        new BookCopy("0-7642-1858-1", "A2", "Anaya");
+        new BookCopy("0-7642-1858-1", "B3", "LibrosPeter");
+        new BookCopy("0-7050-3533-6", "C7", "Anaya");
     }
+
 
     public static void deletionBooksCopies() {
         BookCopy.setBookCopies(new ArrayList<>());
