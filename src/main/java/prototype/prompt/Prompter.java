@@ -8,6 +8,9 @@ public class Prompter {
     {
         return sc.nextLine();
     }
+    public boolean hasnextLine(){
+        return sc.hasNextLine();
+    }
 
     public void close() {
         sc.close();

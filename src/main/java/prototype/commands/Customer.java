@@ -11,9 +11,10 @@ public class Customer {
     private String phoneNumber;
     private String name;
     private String firstName;
-    private boolean paymentStatus;
+    private int paymentStatus;
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
+
 
     public Customer(String name, String firstName, String mail, String phoneNumber) {
         this.name = name;
@@ -23,20 +24,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         if (!sameCustomer(mail)) {
             customers.add(this);
-            if(text){
+            if (text) {
                 System.out.println("The customer was added successfully!");
             }
         }
-        this.paymentStatus = false;
-    }
-
-    /**
-     * This method creates some examples to be able to test.
-     */
-    public static void creationCustomers() {
-        new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
-        new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
-        text = true;
+        this.paymentStatus = 0;
     }
 
     public static void modifyMail(int userid, String newMail) {
@@ -47,47 +39,6 @@ public class Customer {
 
     }
 
-    public static void importCustomer(String mail, String phoneNumber) {
-        // Import a customer file
-    }
-
-    /**
-     * @param userId it gets from CommandParser the id of the user
-     *               Iterator is used to be able to delete the customer once we know it exists and does not have any borrowed books.
-     */
-    public static void delete(int userId) {
-        Iterator<Customer> iterator = customers.iterator();
-        while (iterator.hasNext()) {
-            Customer customer = iterator.next();
-            if (customer.userId == userId) {
-                for (Map.Entry<Integer, Integer> entry : BookCopy.getCopyBorrowers().entrySet()) {
-                    if (entry.getValue() == userId) {
-                        System.out.println("Cannot delete customer because they have borrowed books.");
-                        return;
-                    }
-                }
-                iterator.remove();
-                System.out.println("Customer removed successfully.");
-                return;
-            }
-        }
-        System.out.println("Customer with that ID was not found.");
-    }
-
-    /**
-     * This method only is helpful to not have to search if a customer exists or not in other classes.
-     *
-     * @param userId
-     * @return Depends on if the user exists or not
-     */
-    public static boolean customerExists(int userId) {
-        for (Customer customer : customers) {
-            if (customer.userId == userId) {
-                return true;
-            }
-        }
-        return false;
-    }
     public static boolean sameCustomer(String mail) {
         for (Customer customer : customers) {
             if (customer.getMail().equals(mail)) {
@@ -153,11 +104,19 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public boolean isPaymentStatus() {
+    public int getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(boolean paymentStatus) {
+    public void setPaymentStatus(int paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Customer.nextId = nextId;
     }
 }

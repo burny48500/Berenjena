@@ -7,10 +7,10 @@ import java.util.Objects;
 public class Book {
     private String title, author, isbn, year;
     private static int nextBookId = 1;
-    private final int bookId;
+    private static int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
-    public Book(String title, String isbn, String author, String year) {
+    public Book(String title, String author, String isbn, String year) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -19,42 +19,6 @@ public class Book {
         if (!sameBook(isbn)) {
             books.add(this);
         }
-    }
-
-    /**
-     * This method creates some examples to be able to test
-     */
-    public static void creationBooks() {
-        new Book("Berenjena", "0-7642-1858-1", "Dr Pepper", "1980");
-        new Book("Tomatoes", "0-7050-3533-6", "Ibañez", "2005");
-    }
-
-    public static void deleteBook(String isbn) {
-        ArrayList<Integer> copiesToDelete = new ArrayList<>();
-
-        for (int copyId : BookCopy.getCopyToBookMap().keySet()) {
-            if (Objects.equals(BookCopy.getCopyToBookMap().get(copyId), isbn) && BookCopy.getBorrowStatus().get(copyId)) {
-                System.out.println("Cannot delete book because there are copies currently borrowed.");
-                return;
-            } else if (Objects.equals(BookCopy.getCopyToBookMap().get(copyId), isbn)) {
-                copiesToDelete.add(copyId);
-            }
-        }
-
-        for (int copyId : copiesToDelete) {
-            BookCopy.delete(copyId);
-        }
-
-        Iterator<Book> iterator = books.iterator();
-        while (iterator.hasNext()) {
-            Book book = iterator.next();
-            if (Objects.equals(book.isbn, isbn)) {
-                iterator.remove();
-                System.out.println("Book removed successfully.");
-                return;
-            }
-        }
-        System.out.println("No books with that ISBN were found.");
     }
 
     public static boolean sameBook(String isbn) {
