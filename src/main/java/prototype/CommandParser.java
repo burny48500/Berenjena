@@ -9,7 +9,7 @@ public class CommandParser {
     public void creation() {
         Manager.creationCustomers();
         Manager.creationBooks();
-        //Manager.creationBookCopies();
+        Manager.creationBookCopies();
     }
 
     public static void initialMenu(boolean text) {

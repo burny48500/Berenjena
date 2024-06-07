@@ -23,7 +23,6 @@ class ImporterTest {
         Importer.setTestMode(true);
     }
 
-
     @AfterEach
     void tearDown() {
         tempFile.delete();
