@@ -79,17 +79,22 @@ public class Reports {
         }
     }
 
-    public static void NumberOfBookVopiesPerPublisher() {
+    public static void NumberOfBookCopiesPerPublisher() {
         ArrayList<String> listOfPublishers = new ArrayList<>();
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             listOfPublishers.add(bookCopy.getPublisher());
         }
         long numberOfBookCopies = listOfPublishers.size();
-        Map<String, Long> counts = listOfPublishers.
-                stream().sorted().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        for (Map.Entry<String, Long> entry : counts.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue() + " book copies (" +
-                    (entry.getValue()*100)/numberOfBookCopies + "%)");
+        if (numberOfBookCopies > 0) {
+            Map<String, Long> counts = listOfPublishers.
+                    stream().sorted().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+
+            for (Map.Entry<String, Long> entry : counts.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue() + " book copies (" +
+                        (entry.getValue() * 100) / numberOfBookCopies + "%)");
+            }
+        } else {
+            System.out.println("No book copies found.");
         }
     }
 

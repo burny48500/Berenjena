@@ -281,7 +281,7 @@ public class CommandParser {
                 userId = Integer.parseInt(prompter.nextInput());
                 Reports.BorrowedCustomer(userId);
             case "5":
-                Reports.NumberOfBookVopiesPerPublisher();
+                Reports.NumberOfBookCopiesPerPublisher();
                 break;
             case "6":
                 initialMenu(true);

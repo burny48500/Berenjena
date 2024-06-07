@@ -6,8 +6,7 @@ import prototype.commands.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ReportsTest {
 
@@ -89,6 +88,24 @@ public class ReportsTest {
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
         Manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
         Manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
+    }
+    @Test
+    public void testNumberOfBookCopiesPerPublisher() {
+        outContent.reset();
+        Reports.NumberOfBookCopiesPerPublisher();
+        String expectedOutput = "Anaya: 1 book copies (33%)" + System.lineSeparator() +
+                "Caramin: 1 book copies (33%)" + System.lineSeparator() +
+                "LibrosPeter: 1 book copies (33%)"+System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
+    }
+    @Test
+    public void testNumberOfBookCopiesPerPublisher_WithoutCopies() {
+        outContent.reset();
+        Manager.deletionBooksCopies();
+        Reports.NumberOfBookCopiesPerPublisher();
+        String expectedOutput = "No book copies found.";
+        boolean check = outContent.toString().contains(expectedOutput);
+        assertTrue(check);
     }
 
     @AfterEach
