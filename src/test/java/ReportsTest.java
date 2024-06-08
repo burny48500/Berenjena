@@ -93,9 +93,9 @@ public class ReportsTest {
     public void testNumberOfBookCopiesPerPublisher() {
         outContent.reset();
         Reports.NumberOfBookCopiesPerPublisher();
-        String expectedOutput = "Anaya: 1 book copies (33%)" + System.lineSeparator() +
-                "Caramin: 1 book copies (33%)" + System.lineSeparator() +
-                "LibrosPeter: 1 book copies (33%)"+System.lineSeparator();
+        String expectedOutput = "Anaya: 1 book copy (33.333333333333336%)" + System.lineSeparator() +
+                "Caramin: 1 book copy (33.333333333333336%)" + System.lineSeparator() +
+                "LibrosPeter: 1 book copy (33.333333333333336%)"+System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
     @Test

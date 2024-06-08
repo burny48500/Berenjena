@@ -12,12 +12,13 @@ public class Manager {
         new Book("Berenjena", "Dr Pepper", "0-7642-1858-1", "1980");
         new Book("Tomatoes", "Ibañez", "0-7050-3533-6", "2005");
     }
+
     public static void deletionBooks() {
         Book.setBooks(new ArrayList<>());
         Book.setNextBookId(1);
     }
 
-    public static void creationBookCopies(){
+    public static void creationBookCopies() {
         new BookCopy("0-7642-1858-1", "A2", "Caramin");
         new BookCopy("0-7642-1858-1", "B3", "LibrosPeter");
         new BookCopy("0-7050-3533-6", "C7", "Anaya");
@@ -34,6 +35,7 @@ public class Manager {
         new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         Customer.setText(true);
     }
+
     public static void deletionCustomers() {
         Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
@@ -111,7 +113,7 @@ public class Manager {
                             System.out.println("Type yes/no");
                             Prompter prompter = new Prompter();
                             String answer = "";
-                            if(prompter.hasnextLine()){
+                            if (prompter.hasnextLine()) {
                                 answer = prompter.nextInput();
                             }
                             if (answer.equals("yes")) {

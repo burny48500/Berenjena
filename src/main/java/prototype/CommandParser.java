@@ -6,7 +6,7 @@ import prototype.prompt.Prompter;
 public class CommandParser {
     private static final Prompter prompter = new Prompter();
 
-    public void creation() {
+    public static void creation() {
         Manager.creationCustomers();
         Manager.creationBooks();
         Manager.creationBookCopies();
