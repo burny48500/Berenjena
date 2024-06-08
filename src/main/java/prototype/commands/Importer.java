@@ -131,7 +131,7 @@ public class Importer {
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
-                    System.out.println("All books were imported successfully!");
+                    System.out.println("All book copies were imported successfully!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -179,7 +179,7 @@ public class Importer {
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
-                    System.out.println("All books were imported successfully!");
+                    System.out.println("All customers were imported successfully!");
                 }
                 Customer.setText(true); // Put it again as normally
             } catch (IOException e) {
