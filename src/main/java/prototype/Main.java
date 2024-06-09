@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) {
         // CLIRunner call
         CLIRunner runner = new CLIRunner();
+        CommandParser.creation();
         runner.run();
     }
 }

@@ -27,6 +27,7 @@ public class ManagerTest {
         System.setOut(new PrintStream(outContent));
     }
 
+
     //BOOK
     @Test
     public void DeleteBookSuccessfullyTest() {
@@ -63,7 +64,7 @@ public class ManagerTest {
     public void DeleteBookWithBorrowedBookCopiesTest() {
         Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "0-4545-3215-8", "1990");
         Customer customer = new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
-        BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3");
+        BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3", "Anaya");
 
         Book.getBooks().add(book);
         Manager.borrowBookCopy(bookCopy.getCopyId(), customer.getUserId());
@@ -72,7 +73,7 @@ public class ManagerTest {
     }
 
     //BOOK COPY
-        //BORROW TESTS
+    //BORROW TESTS
     @Test
     void borrowValidBookCopySuccessfullyTest() {
         int copyId = 1;
@@ -141,12 +142,12 @@ public class ManagerTest {
     }
     @Test
     void borrowBookCopyExceedingLimitTest() {
-        new BookCopy("978-0201485677", "A2");
-        new BookCopy("978-0201485677", "B3");
-        new BookCopy("978-0201485677", "C9");
-        new BookCopy("0-7050-3533-99", "D2");
-        new BookCopy("0-7050-3533-6", "E1");
-        new BookCopy("0-7050-3533-6", "C4");
+        new BookCopy("978-0201485677", "A2", "Anaya");
+        new BookCopy("978-0201485677", "B3", "Anaya");
+        new BookCopy("978-0201485677", "C9", "Anaya");
+        new BookCopy("0-7050-3533-99", "D2", "Anaya");
+        new BookCopy("0-7050-3533-6", "E1", "Anaya");
+        new BookCopy("0-7050-3533-6", "C4", "Anaya");
 
         int userId = 1;
         for (int copyId = 1; copyId <= 5; copyId++) {
@@ -175,10 +176,10 @@ public class ManagerTest {
         assertEquals(-1, newBorrowedCopy.getUserId());
     }
 
-        //DELETE TESTS
+    //DELETE TESTS
     @Test
     void deleteBookCopySuccessfullyTest() {
-        BookCopy bookCopy = new BookCopy("0-7642-1858-1", "A2");
+        BookCopy bookCopy = new BookCopy("0-7642-1858-1", "A2", "Anaya");
         int copyId = bookCopy.getCopyId();
 
         assertTrue(BookCopy.getBookCopies().contains(bookCopy));
@@ -205,7 +206,7 @@ public class ManagerTest {
 
     @Test
     void deleteBorrowedBookCopyTest() {
-        BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2");
+        BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2", "Anaya");
         int copyId = bookCopy.getCopyId();
         bookCopy.setBorrowed(true);
         assertTrue(bookCopy.isBorrowed());
@@ -314,7 +315,7 @@ public class ManagerTest {
     @Test
     void deletingCustomerWithBorrowedBooksTest() {
         Customer customer = new Customer("Cid", "Miguel", "miguel@tum.de", "640882288");
-        BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2");
+        BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2", "Anaya");
         Manager.borrowBookCopy(1, 1);
         int customerId = 1;
         Manager.deleteCustomer(customerId);

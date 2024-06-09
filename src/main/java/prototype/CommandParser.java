@@ -6,7 +6,7 @@ import prototype.prompt.Prompter;
 public class CommandParser {
     private static final Prompter prompter = new Prompter();
 
-    public void creation() {
+    public static void creation() {
         Manager.creationCustomers();
         Manager.creationBooks();
         Manager.creationBookCopies();
@@ -257,7 +257,8 @@ public class CommandParser {
                     |2|: All non-borrowed book copies
                     |3|: All customers
                     |4|: All currently borrowed book copies of a customer
-                    |5|: Back to Initial Menu
+                    |5|: Number of book copies per publisher
+                    |6|: Back to Initial Menu
                     """);
         }
         String answer = prompter.nextInput();
@@ -280,6 +281,9 @@ public class CommandParser {
                 userId = Integer.parseInt(prompter.nextInput());
                 Reports.BorrowedCustomer(userId);
             case "5":
+                Reports.NumberOfBookCopiesPerPublisher();
+                break;
+            case "6":
                 initialMenu(true);
                 break;
             default:
