@@ -39,19 +39,46 @@ class ImporterTest {
         assertTrue(Book.sameBook("978-0134685991"));
     }
 
+
     @Test
-    void testImportBookCopy() throws IOException {
+    void testImportBookCopyAlreadyOnLoan() throws IOException {
+        Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123456");
         new Book("Refactoring", "Martin Fowler","978-0201485677", "1993");
-        new Book("Some Book", "Some Author",  "0-7050-3533-99","2000");
-        new Book("Another Book", "Another Author","0-7050-3533-6", "2005");
+        String customerId = String.valueOf(customer.getUserId());
 
         try (Writer writer = new FileWriter(tempFile)) {
-            writer.write("ISBN,Shelf Location,Publisher\n");
-            writer.write("978-0201485677,A2,LibrosPeter\n");
+            writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
+            writer.write("978-0201485677,A2,LibrosPeter,"+ customerId + "\n");
         }
         Importer.importBookCopy();
         assertTrue(Book.sameBook("978-0201485677"));
+        for (BookCopy bookCopy: BookCopy.getBookCopies()) {
+            if (bookCopy.getIsbn().equals("978-0201485677")) {
+                assertTrue(bookCopy.isBorrowed());  // Checks whether the book was succesfully imported as already on loan
+                assertEquals(bookCopy.getUserId(), customer.getUserId());
+            }
+        }
     }
+
+    @Test
+    void testImportBookCopyNotOnLoan() throws IOException {
+        Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123456");
+        new Book("Refactoring", "Martin Fowler","978-0201485677", "1993");
+
+        try (Writer writer = new FileWriter(tempFile)) {
+            writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
+            writer.write("978-0201485677,A2,LibrosPeter,-1\n");
+        }
+        Importer.importBookCopy();
+        assertTrue(Book.sameBook("978-0201485677"));
+        for (BookCopy bookCopy: BookCopy.getBookCopies()) {
+            if (bookCopy.getIsbn().equals("978-0201485677")) {
+                assertFalse(bookCopy.isBorrowed());  // Checks whether the book was succesfully imported not on loan
+                assertEquals(bookCopy.getUserId(), -1);
+            }
+        }
+    }
+
     @Test
     void testImportCustomer() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {

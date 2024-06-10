@@ -29,6 +29,19 @@ public class BookCopy {
         this.publisher = publisher;
     }
 
+    // Alternative Constructor for Import with customerId (e.g. through CSV-import) when bookCopy is already on loan
+    public BookCopy(String isbn, String shelfLocation, String publisher, String userId) {
+        this.isbn = isbn;
+        this.shelfLocation = shelfLocation;
+        this.copyId = nextBookId++;
+        borrowed = true;
+        this.userId = Integer.parseInt(userId);
+
+        borrowedDate = LocalDate.now(); // Question: if bookCopy was already on loan at which date should we set borrowDate?
+        bookCopies.add(this);
+        this.publisher = publisher;
+    }
+
     public static int getNextBookId() {
         return nextBookId;
     }

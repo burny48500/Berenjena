@@ -112,6 +112,7 @@ public class Importer {
                         String column1 = csvRecord.get("ISBN");
                         String column2 = csvRecord.get("Shelf Location");
                         String column3 = csvRecord.get("Publisher");
+                        String column4 = csvRecord.get("CumstomerId");
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
                         System.out.println("---------------");
@@ -120,7 +121,15 @@ public class Importer {
                         System.out.println("Publisher: " + column3);
                         System.out.println("---------------");
                         if (Book.sameBook(column1)) {
-                            new BookCopy(column1, column2, column3);
+                            if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
+                                if (Manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
+                                    new BookCopy(column1, column2, column3, column4);
+                                } else {
+                                    System.out.println("The according Customer does not exist in the System. Please import first!");
+                                }
+                            } else {
+                                new BookCopy(column1, column2, column3);
+                            }
                         } else {
                             System.out.println("Book copy not added, cause no book has that ISBN");
                         }
