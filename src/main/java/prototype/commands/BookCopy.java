@@ -25,8 +25,8 @@ public class BookCopy {
         borrowed = false;
         userId = -1;
         borrowedDate = LocalDate.now();
-        bookCopies.add(this);
         this.publisher = publisher;
+        bookCopies.add(this);
     }
 
     // Alternative Constructor for Import with customerId (e.g. through CSV-import) when bookCopy is already on loan
@@ -36,10 +36,9 @@ public class BookCopy {
         this.copyId = nextBookId++;
         borrowed = true;
         this.userId = Integer.parseInt(userId);
-
         borrowedDate = LocalDate.now(); // Question: if bookCopy was already on loan at which date should we set borrowDate?
-        bookCopies.add(this);
         this.publisher = publisher;
+        bookCopies.add(this);
     }
 
     public static int getNextBookId() {

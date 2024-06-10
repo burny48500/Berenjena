@@ -101,7 +101,7 @@ public class Reports {
                 double finalNumber = (entry.getValue() * 100) / numberOfBookCopies;
                 finalNumber = Math.floor(finalNumber * 100) / 100;
                 String formatted = String.format(Locale.US, "%.1f", finalNumber);
-                //System.out.println(entry.getKey() + ": " + entry.getValue() + copiesText + formatted + "%)");
+                System.out.println(entry.getKey() + ": " + entry.getValue() + copiesText + formatted + "%)");
             }
         } else {
             System.out.println("No book copies found.");
