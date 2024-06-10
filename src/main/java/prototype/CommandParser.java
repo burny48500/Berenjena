@@ -280,6 +280,7 @@ public class CommandParser {
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
                 Reports.BorrowedCustomer(userId);
+                break;
             case "5":
                 Reports.NumberOfBookCopiesPerPublisher();
                 break;
@@ -294,5 +295,3 @@ public class CommandParser {
         initialMenu(true);
     }
 }
-
-
