@@ -36,7 +36,7 @@ public class BookCopy {
         this.copyId = nextBookId++;
         borrowed = true;
         this.userId = Integer.parseInt(userId);
-        borrowedDate = LocalDate.now(); // Question: if bookCopy was already on loan at which date should we set borrowDate?
+        borrowedDate = LocalDate.now();
         this.publisher = publisher;
         bookCopies.add(this);
     }
