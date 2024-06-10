@@ -119,4 +119,5 @@ public class Customer {
     public static void setNextId(int nextId) {
         Customer.nextId = nextId;
     }
+
 }

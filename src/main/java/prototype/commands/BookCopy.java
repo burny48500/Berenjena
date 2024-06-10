@@ -25,8 +25,20 @@ public class BookCopy {
         borrowed = false;
         userId = -1;
         borrowedDate = LocalDate.now();
-        bookCopies.add(this);
         this.publisher = publisher;
+        bookCopies.add(this);
+    }
+
+    // Alternative Constructor for Import with customerId (e.g. through CSV-import) when bookCopy is already on loan
+    public BookCopy(String isbn, String shelfLocation, String publisher, String userId) {
+        this.isbn = isbn;
+        this.shelfLocation = shelfLocation;
+        this.copyId = nextBookId++;
+        borrowed = true;
+        this.userId = Integer.parseInt(userId);
+        borrowedDate = LocalDate.now();
+        this.publisher = publisher;
+        bookCopies.add(this);
     }
 
     public static int getNextBookId() {
@@ -88,6 +100,7 @@ public class BookCopy {
     public String getPublisher() {
         return publisher;
     }
+
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
