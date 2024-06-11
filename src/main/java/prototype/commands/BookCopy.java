@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a book copy in a library system.
+ * Each book copy has a unique ID, ISBN, shelf location, and publisher information.
+ */
 public class BookCopy {
     private static int nextBookId = 1;
     private final int copyId;
@@ -17,7 +21,13 @@ public class BookCopy {
     private String publisher;
     static ArrayList<BookCopy> bookCopies = new ArrayList<>();
 
-
+    /**
+     * Constructs a new BookCopy that is not borrowed.
+     *
+     * @param isbn          the ISBN of the book
+     * @param shelfLocation the shelf location of the book copy
+     * @param publisher     the publisher of the book copy
+     */
     public BookCopy(String isbn, String shelfLocation, String publisher) {
         this.isbn = isbn;
         this.shelfLocation = shelfLocation;
@@ -29,7 +39,16 @@ public class BookCopy {
         bookCopies.add(this);
     }
 
-    // Alternative Constructor for Import with customerId (e.g. through CSV-import) when bookCopy is already on loan
+    // Alternative Constructor for Import with customerId (e.g. through CSV-import) when bookCopy is already borrowed
+
+    /**
+     * Constructs a new BookCopy that is borrowed.
+     *
+     * @param isbn          the ISBN of the book
+     * @param shelfLocation the shelf location of the book copy
+     * @param publisher     the publisher of the book copy
+     * @param userId        the ID of the user who borrowed the book copy
+     */
     public BookCopy(String isbn, String shelfLocation, String publisher, String userId) {
         this.isbn = isbn;
         this.shelfLocation = shelfLocation;
@@ -41,6 +60,7 @@ public class BookCopy {
         bookCopies.add(this);
     }
 
+    //GETTERS AND SETTERS
     public static int getNextBookId() {
         return nextBookId;
     }
@@ -100,7 +120,6 @@ public class BookCopy {
     public String getPublisher() {
         return publisher;
     }
-
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;

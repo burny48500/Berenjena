@@ -10,10 +10,19 @@ import java.io.Writer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for the Importer class.
+ * Tests the functionality of importing books, book copies, and customers from CSV files.
+ */
 class ImporterTest {
 
     private File tempFile;
 
+    /**
+     * Sets up the test environment by creating a temporary file.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @BeforeEach
     void setUp() throws IOException {
         tempFile = File.createTempFile("test", ".csv");
@@ -23,12 +32,20 @@ class ImporterTest {
         Importer.setTestMode(true);
     }
 
+    /**
+     * Tears down the test environment by deleting the temporary file.
+     */
     @AfterEach
     void tearDown() {
         tempFile.delete();
         Importer.setTestMode(false);
     }
 
+    /**
+     * Tests the importBook method by writing a book record to a CSV file and verifying its import.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportBook() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
@@ -39,31 +56,40 @@ class ImporterTest {
         assertTrue(Book.sameBook("978-0134685991"));
     }
 
-
+    /**
+     * Tests importing a book copy that is already borrowed.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportBookCopyAlreadyOnLoan() throws IOException {
         Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123456");
-        new Book("Refactoring", "Martin Fowler","978-0201485677", "1993");
+        new Book("Refactoring", "Martin Fowler", "978-0201485677", "1993");
         String customerId = String.valueOf(customer.getUserId());
 
         try (Writer writer = new FileWriter(tempFile)) {
             writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
-            writer.write("978-0201485677,A2,LibrosPeter,"+ customerId + "\n");
+            writer.write("978-0201485677,A2,LibrosPeter," + customerId + "\n");
         }
         Importer.importBookCopy();
         assertTrue(Book.sameBook("978-0201485677"));
-        for (BookCopy bookCopy: BookCopy.getBookCopies()) {
+        for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
-                assertTrue(bookCopy.isBorrowed());  // Checks whether the book was succesfully imported as already on loan
+                assertTrue(bookCopy.isBorrowed());  // Checks whether the book was successfully imported as already on loan
                 assertEquals(bookCopy.getUserId(), customer.getUserId());
             }
         }
     }
 
+    /**
+     * Tests importing a book copy that is not borrowed.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportBookCopyNotOnLoan() throws IOException {
         Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123456");
-        new Book("Refactoring", "Martin Fowler","978-0201485677", "1993");
+        new Book("Refactoring", "Martin Fowler", "978-0201485677", "1993");
 
         try (Writer writer = new FileWriter(tempFile)) {
             writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
@@ -71,14 +97,19 @@ class ImporterTest {
         }
         Importer.importBookCopy();
         assertTrue(Book.sameBook("978-0201485677"));
-        for (BookCopy bookCopy: BookCopy.getBookCopies()) {
+        for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
-                assertFalse(bookCopy.isBorrowed());  // Checks whether the book was succesfully imported not on loan
+                assertFalse(bookCopy.isBorrowed());  // Checks whether the book was successfully imported not on loan
                 assertEquals(bookCopy.getUserId(), -1);
             }
         }
     }
 
+    /**
+     * Tests importing a customer.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportCustomer() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
@@ -89,6 +120,11 @@ class ImporterTest {
         assertTrue(Customer.sameCustomer("miguel.cid@tum.de"));
     }
 
+    /**
+     * Tests importing a book with incorrect CSV headers.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportBookWithIncorrectCSV() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
@@ -98,6 +134,11 @@ class ImporterTest {
         Importer.importBook();
     }
 
+    /**
+     * Tests importing a book copy with a non-existent book.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportBookCopyWithNonExistentBook() throws IOException {
         try (Writer writer = new FileWriter(tempFile)) {
@@ -108,6 +149,11 @@ class ImporterTest {
         Importer.importBookCopy();
     }
 
+    /**
+     * Tests importing a customer with a duplicate entry.
+     *
+     * @throws IOException if an I/O error occurs.
+     */
     @Test
     void testImportCustomerWithDuplicate() throws IOException {
         new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
@@ -117,5 +163,4 @@ class ImporterTest {
         }
         Importer.importCustomer();
     }
-
 }

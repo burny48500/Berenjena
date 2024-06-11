@@ -3,15 +3,26 @@ package prototype;
 import prototype.commands.*;
 import prototype.prompt.Prompter;
 
+/**
+ * The `CommandParser` class handles the parsing and execution of commands from the user.
+ */
 public class CommandParser {
     private static final Prompter prompter = new Prompter();
 
+    /**
+     * Creates customers, books, and book copies.
+     */
     public static void creation() {
         Manager.creationCustomers();
         Manager.creationBooks();
         Manager.creationBookCopies();
     }
 
+    /**
+     * Displays the initial menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     public static void initialMenu(boolean text) {
         if (text) {
             System.out.println("""
@@ -46,6 +57,11 @@ public class CommandParser {
         }
     }
 
+    /**
+     * Displays the books menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     private static void booksMenu(boolean text) {
         if (text) {
             System.out.println("Book Menu:\n" + """
@@ -76,6 +92,11 @@ public class CommandParser {
         initialMenu(true);
     }
 
+    /**
+     * Displays the search menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     private static void searchMenu(boolean text) {
         if (text) {
             System.out.println("""
@@ -114,6 +135,9 @@ public class CommandParser {
         initialMenu(true);
     }
 
+    /**
+     * Displays the book copies menu and processes user input.
+     */
     private static void booksCopiesMenu() {
         System.out.println("Book Copies Menu:\n" + """
                 |0|: Borrow
@@ -162,6 +186,11 @@ public class CommandParser {
         initialMenu(true);
     }
 
+    /**
+     * Displays the customers menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     private static void customersMenu(boolean text) {
         if (text) {
             System.out.println("""
@@ -211,6 +240,11 @@ public class CommandParser {
         initialMenu(true);
     }
 
+    /**
+     * Displays the modify customers menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     private static void modifyCustomers(boolean text) {
         if (text) {
             System.out.println("""
@@ -248,6 +282,11 @@ public class CommandParser {
         initialMenu(true);
     }
 
+    /**
+     * Displays the report menu and processes user input.
+     *
+     * @param text whether to display the menu
+     */
     private static void reportMenu(boolean text) {
         if (text) {
             System.out.println("""

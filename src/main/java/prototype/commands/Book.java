@@ -4,12 +4,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * The `Book` class represents a book entity in the library management system.
+ * It contains information such as title, author, ISBN, year, and book ID.
+ */
 public class Book {
     private String title, author, isbn, year;
     private static int nextBookId = 1;
     private static int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
+
+    /**
+     * Constructs a new Book object with the given parameters.
+     *
+     * @param title  The title of the book.
+     * @param author The author of the book.
+     * @param isbn   The ISBN of the book.
+     * @param year   The publication year of the book.
+     */
     public Book(String title, String author, String isbn, String year) {
         this.title = title;
         this.isbn = isbn;
@@ -21,6 +34,12 @@ public class Book {
         }
     }
 
+    /**
+     * Checks if a book with the given ISBN already exists in the collection.
+     *
+     * @param isbn The ISBN to check.
+     * @return True if a book with the given ISBN exists, false otherwise.
+     */
     public static boolean sameBook(String isbn) {
         for (Book book : books) {
             if (Objects.equals(book.isbn, isbn)) {
@@ -30,6 +49,12 @@ public class Book {
         return false;
     }
 
+    /**
+     * Retrieves a book by its ISBN from the collection.
+     *
+     * @param isbn The ISBN of the book to retrieve.
+     * @return The Book object with the given ISBN, or null if not found.
+     */
     public static Book getBookByIsbn(String isbn) {
         for (Book book : books) {
             if (Objects.equals(book.getIsbn(), isbn)) {
@@ -39,6 +64,7 @@ public class Book {
         return null; // Return null if no book with the given ISBN is found
     }
 
+    //GETTERS AND SETTERS
     public String getTitle() {
         return title;
     }

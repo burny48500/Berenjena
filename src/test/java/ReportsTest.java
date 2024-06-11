@@ -8,11 +8,18 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for testing the functionality of the Reports class.
+ */
 public class ReportsTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
+    /**
+     * Setup method executed before each test.
+     * Redirects console output and initializes test data.
+     */
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outContent));
@@ -21,6 +28,10 @@ public class ReportsTest {
         Manager.creationCustomers();
     }
 
+    /**
+     * Tests the 'allBooks' method of the Reports class.
+     * Verifies the output when all books are listed.
+     */
     @Test
     public void testAllBooks() {
         Manager.borrowBookCopy(1, 1);
@@ -31,6 +42,10 @@ public class ReportsTest {
         assertEquals(expectedOutput, outContent.toString());
     }
 
+    /**
+     * Tests the 'allBorrowedCopies' method of the Reports class.
+     * Verifies the output when all borrowed copies are listed.
+     */
     @Test
     public void testAllBorrowedCopies() {
         Manager.borrowBookCopy(1, 1);
@@ -40,6 +55,10 @@ public class ReportsTest {
         assertEquals(expectedOutput, outContent.toString());
     }
 
+    /**
+     * Tests the functionality to retrieve all non-borrowed copies of books.
+     * Verifies that the output contains information about all non-borrowed copies.
+     */
     @Test
     public void testAllNonBorrowedCopies() {
         outContent.reset();
@@ -49,18 +68,26 @@ public class ReportsTest {
         assertEquals(expectedOutput, outContent.toString());
     }
 
+    /**
+     * Tests the functionality to retrieve information about all customers.
+     * Verifies that the output contains information about all customers and their borrowed books.
+     */
     @Test
     public void testAllCustomers() {
         Manager.borrowBookCopy(1, 1);
-        Manager.returnBookCopy(1,1);
+        Manager.returnBookCopy(1, 1);
         Manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allCustomers();
         String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: No fee; Number of Books Currently Borrowed: 1" + System.lineSeparator() +
-                "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: No fee; Number of Books Currently Borrowed: 0" + System.lineSeparator() ;
+                "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: No fee; Number of Books Currently Borrowed: 0" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
+    /**
+     * Tests the functionality to retrieve information about a borrowed customer.
+     * Verifies that the method does not throw an exception for valid and invalid user IDs.
+     */
     @Test
     public void testBorrowedCustomer_Case1_ValidUserIdWithBorrowedBooks() {
         int userIdWithBorrowedBooks = 1;
@@ -68,18 +95,30 @@ public class ReportsTest {
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithBorrowedBooks));
     }
 
+    /**
+     * Tests the functionality to retrieve information about a borrowed customer with no borrowed books.
+     * Verifies that the method does not throw an exception for a valid user ID with no borrowed books.
+     */
     @Test
     public void testBorrowedCustomer_Case2_ValidUserIdWithoutBorrowedBooks() {
         int userIdWithoutBorrowedBooks = 2;
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithoutBorrowedBooks));
     }
 
+    /**
+     * Tests the functionality to retrieve information about a borrowed customer with an invalid user ID.
+     * Verifies that the method does not throw an exception for an invalid user ID.
+     */
     @Test
     public void testBorrowedCustomer_Case3_InvalidUserId() {
         int invalidUserId = -1;
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(invalidUserId));
     }
 
+    /**
+     * Tests the functionality to retrieve information about a customer with multiple borrowed books.
+     * Verifies that the method does not throw an exception for a valid user ID with multiple borrowed books.
+     */
     @Test
     public void testBorrowedCustomer_Case4_UserIdWithMultipleBorrowedBooks() {
         int userIdWithMultipleBorrowedBooks = 3;
@@ -89,15 +128,25 @@ public class ReportsTest {
         Manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
         Manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
     }
+
+    /**
+     * Tests the functionality to retrieve the number of book copies per publisher.
+     * Verifies that the output contains the expected information about book copies per publisher.
+     */
     @Test
     public void testNumberOfBookCopiesPerPublisher() {
         outContent.reset();
         Reports.NumberOfBookCopiesPerPublisher();
         String expectedOutput = "Anaya: 1 book copy (33.3%)" + System.lineSeparator() +
                 "Caramin: 1 book copy (33.3%)" + System.lineSeparator() +
-                "LibrosPeter: 1 book copy (33.3%)"+System.lineSeparator();
+                "LibrosPeter: 1 book copy (33.3%)" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
+
+    /**
+     * Tests the functionality to retrieve the number of book copies per publisher when there are no copies.
+     * Verifies that the output indicates that no book copies were found.
+     */
     @Test
     public void testNumberOfBookCopiesPerPublisher_WithoutCopies() {
         outContent.reset();
@@ -108,6 +157,10 @@ public class ReportsTest {
         assertTrue(check);
     }
 
+    /**
+     * Teardown method executed after each test.
+     * Resets console output and deletes test data.
+     */
     @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
