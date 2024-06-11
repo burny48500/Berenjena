@@ -15,10 +15,17 @@ import java.time.format.DateTimeFormatter;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test class for the Manager class.
+ * Tests the functionality of managing books, book copies, and customers.
+ */
 public class ManagerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
+    /**
+     * Sets up the test environment by initializing necessary data and redirecting system output.
+     */
     @BeforeEach
     public void setup() {
         Manager.creationBooks();
@@ -29,6 +36,10 @@ public class ManagerTest {
 
 
     //BOOK
+
+    /**
+     * Tests deleting a book successfully.
+     */
     @Test
     public void DeleteBookSuccessfullyTest() {
         Book bookToDelete = new Book("Frankenstein", "Mary Shelley", "0-2456-4821-5", "2007");
@@ -41,6 +52,9 @@ public class ManagerTest {
         assertFalse(Book.getBooks().contains(bookToDelete));
     }
 
+    /**
+     * Tests deleting a book that does not exist.
+     */
     @Test
     public void DeleteNotFoundBookTest() {
         Book book1 = new Book("The Lord of the Rings", "J. R. R. Tolkien", "0-4956-9661-9", "1976");
@@ -60,6 +74,9 @@ public class ManagerTest {
         assertEquals(bookSizeBeforeDeleting, Book.getBooks().size());
     }
 
+    /**
+     * Tests deleting a book with borrowed book copies.
+     */
     @Test
     public void DeleteBookWithBorrowedBookCopiesTest() {
         Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "0-4545-3215-8", "1990");
@@ -74,6 +91,10 @@ public class ManagerTest {
 
     //BOOK COPY
     //BORROW TESTS
+
+    /**
+     * Tests borrowing a valid book copy successfully.
+     */
     @Test
     void borrowValidBookCopySuccessfullyTest() {
         int copyId = 1;
@@ -93,6 +114,10 @@ public class ManagerTest {
         String formattedDate = currentDate.format(formatter);
         assertEquals(formattedDate, borrowedCopy.getBorrowedDate().format(formatter));
     }
+
+    /**
+     * Tests borrowing a book copy that does not exist.
+     */
     @Test
     void borrowNonExistentBookCopyTest() {
         int nonExistentId = 999999999;
@@ -106,6 +131,9 @@ public class ManagerTest {
         assertNull(nonExistentCopy);
     }
 
+    /**
+     * Tests borrowing a book copy that is already borrowed.
+     */
     @Test
     void borrowAlreadyBorrowedBookCopyTest() {
         int copyId = 2;
@@ -126,6 +154,9 @@ public class ManagerTest {
         assertTrue(borrowedCopy.isBorrowed());
     }
 
+    /**
+     * Tests borrowing a book copy for a non-existent customer.
+     */
     @Test
     void borrowBookCopyByNonExistentUserTest() {
         int copyId = 3;
@@ -140,6 +171,10 @@ public class ManagerTest {
         assertFalse(borrowedCopy.isBorrowed());
         assertEquals(-1, borrowedCopy.getUserId());
     }
+
+    /**
+     * Tests borrowing a book copy for a customer with exceeded borrowing time.
+     */
     @Test
     void borrowBookCopyExceedingLimitTest() {
         new BookCopy("978-0201485677", "A2", "Anaya");
@@ -177,6 +212,11 @@ public class ManagerTest {
     }
 
     //DELETE TESTS
+
+    /**
+     * Tests deleting a book copy successfully.
+     * Verifies that the specified book copy is removed from the system and is no longer present in the list of book copies.
+     */
     @Test
     void deleteBookCopySuccessfullyTest() {
         BookCopy bookCopy = new BookCopy("0-7642-1858-1", "A2", "Anaya");
@@ -189,6 +229,10 @@ public class ManagerTest {
         assertFalse(BookCopy.getBookCopies().contains(bookCopy));
     }
 
+    /**
+     * Tests deleting a non-existent book copy.
+     * Verifies that attempting to delete a book copy with a non-existent ID does not affect the system state.
+     */
     @Test
     void deleteNotFoundBookCopyTest() {
         int nonExistentId = 999999;
@@ -204,6 +248,10 @@ public class ManagerTest {
         assertFalse(Manager.deleteBookCopy(nonExistentId));
     }
 
+    /**
+     * Tests deleting a borrowed book copy.
+     * Verifies that a borrowed book copy cannot be deleted and remains in the system.
+     */
     @Test
     void deleteBorrowedBookCopyTest() {
         BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2", "Anaya");
@@ -218,6 +266,10 @@ public class ManagerTest {
 
     //RETURN BOOK COPY
 
+    /**
+     * Tests the successful return of a book copy by a customer.
+     * Verifies that the book copy is returned successfully, and the associated user ID is reset.
+     */
     @Test
     void returnBookCopySuccessfullyTest() {
         int userId = 1;
@@ -232,9 +284,13 @@ public class ManagerTest {
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertEquals("Book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
-        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus()==0));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
     }
 
+    /**
+     * Tests the attempt to return a book copy that is not borrowed by the specified customer.
+     * Verifies that the return operation fails and the book copy remains borrowed by another user.
+     */
     @Test
     void returnBookCopyNotBorrowedByCustomerTest() {
         int userId = 1;
@@ -252,6 +308,10 @@ public class ManagerTest {
         assertEquals(wrongUserId, bookCopy.getUserId());
     }
 
+    /**
+     * Tests the attempt to return a non-existent book copy.
+     * Verifies that the return operation fails and an appropriate message is displayed.
+     */
     @Test
     void returnNonExistingBookCopyTest() {
         int userId = 1;
@@ -262,6 +322,10 @@ public class ManagerTest {
         assertEquals("The book copy (id = " + nonExistentCopyId + ") does not exist.", outContent.toString().trim());
     }
 
+    /**
+     * Tests the attempt to return a book copy with a non-existent customer ID.
+     * Verifies that the return operation fails and an appropriate message is displayed.
+     */
     @Test
     void returnBookCopyWithNonExistingCustomerTest() {
         int nonExistentUserId = 999999;
@@ -272,6 +336,10 @@ public class ManagerTest {
         assertEquals("No customer with (id = " + nonExistentUserId + ") exists.", outContent.toString().trim());
     }
 
+    /**
+     * Tests the attempt to return a book copy that exceeds the maximum borrowing time, with the customer having unpaid fees.
+     * Verifies that the return operation fails and the payment status of the customer is updated to indicate unpaid fees.
+     */
     @Test
     void returnBookCopyExceedingBorrowingTime_CaseUnpaid_Test() {
         int userId = 1;
@@ -290,6 +358,11 @@ public class ManagerTest {
         assertTrue(output.contains("The customer hasn't paid yet, the return is only possible after the payment of the fee"));
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
     }
+
+    /**
+     * Tests the attempt to return a book copy that exceeds the maximum borrowing time, with the customer willing to pay the fees.
+     * Verifies that the return operation succeeds after the customer pays the fees, and the payment status is updated accordingly.
+     */
     @Test
     void returnBookCopyExceedingBorrowingTime_CasePaying_Test() {
         int userId = 1;
@@ -312,6 +385,10 @@ public class ManagerTest {
 
     //CUSTOMER
 
+    /**
+     * Tests the scenario where a customer with borrowed books is deleted.
+     * Verifies that the customer is still considered to exist after deletion.
+     */
     @Test
     void deletingCustomerWithBorrowedBooksTest() {
         Customer customer = new Customer("Cid", "Miguel", "miguel@tum.de", "640882288");
@@ -322,6 +399,10 @@ public class ManagerTest {
         assertTrue(Manager.customerExistsTests(customerId));
     }
 
+    /**
+     * Tests the scenario where a customer with no borrowed books is deleted.
+     * Verifies that the customer is considered deleted after deletion.
+     */
     @Test
     void deletingCustomerWithNoBorrowedBooksTest() {
         int customerId = 2;
@@ -329,6 +410,10 @@ public class ManagerTest {
         assertFalse(Manager.customerExistsTests(customerId), "not deleted");
     }
 
+    /**
+     * Tests the scenario where a non-existing customer is attempted to be deleted.
+     * Verifies that the customer does not exist after attempted deletion.
+     */
     @Test
     void deletingNonExistingCustomerTest() {
         int userId = Customer.getNextId() + 1;
@@ -337,6 +422,11 @@ public class ManagerTest {
     }
 
     // SEARCH TESTS
+
+    /**
+     * Tests the search functionality by title.
+     * Verifies that the output contains the specified title.
+     */
     @Test
     void searchByTitleTest() {
         String title = "Tomatoes";
@@ -345,6 +435,10 @@ public class ManagerTest {
         assertTrue(output.contains("Tomatoes"));
     }
 
+    /**
+     * Tests the search functionality by author.
+     * Verifies that the output contains the specified author.
+     */
     @Test
     void searchByAuthorTest() {
         String author = "Dr Pepper";
@@ -354,6 +448,10 @@ public class ManagerTest {
         assertTrue(output.contains(author));
     }
 
+    /**
+     * Tests the search functionality by ISBN.
+     * Verifies that the output contains the specified ISBN.
+     */
     @Test
     void searchByISBNTest() {
         String isbn = "0-7642-1858-1";
@@ -363,6 +461,10 @@ public class ManagerTest {
         assertTrue(output.contains(isbn));
     }
 
+    /**
+     * Tests the search functionality with a non-existent title.
+     * Verifies that the output is empty.
+     */
     @Test
     void searchByNonExistentTitleTest() {
         String title = "NonExistentTitle";
@@ -373,6 +475,10 @@ public class ManagerTest {
         assertTrue(output.isEmpty());
     }
 
+    /**
+     * Tests the search functionality with a non-existent author.
+     * Verifies that the output is empty.
+     */
     @Test
     void searchByNonExistentAuthorTest() {
         String author = "NonExistentAuthor";
@@ -383,6 +489,10 @@ public class ManagerTest {
         assertTrue(output.isEmpty());
     }
 
+    /**
+     * Tests the search functionality with a non-existent ISBN.
+     * Verifies that the output is empty.
+     */
     @Test
     void searchByNonExistentISBNTest() {
         String isbn = "0-0000-0000-0";
@@ -393,6 +503,10 @@ public class ManagerTest {
         assertTrue(output.isEmpty());
     }
 
+    /**
+     * Teardown method executed after each test.
+     * Resets the test environment.
+     */
     @AfterEach
     public void clear() {
         Manager.deletionBooks();

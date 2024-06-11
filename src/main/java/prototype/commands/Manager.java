@@ -6,41 +6,71 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The Manager class provides methods for managing books, book copies, and customers.
+ * It includes functionality for creating, deleting, borrowing, and returning books,
+ * as well as searching for books and managing customers.
+ */
 public class Manager {
-    // CREATION OF BOOKS;BOOK COPIES;CUSTOMERS
+
+    // CREATION AND DELETION OF BOOKS;BOOK COPIES;CUSTOMERS
+
+    /**
+     * Creates some books.
+     */
     public static void creationBooks() {
         new Book("Berenjena", "Dr Pepper", "0-7642-1858-1", "1980");
         new Book("Tomatoes", "Ibañez", "0-7050-3533-6", "2005");
     }
 
+    /**
+     * Deletes all books by clearing the book list and resetting the book ID counter.
+     */
     public static void deletionBooks() {
         Book.setBooks(new ArrayList<>());
         Book.setNextBookId(1);
     }
 
+    /**
+     * Creates some book copies.
+     */
     public static void creationBookCopies() {
         new BookCopy("0-7642-1858-1", "A2", "Caramin");
         new BookCopy("0-7642-1858-1", "B3", "LibrosPeter");
         new BookCopy("0-7050-3533-6", "C7", "Anaya");
     }
 
-
+    /**
+     * Deletes all book copies by clearing the book copy list and resetting the book copy ID counter.
+     */
     public static void deletionBooksCopies() {
         BookCopy.setBookCopies(new ArrayList<>());
         BookCopy.setNextBookId(1);
     }
 
+    /**
+     * Creates some customers.
+     */
     public static void creationCustomers() {
         new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
         new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         Customer.setText(true);
     }
 
+    /**
+     * Deletes all customers by clearing the customer list and resetting the customer ID counter.
+     */
     public static void deletionCustomers() {
         Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
     }
 
+    /**
+     * Counts the number of books currently borrowed by a customer.
+     *
+     * @param userId the ID of the customer
+     * @return the number of books borrowed by the customer
+     */
     private static int amountOfBooksPerCustomer(int userId) {
         int count = 0;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
@@ -51,6 +81,12 @@ public class Manager {
         return count;
     }
 
+    /**
+     * Checks if a customer exists by their ID.
+     *
+     * @param userId the ID of the customer
+     * @return the customer if found, otherwise null
+     */
     public static Customer customerExists(int userId) {
         for (Customer customer : Customer.customers) {
             if (customer.getUserId() == userId) {
@@ -60,6 +96,12 @@ public class Manager {
         return null;
     }
 
+    /**
+     * Checks if a customer exists by their ID.
+     *
+     * @param userId the ID of the customer
+     * @return true if the customer exists, otherwise false
+     */
     public static boolean customerExistsTests(int userId) {
         for (Customer customer : Customer.customers) {
             if (customer.getUserId() == userId) {
@@ -70,6 +112,13 @@ public class Manager {
     }
 
     // BORROW AND RETURN OF A BOOK COPY
+
+    /**
+     * Borrows a book copy for a customer if the customer is eligible and the book copy is available.
+     *
+     * @param copyId the ID of the book copy
+     * @param userId the ID of the customer
+     */
     public static void borrowBookCopy(int copyId, int userId) {
         if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
             for (BookCopy bookCopy : BookCopy.bookCopies) {
@@ -93,6 +142,12 @@ public class Manager {
         }
     }
 
+    /**
+     * Returns a borrowed book copy for a customer, and handles overdue fines if applicable.
+     *
+     * @param copyId the ID of the book copy
+     * @param userId the ID of the customer
+     */
     public static void returnBookCopy(int copyId, int userId) {
         boolean temp = false;
         Customer customer = customerExists(userId);
@@ -138,7 +193,14 @@ public class Manager {
         }
     }
 
-    // DELETION OF BOOKS AND BOOKS COPIES
+    // DELETION OF CERTAIN BOOKS AND BOOKS COPIES
+
+    /**
+     * Deletes a book copy if it is not currently borrowed.
+     *
+     * @param copyId the ID of the book copy
+     * @return true if the book copy was deleted, otherwise false
+     */
     public static boolean deleteBookCopy(int copyId) {
         boolean temp = false;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
@@ -159,6 +221,12 @@ public class Manager {
         return false;
     }
 
+    /**
+     * Deletes a book if it has no borrowed copies.
+     *
+     * @param ISBN the ISBN of the book
+     * @return true if the book was deleted, otherwise false
+     */
     public static boolean deleteBook(String ISBN) {
         for (Book book : Book.getBooks()) {
             if (Objects.equals(book.getIsbn(), ISBN)) {
@@ -183,7 +251,14 @@ public class Manager {
         return false;
     }
 
-    // CUSTOMERS
+    // CUSTOMER
+
+    /**
+     * Deletes a customer if they have no borrowed books.
+     *
+     * @param userId the ID of the customer
+     * @return true if the customer was deleted, otherwise false
+     */
     public static boolean deleteCustomer(int userId) {
         if (amountOfBooksPerCustomer(userId) > 0) {
             System.out.println("The customer can not be deleted because he has books borrowed.");
@@ -200,6 +275,15 @@ public class Manager {
         return false;
     }
 
+    /**
+     * Creates a new customer if they do not already exist.
+     *
+     * @param firstname   the first name of the customer
+     * @param name        the last name of the customer
+     * @param mail        the email of the customer
+     * @param phoneNumber the phone number of the customer
+     * @return true if the customer was created, otherwise false
+     */
     public static boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getMail().equals(mail)) {
@@ -213,6 +297,12 @@ public class Manager {
     }
 
     // SEARCH OPTIONS
+
+    /**
+     * Searches for books by their title.
+     *
+     * @param title the title of the book
+     */
     public static void searchByTitle(String title) {
         for (Book book : Book.getBooks()) {
             if (book.getTitle().equals(title)) {
@@ -227,6 +317,11 @@ public class Manager {
         }
     }
 
+    /**
+     * Searches for books by their author.
+     *
+     * @param author the author of the book
+     */
     public static void searchByAuthor(String author) {
         for (Book book : Book.getBooks()) {
             if (book.getAuthor().equals(author)) {
@@ -241,6 +336,11 @@ public class Manager {
         }
     }
 
+    /**
+     * Searches for books by their ISBN.
+     *
+     * @param isbn the ISBN of the book
+     */
     public static void searchByISBN(String isbn) {
         for (Book book : Book.getBooks()) {
             if (book.getIsbn().equals(isbn)) {
@@ -255,6 +355,12 @@ public class Manager {
         }
     }
 
+    /**
+     * Returns the borrowing status of a book copy.
+     *
+     * @param bookCopy the book copy
+     * @return a string indicating whether the book copy is available or borrowed and, if so, the borrowing date
+     */
     public static String getBorrowingDateStatus(BookCopy bookCopy) {
         if (bookCopy.isBorrowed()) {
             return "Borrowed, " + bookCopy.getBorrowedDate().toString();
@@ -262,5 +368,4 @@ public class Manager {
             return "Available";
         }
     }
-
 }

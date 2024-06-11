@@ -11,30 +11,21 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
+
+/**
+ * The Importer class provides functionality to import books, book copies, and customers
+ * from CSV files into the system. It also handles file selection and test mode configurations.
+ */
 public class Importer {
 
     private static String directory;
     private static String filename;
     private static boolean testMode = false;
 
-    public static String getDirectory() {
-        return directory;
-    }
-
-    public static void setDirectory(String directory) {
-        Importer.directory = directory;
-    }
-
-    public static String getFilename() {
-        return filename;
-    }
-
-    public static void setFilename(String filename) {
-        Importer.filename = filename;
-    }
-    public static void setTestMode(boolean testMode) {
-        Importer.testMode = testMode;
-    }
+    /**
+     * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
+     * this method does nothing.
+     */
     public static void selectFile() {
         if (!testMode) {
             Frame frame = new Frame();
@@ -50,7 +41,11 @@ public class Importer {
         }
     }
 
-    public static void importBook(){
+    /**
+     * Imports book data from a selected CSV file. The CSV file should have the columns:
+     * "Title", "Author", "ISBN", and "Year".
+     */
+    public static void importBook() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
@@ -58,7 +53,7 @@ public class Importer {
             boolean isCSVIncorrect = false;
 
             try (Reader reader = new FileReader(selectedFile);
-                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
 
                 for (CSVRecord csvRecord : csvParser) {
                     try {
@@ -99,13 +94,17 @@ public class Importer {
         }
     }
 
-    public static void importBookCopy(){
+    /**
+     * Imports book copy data from a selected CSV file. The CSV file should have the columns:
+     * "ISBN", "Shelf Location", "Publisher", and "CustomerId".
+     */
+    public static void importBookCopy() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
 
             try (Reader reader = new FileReader(selectedFile);
-                CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
@@ -150,14 +149,19 @@ public class Importer {
         }
     }
 
-    public static void importCustomer(){
+
+    /**
+     * Imports customer data from a selected CSV file. The CSV file should have the columns:
+     * "Name", "First Name", "Mail", and "Phone Number".
+     */
+    public static void importCustomer() {
         selectFile();
 
         if (filename != null) {
             File selectedFile = new File(directory, filename);
 
             try (Reader reader = new FileReader(selectedFile);
-                CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)){
+                 CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
                 Customer.setText(false); // No message of adding every time a new customer
                 boolean isCSVIncorrect = false;
                 try {
@@ -182,7 +186,7 @@ public class Importer {
                         }
                     }
 
-                } catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
@@ -197,6 +201,27 @@ public class Importer {
         } else {
             System.out.println("File selection cancelled by user.");
         }
+    }
+
+    //GETTERS AND SETTERS
+    public static String getDirectory() {
+        return directory;
+    }
+
+    public static void setDirectory(String directory) {
+        Importer.directory = directory;
+    }
+
+    public static String getFilename() {
+        return filename;
+    }
+
+    public static void setFilename(String filename) {
+        Importer.filename = filename;
+    }
+
+    public static void setTestMode(boolean testMode) {
+        Importer.testMode = testMode;
     }
 
 }

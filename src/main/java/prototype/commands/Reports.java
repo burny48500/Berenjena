@@ -6,7 +6,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The Reports class provides functionality to generate and print various reports
+ * related to books, book copies, and customers in the system.
+ */
 public class Reports {
+
+
+    /**
+     * Prints a report of all books in the system.
+     */
     public static void allBooks() {
         for (Book book : Book.getBooks()) {
             System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
@@ -14,6 +23,9 @@ public class Reports {
         }
     }
 
+    /**
+     * Prints a report of all borrowed book copies.
+     */
     public static void allBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.isBorrowed()) {
@@ -26,6 +38,9 @@ public class Reports {
         }
     }
 
+    /**
+     * Prints a report of all non-borrowed book copies.
+     */
     public static void allNonBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
@@ -38,6 +53,9 @@ public class Reports {
         }
     }
 
+    /**
+     * Prints a report of all customers in the system.
+     */
     public static void allCustomers() {
         for (Customer customer : Customer.getCustomers()) {
             String status = "";
@@ -64,10 +82,12 @@ public class Reports {
             System.out.println("User ID: " + customer.getUserId() + "; First Name: " + customer.getFirstName() +
                     "; Name: " + customer.getName() + "; Payment Status: " + status + "; Number of Books Currently Borrowed: "
                     + booksBorrowed);
-            }
-
+        }
     }
 
+    /**
+     * Prints a list of customers who have borrowed books.
+     */
     public static void BorrowedCustomer(int userId) {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
 
@@ -80,6 +100,9 @@ public class Reports {
         }
     }
 
+    /**
+     * Generates and prints a report of the number of book copies per publisher.
+     */
     public static void NumberOfBookCopiesPerPublisher() {
         ArrayList<String> listOfPublishers = new ArrayList<>();
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {

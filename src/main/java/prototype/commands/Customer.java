@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Represents a customer in a library system.
+ * Each customer has a unique user ID, name, contact information, and payment status.
+ */
 public class Customer {
     private static int nextId = 1;
     private int userId;
@@ -15,7 +19,14 @@ public class Customer {
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
-
+    /**
+     * Constructs a new Customer.
+     *
+     * @param name        the surname of the customer
+     * @param firstName   the first name of the customer
+     * @param mail        the email address of the customer
+     * @param phoneNumber the phone number of the customer
+     */
     public Customer(String name, String firstName, String mail, String phoneNumber) {
         this.name = name;
         this.firstName = firstName;
@@ -31,14 +42,33 @@ public class Customer {
         this.paymentStatus = 0;
     }
 
+    /**
+     * Modifies the email of a customer.
+     *
+     * @param userid  the user ID of the customer
+     * @param newMail the new email address
+     */
     public static void modifyMail(int userid, String newMail) {
 
     }
 
+    /**
+     * Modifies the phone number of a customer.
+     *
+     * @param userid         the user ID of the customer
+     * @param newPhoneNumber the new phone number
+     */
     public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
 
     }
 
+
+    /**
+     * Checks if a customer with the same email already exists.
+     *
+     * @param mail the email address to check
+     * @return true if a customer with the same email exists, false otherwise
+     */
     public static boolean sameCustomer(String mail) {
         for (Customer customer : customers) {
             if (customer.getMail().equals(mail)) {
@@ -48,6 +78,7 @@ public class Customer {
         return false;
     }
 
+    //GETTERS AND SETTERS
     public int getUserId() {
         return userId;
     }
@@ -119,5 +150,4 @@ public class Customer {
     public static void setNextId(int nextId) {
         Customer.nextId = nextId;
     }
-
 }
