@@ -49,7 +49,18 @@ public class Customer {
      * @param newMail the new email address
      */
     public static void modifyMail(int userid, String newMail) {
-
+        boolean temp = false;
+        for (Customer customer : customers) {
+            if (customer.userId == userid) {
+                customer.setMail(newMail);
+                temp = true;
+            }
+        }
+        if (temp){
+            System.out.println("Mail of the customer changed successfully.");
+        } else {
+            System.out.println("The userId doesnt exist.");
+        }
     }
 
     /**
@@ -58,10 +69,21 @@ public class Customer {
      * @param userid         the user ID of the customer
      * @param newPhoneNumber the new phone number
      */
+
     public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
-
+        boolean temp = false;
+        for (Customer customer : customers) {
+            if (customer.userId == userid) {
+                customer.setPhoneNumber(newPhoneNumber);
+                temp = true;
+            }
+        }
+        if (temp){
+            System.out.println("Mail of the customer changed successfully.");
+        } else {
+            System.out.println("The userId doesnt exist.");
+        }
     }
-
 
     /**
      * Checks if a customer with the same email already exists.
