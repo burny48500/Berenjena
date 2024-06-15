@@ -3,6 +3,7 @@ package prototype.commands;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Represents a customer in a library system.
@@ -19,6 +20,14 @@ public class Customer {
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
+    // Regex pattern for email validation
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
+
+    // Regex pattern for phone number validation
+    private static final Pattern PHONE_PATTERN = Pattern.compile(
+            "^\\+?[0-9. ()-]{7,25}$");
+
     /**
      * Constructs a new Customer.
      *
@@ -28,6 +37,13 @@ public class Customer {
      * @param phoneNumber the phone number of the customer
      */
     public Customer(String name, String firstName, String mail, String phoneNumber) {
+        if (!isValidEmail(mail)) {
+            throw new IllegalArgumentException("Invalid email format.");
+        }
+        if (!isValidPhoneNumber(phoneNumber)) {
+            throw new IllegalArgumentException("Invalid phone number format.");
+        }
+
         this.name = name;
         this.firstName = firstName;
         this.userId = nextId++;
@@ -98,6 +114,25 @@ public class Customer {
             }
         }
         return false;
+    }
+    /**
+     * Validates the email format using a regex pattern.
+     *
+     * @param email the email address to validate
+     * @return true if the email format is valid, false otherwise
+     */
+    private static boolean isValidEmail(String email) {
+        return EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    /**
+     * Validates the phone number format using a regex pattern.
+     *
+     * @param phoneNumber the phone number to validate
+     * @return true if the phone number format is valid, false otherwise
+     */
+    private static boolean isValidPhoneNumber(String phoneNumber) {
+        return PHONE_PATTERN.matcher(phoneNumber).matches();
     }
 
     //GETTERS AND SETTERS
