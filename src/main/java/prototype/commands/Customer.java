@@ -26,7 +26,7 @@ public class Customer {
 
     // Regex pattern for phone number validation
     private static final Pattern PHONE_PATTERN = Pattern.compile(
-            "^\\+?[0-9. ()-]{7,25}$");
+            "^\\+?[0-9. ()-]{6,25}$");
 
     /**
      * Constructs a new Customer.

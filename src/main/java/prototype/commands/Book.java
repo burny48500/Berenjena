@@ -45,7 +45,7 @@ public class Book {
      * @return True if the ISBN is valid, false otherwise.
      */
     public static boolean isValidIsbn(String isbn) {
-        return isbn.matches("^(?:ISBN(?:-1[03])?:? )?(?=[-0-9 ]{17}$|[-0-9X ]{13}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$");
+        return isbn.matches("^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$");
     }
 
     /**
