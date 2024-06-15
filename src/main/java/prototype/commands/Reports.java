@@ -89,6 +89,18 @@ public class Reports {
      * Prints a list of customers who have borrowed books.
      */
     public static void BorrowedCustomer(int userId) {
+        boolean customerExists = false;
+
+        for (Customer customer : Customer.getCustomers()) {
+            if (customer.getUserId() == userId) {
+                customerExists = true;
+                break;
+            }
+        }
+        if (!customerExists) {
+            System.out.println("Customer with ID " + userId + " does not exist.");
+            return;
+        }
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
 
             if (userId == bookCopy.getUserId()) {
