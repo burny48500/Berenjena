@@ -29,15 +29,18 @@ public class Importer {
     public static void selectFile() {
         if (!testMode) {
             Frame frame = new Frame();
-            frame.setVisible(true);
+            try {
+                frame.setVisible(true);
 
-            FileDialog fileDialog = new FileDialog(frame, "Select a CSV file", FileDialog.LOAD);
-            fileDialog.setFile("*.csv");
-            fileDialog.setVisible(true);
+                FileDialog fileDialog = new FileDialog(frame, "Select a CSV file", FileDialog.LOAD);
+                fileDialog.setFile("*.csv");
+                fileDialog.setVisible(true);
 
-            directory = fileDialog.getDirectory();
-            filename = fileDialog.getFile();
-            frame.dispose();
+                directory = fileDialog.getDirectory();
+                filename = fileDialog.getFile();
+            } finally {
+                frame.dispose();
+            }
         }
     }
 

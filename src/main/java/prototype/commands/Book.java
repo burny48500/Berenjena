@@ -14,7 +14,6 @@ public class Book {
     private static int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
-
     /**
      * Constructs a new Book object with the given parameters.
      *
@@ -24,6 +23,12 @@ public class Book {
      * @param year   The publication year of the book.
      */
     public Book(String title, String author, String isbn, String year) {
+        if (!isValidIsbn(isbn)) {
+            throw new IllegalArgumentException("Invalid ISBN: " + isbn);
+        }
+        if (!isValidYear(year)) {
+            throw new IllegalArgumentException("Invalid year: " + year);
+        }
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -31,6 +36,30 @@ public class Book {
         bookId = nextBookId++;
         if (!sameBook(isbn)) {
             books.add(this);
+        }
+    }
+    /**
+     * Validates the ISBN format.
+     *
+     * @param isbn The ISBN to validate.
+     * @return True if the ISBN is valid, false otherwise.
+     */
+    public static boolean isValidIsbn(String isbn) {
+        return isbn.matches("^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$");
+    }
+
+    /**
+     * Validates the publication year.
+     *
+     * @param year The publication year to validate.
+     * @return True if the year is valid, false otherwise.
+     */
+    public static boolean isValidYear(String year) {
+        try {
+            int yearValue = Integer.parseInt(year);
+            return yearValue >= 1900 && yearValue <= 2023;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
@@ -102,6 +131,9 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+        if (!isValidIsbn(isbn)) {
+            throw new IllegalArgumentException("Invalid ISBN: " + isbn);
+        }
         this.isbn = isbn;
     }
 
@@ -110,6 +142,9 @@ public class Book {
     }
 
     public void setYear(String year) {
+        if (!isValidYear(year)) {
+            throw new IllegalArgumentException("Invalid year: " + year);
+        }
         this.year = year;
     }
 
