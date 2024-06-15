@@ -79,7 +79,7 @@ public class Customer {
             }
         }
         if (temp){
-            System.out.println("Mail of the customer changed successfully.");
+            System.out.println("Phone Number of the customer changed successfully.");
         } else {
             System.out.println("The userId doesnt exist.");
         }
