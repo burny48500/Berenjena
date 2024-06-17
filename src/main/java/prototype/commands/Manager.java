@@ -5,6 +5,8 @@ import prototype.prompt.Prompter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Manager class provides methods for managing books, book copies, and customers.
@@ -13,6 +15,7 @@ import java.util.Objects;
  */
 public class Manager {
 
+    private static final Logger logger = Logger.getLogger(Manager.class.getName());
     // CREATION AND DELETION OF BOOKS;BOOK COPIES;CUSTOMERS
 
     /**
@@ -21,6 +24,7 @@ public class Manager {
     public static void creationBooks() {
         new Book("Berenjena", "Dr Pepper", "0-7642-1858-1", "1980");
         new Book("Tomatoes", "Ibañez", "0-7050-3533-6", "2005");
+        logger.log(Level.INFO, "Titles and ISBNs of books created: Berenjena - 0-7642-1858-1; Tomatoes - 0-7050-3533-6");
     }
 
     /**
@@ -29,6 +33,7 @@ public class Manager {
     public static void deletionBooks() {
         Book.setBooks(new ArrayList<>());
         Book.setNextBookId(1);
+        logger.log(Level.INFO, "All books successfully deleted.");
     }
 
     /**
@@ -38,6 +43,7 @@ public class Manager {
         new BookCopy("0-7642-1858-1", "A2", "Caramin");
         new BookCopy("0-7642-1858-1", "B3", "LibrosPeter");
         new BookCopy("0-7050-3533-6", "C7", "Anaya");
+        logger.log(Level.INFO, "Book copies created for books with following ISBNs: 0-7642-1858-1, 0-7050-3533-6");
     }
 
     /**
@@ -46,6 +52,7 @@ public class Manager {
     public static void deletionBooksCopies() {
         BookCopy.setBookCopies(new ArrayList<>());
         BookCopy.setNextBookId(1);
+        logger.log(Level.INFO, "All book copies successfully deleted.");
     }
 
     /**
@@ -55,6 +62,7 @@ public class Manager {
         new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
         new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         Customer.setText(true);
+        logger.log(Level.INFO, "Customers created: Miguel Cid, Urko Cornejo");
     }
 
     /**
@@ -63,6 +71,7 @@ public class Manager {
     public static void deletionCustomers() {
         Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
+        logger.log(Level.INFO, "All customers successfully deleted.");
     }
 
     /**
@@ -209,17 +218,18 @@ public class Manager {
             }
             if (bookCopy.getCopyId() == copyId && !bookCopy.isBorrowed()) {
                 BookCopy.getBookCopies().remove(bookCopy);
-                System.out.println("Book copy (id = " + copyId + ") was deleted successfully");
+                logger.log(Level.INFO, "Book copy (id = " + copyId + ") was deleted successfully");
                 return true;
             }
         }
         if (temp) {
-            System.out.println("That book copy is borrowed and cant be deleted.");
+            logger.log(Level.WARNING, "Book copy (id = " + copyId + ") is borrowed and cannot be deleted.");
         } else {
-            System.out.println("That book copy doesnt exist.");
+            logger.log(Level.WARNING, "Book copy (id = " + copyId + ") does not exist.");
         }
         return false;
     }
+
 
     /**
      * Deletes a book if it has no borrowed copies.
@@ -234,20 +244,20 @@ public class Manager {
                     if (Objects.equals(bookCopy.getIsbn(), ISBN)) {
                         if (!bookCopy.isBorrowed()) {
                             Book.getBooks().remove(book);
-                            System.out.println("The Book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
+                            logger.log(Level.INFO, "Book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
                             return true;
                         } else {
-                            System.out.println("The book can not be deleted cause it has borrowed book copies.");
+                            logger.log(Level.WARNING, "Book with (ISBN = " + book.getIsbn() + ") cannot be deleted because it has borrowed book copies.");
                             return false;
                         }
                     }
                 }
                 Book.getBooks().remove(book);
-                System.out.println("The book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
+                logger.log(Level.INFO, "Book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
                 return true;
             }
         }
-        System.out.println("No books with (ISBN = " + ISBN + ") were found.");
+        logger.log(Level.WARNING,"No books with (ISBN = " + ISBN + ") were found.");
         return false;
     }
 
@@ -261,17 +271,17 @@ public class Manager {
      */
     public static boolean deleteCustomer(int userId) {
         if (amountOfBooksPerCustomer(userId) > 0) {
-            System.out.println("The customer can not be deleted because he has books borrowed.");
+            logger.log(Level.WARNING,"The customer can not be deleted because he has books borrowed.");
             return false;
         }
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId && amountOfBooksPerCustomer(userId) == 0) {
                 Customer.getCustomers().remove(customer);
-                System.out.println("The customer with (id = " + userId + ") was removed successfully.");
+                logger.log(Level.INFO,"The customer with (id = " + userId + ") was removed successfully.");
                 return true;
             }
         }
-        System.out.println("The customer with (id = " + userId + ") does not exist.");
+        logger.log(Level.WARNING,"The customer with (id = " + userId + ") does not exist.");
         return false;
     }
 
@@ -287,12 +297,12 @@ public class Manager {
     public static boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getMail().equals(mail)) {
-                System.out.println("Customer with (mail = " + customer.getMail() + ") already exists.");
+                logger.log(Level.WARNING,"Customer with (mail = " + customer.getMail() + ") already exists.");
                 return false;
             }
         }
         Customer newCustomer = new Customer(firstname, name, mail, phoneNumber);
-        System.out.println("Customer with id=" + newCustomer.getUserId() + " was added successfully.");
+        logger.log(Level.INFO,"Customer with id=" + newCustomer.getUserId() + " was added successfully.");
         return true;
     }
 
