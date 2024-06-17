@@ -22,6 +22,20 @@ public class Importer {
     private static String filename;
     private static boolean testMode = false;
 
+    // Strings to allow easier refactoring of the code;
+    static String title = "Title";
+    static String author = "Author";
+    static String isbn = "ISBN";
+    static String publishingYear = "Year";
+    static String shelfLocation = "Shelf Location";
+    static String publisher = "Publisher";
+    static String customerid = "CustomerId";
+    static String lastName = "Name";
+    static String firstName = "First Name";
+    static String mail = "Mail";
+    static String phoneNumber = "Phone Number";
+    static String separator = "---------------";
+
     /**
      * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
      * this method does nothing.
@@ -60,18 +74,18 @@ public class Importer {
 
                 for (CSVRecord csvRecord : csvParser) {
                     try {
-                        String column1 = csvRecord.get("Title");
-                        String column2 = csvRecord.get("Author");
-                        String column3 = csvRecord.get("ISBN");
-                        String column4 = csvRecord.get("Year");
+                        String column1 = csvRecord.get(title);
+                        String column2 = csvRecord.get(author);
+                        String column3 = csvRecord.get(isbn);
+                        String column4 = csvRecord.get(publishingYear);
 
                         System.out.println("\nBook " + csvRecord.getRecordNumber());
-                        System.out.println("---------------");
-                        System.out.println("Title: " + column1);
-                        System.out.println("Author: " + column2);
-                        System.out.println("ISBN: " + column3);
-                        System.out.println("Year: " + column4);
-                        System.out.println("---------------");
+                        System.out.println(separator);
+                        System.out.println(title + ": " + column1);
+                        System.out.println(author + ": " + column2);
+                        System.out.println(isbn + ": " + column3);
+                        System.out.println(publishingYear + ": " + column4);
+                        System.out.println(separator);
                         if (!Book.sameBook(column3)) {
                             new Book(column1, column2, column3, column4);
                         } else {
@@ -111,17 +125,17 @@ public class Importer {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
-                        String column1 = csvRecord.get("ISBN");
-                        String column2 = csvRecord.get("Shelf Location");
-                        String column3 = csvRecord.get("Publisher");
-                        String column4 = csvRecord.get("CumstomerId");
+                        String column1 = csvRecord.get(isbn);
+                        String column2 = csvRecord.get(shelfLocation);
+                        String column3 = csvRecord.get(publisher);
+                        String column4 = csvRecord.get(customerid);
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
-                        System.out.println("---------------");
-                        System.out.println("ISBN: " + column1);
-                        System.out.println("Shelf Location: " + column2);
-                        System.out.println("Publisher: " + column3);
-                        System.out.println("---------------");
+                        System.out.println(separator);
+                        System.out.println(isbn + ": " + column1);
+                        System.out.println(shelfLocation + ": " + column2);
+                        System.out.println(publisher + ": " + column3);
+                        System.out.println(separator);
                         if (Book.sameBook(column1)) {
                             if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
                                 if (Manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
@@ -169,18 +183,18 @@ public class Importer {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
-                        String column1 = csvRecord.get("Name");
-                        String column2 = csvRecord.get("First Name");
-                        String column3 = csvRecord.get("Mail");
-                        String column4 = csvRecord.get("Phone Number");
+                        String column1 = csvRecord.get(lastName);
+                        String column2 = csvRecord.get(firstName);
+                        String column3 = csvRecord.get(mail);
+                        String column4 = csvRecord.get(phoneNumber);
 
                         System.out.println("\nCustomer " + csvRecord.getRecordNumber());
-                        System.out.println("---------------");
-                        System.out.println("First Name: " + column2);
-                        System.out.println("Name: " + column1);
-                        System.out.println("Mail: " + column3);
-                        System.out.println("Phone Number: " + column4);
-                        System.out.println("---------------");
+                        System.out.println(separator);
+                        System.out.println(firstName + ": " + column2);
+                        System.out.println(lastName + ": " + column1);
+                        System.out.println(mail + ": " + column3);
+                        System.out.println(phoneNumber + ": " + column4);
+                        System.out.println(separator);
 
                         if (!Customer.sameCustomer(column3)) {
                             new Customer(column1, column2, column3, column4);
