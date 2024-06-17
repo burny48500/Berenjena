@@ -97,8 +97,8 @@ public class BookCopy {
         return shelfLocation;
     }
 
-    public static void setShelfLocation(String shelfLocation) {
-        shelfLocation = shelfLocation;
+    public void setShelfLocation(String shelfLocation) {
+        this.shelfLocation = shelfLocation;
     }
 
     public int getUserId() {
