@@ -129,25 +129,27 @@ public class Manager {
      * @param userId the ID of the customer
      */
     public static void borrowBookCopy(int copyId, int userId) {
-        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
-            for (BookCopy bookCopy : BookCopy.bookCopies) {
-                if (bookCopy.getCopyId() == copyId) {
-                    if (!bookCopy.isBorrowed()) {
-                        bookCopy.setBorrowedDate(LocalDate.now());
-                        bookCopy.setBorrowed(true);
-                        bookCopy.setUserId(userId);
-                        System.out.println("Book copy (id = " + copyId + ") was borrowed successfully");
-                    } else {
-                        System.out.println("The book copy is already borrowed.");
+        if (copyId >= 0 && userId >= 0) {
+            if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
+                for (BookCopy bookCopy : BookCopy.bookCopies) {
+                    if (bookCopy.getCopyId() == copyId) {
+                        if (!bookCopy.isBorrowed()) {
+                            bookCopy.setBorrowedDate(LocalDate.now());
+                            bookCopy.setBorrowed(true);
+                            bookCopy.setUserId(userId);
+                            System.out.println("Book copy (id = " + copyId + ") was borrowed successfully");
+                        } else {
+                            System.out.println("The book copy is already borrowed.");
+                        }
+                        return;
                     }
-                    return;
                 }
+                System.out.println("The book copy (id = " + copyId + ") does not exist.");
+            } else if (!customerExistsTests(userId)) {
+                System.out.println("No customer with (id = " + userId + ") exists.");
+            } else {
+                System.out.println("The customer already has more than five books borrowed.");
             }
-            System.out.println("The book copy (id = " + copyId + ") does not exist.");
-        } else if (!customerExistsTests(userId)) {
-            System.out.println("No customer with (id = " + userId + ") exists.");
-        } else {
-            System.out.println("The customer already has more than five books borrowed.");
         }
     }
 
