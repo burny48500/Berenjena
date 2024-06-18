@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Represents a book copy in a library system.
@@ -20,6 +21,12 @@ public class BookCopy {
     private int userId;
     private String publisher;
     static ArrayList<BookCopy> bookCopies = new ArrayList<>();
+
+    // ISBN-10 or ISBN-13 validation regex
+    private static final Pattern ISBN_PATTERN = Pattern.compile("^(\\d{10}|\\d{13}|\\d{9}[\\dX])$");
+    // Example shelf location pattern (alphanumeric, dashes, underscores allowed)
+    private static final Pattern SHELF_LOCATION_PATTERN = Pattern.compile("^[a-zA-Z0-9-_]+$");
+
 
     /**
      * Constructs a new BookCopy that is not borrowed.
@@ -58,6 +65,17 @@ public class BookCopy {
         borrowedDate = LocalDate.now();
         this.publisher = publisher;
         bookCopies.add(this);
+    }
+    private void validateIsbn(String isbn) {
+        if (!ISBN_PATTERN.matcher(isbn).matches()) {
+            throw new IllegalArgumentException("Invalid ISBN: " + isbn);
+        }
+    }
+
+    private void validateShelfLocation(String shelfLocation) {
+        if (!SHELF_LOCATION_PATTERN.matcher(shelfLocation).matches()) {
+            throw new IllegalArgumentException("Invalid shelf location: " + shelfLocation);
+        }
     }
 
     //GETTERS AND SETTERS
@@ -98,6 +116,7 @@ public class BookCopy {
     }
 
     public void setShelfLocation(String shelfLocation) {
+        validateShelfLocation(shelfLocation);
         this.shelfLocation = shelfLocation;
     }
 
