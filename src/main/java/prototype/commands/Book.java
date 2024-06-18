@@ -44,7 +44,7 @@ public class Book {
      * @param isbn The ISBN to validate.
      * @return True if the ISBN is valid, false otherwise.
      */
-    public static boolean isValidIsbn(String isbn) {
+    public boolean isValidIsbn(String isbn) {
         return isbn.matches("^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$");
     }
 
@@ -54,7 +54,7 @@ public class Book {
      * @param year The publication year to validate.
      * @return True if the year is valid, false otherwise.
      */
-    public static boolean isValidYear(String year) {
+    public boolean isValidYear(String year) {
         try {
             int yearValue = Integer.parseInt(year);
             return yearValue >= 1900 && yearValue <= 2023;
