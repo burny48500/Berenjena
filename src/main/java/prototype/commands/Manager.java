@@ -21,7 +21,7 @@ public class Manager {
     /**
      * Creates some books.
      */
-    public static void creationBooks() {
+    public static synchronized void  creationBooks() {
         new Book("Berenjena", "Dr Pepper", "0-7642-1858-1", "1980");
         new Book("Tomatoes", "Ibañez", "0-7050-3533-6", "2005");
         logger.log(Level.INFO, "Titles and ISBNs of books created: Berenjena - 0-7642-1858-1; Tomatoes - 0-7050-3533-6");
@@ -30,7 +30,7 @@ public class Manager {
     /**
      * Deletes all books by clearing the book list and resetting the book ID counter.
      */
-    public static void deletionBooks() {
+    public static synchronized void deletionBooks() {
         Book.setBooks(new ArrayList<>());
         Book.setNextBookId(1);
         logger.log(Level.INFO, "All books successfully deleted.");
@@ -39,7 +39,7 @@ public class Manager {
     /**
      * Creates some book copies.
      */
-    public static void creationBookCopies() {
+    public static synchronized void creationBookCopies() {
         new BookCopy("0-7642-1858-1", "A2", "Caramin");
         new BookCopy("0-7642-1858-1", "B3", "LibrosPeter");
         new BookCopy("0-7050-3533-6", "C7", "Anaya");
@@ -49,7 +49,7 @@ public class Manager {
     /**
      * Deletes all book copies by clearing the book copy list and resetting the book copy ID counter.
      */
-    public static void deletionBooksCopies() {
+    public static synchronized void deletionBooksCopies() {
         BookCopy.setBookCopies(new ArrayList<>());
         BookCopy.setNextBookId(1);
         logger.log(Level.INFO, "All book copies successfully deleted.");
@@ -58,7 +58,7 @@ public class Manager {
     /**
      * Creates some customers.
      */
-    public static void creationCustomers() {
+    public static synchronized void creationCustomers() {
         new Customer("Cid", "Miguel", "miguel.cid@tum.de", "0034640882288");
         new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         Customer.setText(true);
@@ -68,7 +68,7 @@ public class Manager {
     /**
      * Deletes all customers by clearing the customer list and resetting the customer ID counter.
      */
-    public static void deletionCustomers() {
+    public static synchronized void deletionCustomers() {
         Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
         logger.log(Level.INFO, "All customers successfully deleted.");
@@ -212,7 +212,7 @@ public class Manager {
      * @param copyId the ID of the book copy
      * @return true if the book copy was deleted, otherwise false
      */
-    public static boolean deleteBookCopy(int copyId) {
+    public static synchronized boolean deleteBookCopy(int copyId) {
         boolean temp = false;
         for (BookCopy bookCopy : BookCopy.bookCopies) {
             if (bookCopy.getCopyId() == copyId) {
@@ -239,7 +239,7 @@ public class Manager {
      * @param ISBN the ISBN of the book
      * @return true if the book was deleted, otherwise false
      */
-    public static boolean deleteBook(String ISBN) {
+    public static synchronized boolean deleteBook(String ISBN) {
         for (Book book : Book.getBooks()) {
             if (Objects.equals(book.getIsbn(), ISBN)) {
                 for (BookCopy bookCopy : BookCopy.bookCopies) {
@@ -271,7 +271,7 @@ public class Manager {
      * @param userId the ID of the customer
      * @return true if the customer was deleted, otherwise false
      */
-    public static boolean deleteCustomer(int userId) {
+    public static synchronized boolean deleteCustomer(int userId) {
         if (amountOfBooksPerCustomer(userId) > 0) {
             logger.log(Level.WARNING,"The customer can not be deleted because he has books borrowed.");
             return false;
@@ -296,7 +296,7 @@ public class Manager {
      * @param phoneNumber the phone number of the customer
      * @return true if the customer was created, otherwise false
      */
-    public static boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
+    public static synchronized boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getMail().equals(mail)) {
                 logger.log(Level.WARNING,"Customer with (mail = " + customer.getMail() + ") already exists.");
