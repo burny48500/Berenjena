@@ -3,13 +3,10 @@ package prototype.commands;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import prototype.CommandParser;
+import prototype.IncorrectCSVException;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 
 /**
@@ -91,12 +88,11 @@ public class Importer {
                         } else {
                             System.out.println("The book is already created.");
                         }
-                    } catch (IllegalArgumentException e) {
+                    } catch (IncorrectCSVException e) {
                         isCSVIncorrect = true;
                         break;
                     }
                 }
-
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
@@ -150,7 +146,7 @@ public class Importer {
                             System.out.println("Book copy not added, cause no book has that ISBN");
                         }
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (IncorrectCSVException e) {
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
@@ -203,7 +199,7 @@ public class Importer {
                         }
                     }
 
-                } catch (IllegalArgumentException e) {
+                } catch (IncorrectCSVException e) {
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
