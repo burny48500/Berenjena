@@ -15,6 +15,7 @@ public class ReportsTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    private Manager manager = new Manager();
 
     /**
      * Setup method executed before each test.
@@ -23,9 +24,9 @@ public class ReportsTest {
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        Manager.creationBooks();
-        Manager.creationBookCopies();
-        Manager.creationCustomers();
+        manager.creationBooks();
+        manager.creationBookCopies();
+        manager.creationCustomers();
     }
 
     /**
@@ -34,7 +35,7 @@ public class ReportsTest {
      */
     @Test
     public void testAllBooks() {
-        Manager.borrowBookCopy(1, 1);
+        manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allBooks();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1" + System.lineSeparator() +
@@ -48,7 +49,7 @@ public class ReportsTest {
      */
     @Test
     public void testAllBorrowedCopies() {
-        Manager.borrowBookCopy(1, 1);
+        manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allBorrowedCopies();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 1" + System.lineSeparator();
@@ -74,9 +75,9 @@ public class ReportsTest {
      */
     @Test
     public void testAllCustomers() {
-        Manager.borrowBookCopy(1, 1);
-        Manager.returnBookCopy(1, 1);
-        Manager.borrowBookCopy(1, 1);
+        manager.borrowBookCopy(1, 1);
+        manager.returnBookCopy(1, 1);
+        manager.borrowBookCopy(1, 1);
         outContent.reset();
         Reports.allCustomers();
         String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: No fee; Number of Books Currently Borrowed: 1" + System.lineSeparator() +
@@ -91,7 +92,7 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case1_ValidUserIdWithBorrowedBooks() {
         int userIdWithBorrowedBooks = 1;
-        Manager.borrowBookCopy(1, userIdWithBorrowedBooks);
+        manager.borrowBookCopy(1, userIdWithBorrowedBooks);
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithBorrowedBooks));
     }
 
@@ -122,11 +123,11 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case4_UserIdWithMultipleBorrowedBooks() {
         int userIdWithMultipleBorrowedBooks = 3;
-        Manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
-        Manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
+        manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
+        manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
         assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
-        Manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
-        Manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
+        manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
+        manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
     }
 
     /**
@@ -150,7 +151,7 @@ public class ReportsTest {
     @Test
     public void testNumberOfBookCopiesPerPublisher_WithoutCopies() {
         outContent.reset();
-        Manager.deletionBooksCopies();
+        manager.deletionBooksCopies();
         Reports.NumberOfBookCopiesPerPublisher();
         String expectedOutput = "No book copies found.";
         boolean check = outContent.toString().contains(expectedOutput);
@@ -164,8 +165,8 @@ public class ReportsTest {
     @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
-        Manager.deletionBooks();
-        Manager.deletionBooksCopies();
-        Manager.deletionCustomers();
+        manager.deletionBooks();
+        manager.deletionBooksCopies();
+        manager.deletionCustomers();
     }
 }

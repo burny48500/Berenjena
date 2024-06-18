@@ -15,9 +15,10 @@ import java.io.*;
  */
 public class Importer {
 
-    private static String directory;
-    private static String filename;
-    private static boolean testMode = false;
+    private String directory;
+    private String filename;
+    private boolean testMode = false;
+    private Manager manager = new Manager();
 
     // Strings to allow easier refactoring of the code;
     static String title = "Title";
@@ -37,7 +38,7 @@ public class Importer {
      * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
      * this method does nothing.
      */
-    public static void selectFile() {
+    public void selectFile() {
         if (!testMode) {
             Frame frame = new Frame();
             try {
@@ -59,7 +60,7 @@ public class Importer {
      * Imports book data from a selected CSV file. The CSV file should have the columns:
      * "Title", "Author", "ISBN", and "Year".
      */
-    public static void importBook() {
+    public void importBook() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
@@ -111,7 +112,7 @@ public class Importer {
      * Imports book copy data from a selected CSV file. The CSV file should have the columns:
      * "ISBN", "Shelf Location", "Publisher", and "CustomerId".
      */
-    public static void importBookCopy() {
+    public void importBookCopy() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
@@ -134,7 +135,7 @@ public class Importer {
                         System.out.println(separator);
                         if (Book.sameBook(column1)) {
                             if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
-                                if (Manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
+                                if (manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
                                     new BookCopy(column1, column2, column3, column4);
                                 } else {
                                     System.out.println("The according Customer does not exist in the System. Please import first!");
@@ -167,7 +168,7 @@ public class Importer {
      * Imports customer data from a selected CSV file. The CSV file should have the columns:
      * "Name", "First Name", "Mail", and "Phone Number".
      */
-    public static void importCustomer() {
+    public void importCustomer() {
         selectFile();
 
         if (filename != null) {
@@ -217,24 +218,29 @@ public class Importer {
     }
 
     //GETTERS AND SETTERS
-    public static String getDirectory() {
+
+
+    public String getDirectory() {
         return directory;
     }
 
-    public static void setDirectory(String directory) {
-        Importer.directory = directory;
+    public void setDirectory(String directory) {
+        this.directory = directory;
     }
 
-    public static String getFilename() {
+    public String getFilename() {
         return filename;
     }
 
-    public static void setFilename(String filename) {
-        Importer.filename = filename;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public static void setTestMode(boolean testMode) {
-        Importer.testMode = testMode;
+    public boolean isTestMode() {
+        return testMode;
     }
 
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
 }

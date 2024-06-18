@@ -8,14 +8,17 @@ import prototype.prompt.Prompter;
  */
 public class CommandParser {
     private static final Prompter prompter = new Prompter();
+    private Importer importer = new Importer();
+    private Manager manager = new Manager();
+
 
     /**
      * Creates customers, books, and book copies.
      */
-    public static void creation() {
-        Manager.creationCustomers();
-        Manager.creationBooks();
-        Manager.creationBookCopies();
+    public  void creation() {
+        manager.creationCustomers();
+        manager.creationBooks();
+        manager.creationBookCopies();
     }
 
     /**
@@ -23,7 +26,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    public static void initialMenu(boolean text) {
+    public void initialMenu(boolean text) {
         if (text) {
             System.out.println("""
                     Initial Menu DEVELOPMENT:
@@ -62,7 +65,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    private static void booksMenu(boolean text) {
+    private void booksMenu(boolean text) {
         if (text) {
             System.out.println("Book Menu:\n" + """
                     |0|: Import Books
@@ -74,12 +77,12 @@ public class CommandParser {
         String isbn;
         switch (answer) {
             case "0":
-                Importer.importBook();
+                importer.importBook();
                 break;
             case "1":
                 System.out.println("Enter the ISBN of the book:");
                 isbn = prompter.nextInput();
-                Manager.deleteBook(isbn);
+                manager.deleteBook(isbn);
                 break;
             case "2":
                 initialMenu(true);
@@ -97,7 +100,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    private static void searchMenu(boolean text) {
+    private void searchMenu(boolean text) {
         if (text) {
             System.out.println("""
                     Search Book Copy by:
@@ -112,17 +115,17 @@ public class CommandParser {
             case "0":
                 System.out.println("Enter a title:");
                 String title = prompter.nextInput();
-                Manager.searchByTitle(title);
+                manager.searchByTitle(title);
                 break;
             case "1":
                 System.out.println("Enter an author:");
                 String author = prompter.nextInput();
-                Manager.searchByAuthor(author);
+                manager.searchByAuthor(author);
                 break;
             case "2":
                 System.out.println("Enter a ISBN:");
                 String isbn = prompter.nextInput();
-                Manager.searchByISBN(isbn);
+                manager.searchByISBN(isbn);
                 break;
             case "3":
                 booksMenu(true);
@@ -138,7 +141,7 @@ public class CommandParser {
     /**
      * Displays the book copies menu and processes user input.
      */
-    private static void booksCopiesMenu() {
+    private void booksCopiesMenu() {
         System.out.println("Book Copies Menu:\n" + """
                 |0|: Borrow
                 |1|: Return
@@ -155,25 +158,25 @@ public class CommandParser {
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Manager.borrowBookCopy(copyId, userId);
+                manager.borrowBookCopy(copyId, userId);
                 break;
             case "1":
                 System.out.println("Enter the ID of the book copy:");
                 copyId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Manager.returnBookCopy(copyId, userId);
+                manager.returnBookCopy(copyId, userId);
                 break;
             case "2":
                 searchMenu(true);
                 break;
             case "3":
-                Importer.importBookCopy();
+                importer.importBookCopy();
                 break;
             case "4":
                 System.out.println("Enter the ID of the book copy:");
                 copyId = Integer.parseInt(prompter.nextInput());
-                Manager.deleteBookCopy(copyId);
+                manager.deleteBookCopy(copyId);
                 break;
             case "5":
                 initialMenu(true);
@@ -191,7 +194,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    private static void customersMenu(boolean text) {
+    private void customersMenu(boolean text) {
         if (text) {
             System.out.println("""
                     Select an action:
@@ -219,15 +222,15 @@ public class CommandParser {
                 System.out.println("Enter the phone number of the customer:");
                 phoneNumber = prompter.nextInput();
                 // Search if mail is duplicated...
-                Manager.createCustomer(firstName, name, mail, phoneNumber);
+                manager.createCustomer(firstName, name, mail, phoneNumber);
                 break;
             case "2":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Manager.deleteCustomer(userId);
+                manager.deleteCustomer(userId);
                 break;
             case "3":
-                Importer.importCustomer();
+                importer.importCustomer();
                 break;
             case "4":
                 initialMenu(true);
@@ -245,7 +248,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    private static void modifyCustomers(boolean text) {
+    private void modifyCustomers(boolean text) {
         if (text) {
             System.out.println("""
                     What do you want to modify?
@@ -287,7 +290,7 @@ public class CommandParser {
      *
      * @param text whether to display the menu
      */
-    private static void reportMenu(boolean text) {
+    private void reportMenu(boolean text) {
         if (text) {
             System.out.println("""
                     Enter the desired output:
