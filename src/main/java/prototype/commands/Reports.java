@@ -30,11 +30,11 @@ public class Reports {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.isBorrowed()) {
                 Book book = Book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                if (book != null) {
+                    System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                            "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                }
             }
-
         }
     }
 
@@ -45,11 +45,11 @@ public class Reports {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
                 Book book = Book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                if (book != null) {
+                    System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                            "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                }
             }
-
         }
     }
 
@@ -105,9 +105,10 @@ public class Reports {
 
             if (userId == bookCopy.getUserId()) {
                 Book book = Book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                if (book != null) {
+                    System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
+                            "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                }
             }
         }
     }
