@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
  * related to books, book copies, and customers in the system.
  */
 public class Reports {
-
+    private Book book;
+    private BookCopy bookCopy;
+    private Customer customer;
 
     /**
      * Prints a report of all books in the system.
      */
-    public static void allBooks() {
+    public void allBooks() {
         for (Book book : Book.getBooks()) {
             System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
                     "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn());
@@ -26,10 +28,10 @@ public class Reports {
     /**
      * Prints a report of all borrowed book copies.
      */
-    public static void allBorrowedCopies() {
+    public void allBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.isBorrowed()) {
-                Book book = Book.getBookByIsbn(bookCopy.getIsbn());
+                Book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
                 System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
                         "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
@@ -41,10 +43,10 @@ public class Reports {
     /**
      * Prints a report of all non-borrowed book copies.
      */
-    public static void allNonBorrowedCopies() {
+    public void allNonBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
-                Book book = Book.getBookByIsbn(bookCopy.getIsbn());
+                book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
                 System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
                         "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
@@ -56,7 +58,7 @@ public class Reports {
     /**
      * Prints a report of all customers in the system.
      */
-    public static void allCustomers() {
+    public void allCustomers() {
         for (Customer customer : Customer.getCustomers()) {
             String status = "";
             int userId = customer.getUserId();
@@ -88,10 +90,10 @@ public class Reports {
     /**
      * Prints a list of customers who have borrowed books.
      */
-    public static void BorrowedCustomer(int userId) {
+    public void BorrowedCustomer(int userId) {
         boolean customerExists = false;
 
-        for (Customer customer : Customer.getCustomers()) {
+        for (Customer customer : customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 customerExists = true;
                 break;
@@ -104,7 +106,7 @@ public class Reports {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
 
             if (userId == bookCopy.getUserId()) {
-                Book book = Book.getBookByIsbn(bookCopy.getIsbn());
+                book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
                 System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
                         "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
@@ -115,7 +117,7 @@ public class Reports {
     /**
      * Generates and prints a report of the number of book copies per publisher.
      */
-    public static void NumberOfBookCopiesPerPublisher() {
+    public void NumberOfBookCopiesPerPublisher() {
         ArrayList<String> listOfPublishers = new ArrayList<>();
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             listOfPublishers.add(bookCopy.getPublisher());

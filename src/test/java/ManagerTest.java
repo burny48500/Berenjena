@@ -16,26 +16,30 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test class for the Manager class.
+ * Test class for the manager class.
  * Tests the functionality of managing books, book copies, and customers.
  */
 public class ManagerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    private Manager manager = new Manager();
+    private Book book;
+    private Customer customer;
+    
 
     /**
      * Sets up the test environment by initializing necessary data and redirecting system output.
      */
     @BeforeEach
     public void setup() {
-        Manager.creationBooks();
-        Manager.creationBookCopies();
-        Manager.creationCustomers();
+        manager.creationBooks();
+        manager.creationBookCopies();
+        manager.creationCustomers();
         System.setOut(new PrintStream(outContent));
     }
 
 
-    //BOOK
+    //book
 
     /**
      * Tests deleting a book successfully.
@@ -44,12 +48,12 @@ public class ManagerTest {
     public void DeleteBookSuccessfullyTest() {
         Book bookToDelete = new Book("Frankenstein", "Mary Shelley", "0-2456-4821-5", "2007");
         Book book = new Book("Dune", "Frank Herbert", "0-3756-9921-4", "1972");
-        assertTrue(Book.getBooks().contains(book));
-        assertTrue(Book.getBooks().contains(bookToDelete));
-        boolean deleted = Manager.deleteBook("0-2456-4821-5");
+        assertTrue(book.getBooks().contains(book));
+        assertTrue(book.getBooks().contains(bookToDelete));
+        boolean deleted = manager.deleteBook("0-2456-4821-5");
         assertTrue(deleted);
-        assertTrue(Book.getBooks().contains(book));
-        assertFalse(Book.getBooks().contains(bookToDelete));
+        assertTrue(book.getBooks().contains(book));
+        assertFalse(book.getBooks().contains(bookToDelete));
     }
 
     /**
@@ -62,16 +66,16 @@ public class ManagerTest {
 
         String nonExistentISBN = "0-0000-0000-0";
         boolean foundCount = false;
-        for (Book book : Book.getBooks()) {
+        for (Book book : book.getBooks()) {
             if (book.getIsbn().equals(nonExistentISBN)) {
                 foundCount = true;
                 break;
             }
         }
         assertFalse(foundCount, "Found non-existent ISBN during deletion test"); //extra check:)
-        int bookSizeBeforeDeleting = Book.getBooks().size();
-        Manager.deleteBook(nonExistentISBN);
-        assertEquals(bookSizeBeforeDeleting, Book.getBooks().size());
+        int bookSizeBeforeDeleting = book.getBooks().size();
+        manager.deleteBook(nonExistentISBN);
+        assertEquals(bookSizeBeforeDeleting, book.getBooks().size());
     }
 
     /**
@@ -83,13 +87,13 @@ public class ManagerTest {
         Customer customer = new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3", "Anaya");
 
-        Book.getBooks().add(book);
-        Manager.borrowBookCopy(bookCopy.getCopyId(), customer.getUserId());
-        Manager.deleteBook(book.getIsbn());
-        assertTrue(Book.getBooks().contains(book));
+        book.getBooks().add(book);
+        manager.borrowBookCopy(bookCopy.getCopyId(), customer.getUserId());
+        manager.deleteBook(book.getIsbn());
+        assertTrue(book.getBooks().contains(book));
     }
 
-    //BOOK COPY
+    //book COPY
     //BORROW TESTS
 
     /**
@@ -99,7 +103,7 @@ public class ManagerTest {
     void borrowValidBookCopySuccessfullyTest() {
         int copyId = 1;
         int userId = 1;
-        Manager.borrowBookCopy(copyId, userId);
+        manager.borrowBookCopy(copyId, userId);
         BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == copyId)
                 .findFirst()
@@ -122,7 +126,7 @@ public class ManagerTest {
     void borrowNonExistentBookCopyTest() {
         int nonExistentId = 999999999;
         int userId = 1;
-        Manager.borrowBookCopy(nonExistentId, userId);
+        manager.borrowBookCopy(nonExistentId, userId);
         BookCopy nonExistentCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == nonExistentId)
                 .findFirst()
@@ -138,7 +142,7 @@ public class ManagerTest {
     void borrowAlreadyBorrowedBookCopyTest() {
         int copyId = 2;
         int userId = 1;
-        Manager.borrowBookCopy(copyId, userId);
+        manager.borrowBookCopy(copyId, userId);
         BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == copyId)
                 .findFirst()
@@ -149,7 +153,7 @@ public class ManagerTest {
         assertEquals(userId, borrowedCopy.getUserId());
 
         int newUserId = 2;
-        Manager.borrowBookCopy(copyId, newUserId);
+        manager.borrowBookCopy(copyId, newUserId);
         assertNotEquals(newUserId, borrowedCopy.getUserId());
         assertTrue(borrowedCopy.isBorrowed());
     }
@@ -161,7 +165,7 @@ public class ManagerTest {
     void borrowBookCopyByNonExistentUserTest() {
         int copyId = 3;
         int nonExistentUserId = 999999999;
-        Manager.borrowBookCopy(copyId, nonExistentUserId);
+        manager.borrowBookCopy(copyId, nonExistentUserId);
         BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == copyId)
                 .findFirst()
@@ -187,7 +191,7 @@ public class ManagerTest {
         int userId = 1;
         for (int copyId = 1; copyId <= 5; copyId++) {
             final int finalCopyId = copyId;
-            Manager.borrowBookCopy(finalCopyId, userId);
+            manager.borrowBookCopy(finalCopyId, userId);
             BookCopy borrowedCopy = BookCopy.getBookCopies().stream()
                     .filter(copy -> copy.getCopyId() == finalCopyId)
                     .findFirst()
@@ -200,7 +204,7 @@ public class ManagerTest {
 
         int newCopyId = 6;
         final int finalNewCopyId = newCopyId;
-        Manager.borrowBookCopy(finalNewCopyId, userId);
+        manager.borrowBookCopy(finalNewCopyId, userId);
         BookCopy newBorrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == finalNewCopyId)
                 .findFirst()
@@ -225,7 +229,7 @@ public class ManagerTest {
         assertTrue(BookCopy.getBookCopies().contains(bookCopy));
         assertFalse(bookCopy.isBorrowed());
 
-        assertTrue(Manager.deleteBookCopy(copyId));
+        assertTrue(manager.deleteBookCopy(copyId));
         assertFalse(BookCopy.getBookCopies().contains(bookCopy));
     }
 
@@ -245,7 +249,7 @@ public class ManagerTest {
             }
         }
         assertFalse(foundId, "Found non-existent copyID during deletion test"); //extra check :)
-        assertFalse(Manager.deleteBookCopy(nonExistentId));
+        assertFalse(manager.deleteBookCopy(nonExistentId));
     }
 
     /**
@@ -259,12 +263,12 @@ public class ManagerTest {
         bookCopy.setBorrowed(true);
         assertTrue(bookCopy.isBorrowed());
 
-        assertFalse(Manager.deleteBookCopy(copyId));
+        assertFalse(manager.deleteBookCopy(copyId));
         assertTrue(BookCopy.getBookCopies().contains(bookCopy));
         assertTrue(bookCopy.isBorrowed());
     }
 
-    //RETURN BOOK COPY
+    //RETURN book COPY
 
     /**
      * Tests the successful return of a book copy by a customer.
@@ -280,11 +284,11 @@ public class ManagerTest {
         bookCopy.setBorrowed(true);
         bookCopy.setBorrowedDate(LocalDate.now().minusDays(10));
 
-        Manager.returnBookCopy(copyId, userId);
+        manager.returnBookCopy(copyId, userId);
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
-        assertEquals("Book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
-        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
+        assertEquals("book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
+        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
     }
 
     /**
@@ -302,7 +306,7 @@ public class ManagerTest {
         bookCopy.setBorrowed(true);
         bookCopy.setBorrowedDate(LocalDate.now().minusDays(7));
 
-        Manager.returnBookCopy(copyId, userId);
+        manager.returnBookCopy(copyId, userId);
         assertEquals("The book copy (id = " + copyId + ") is not borrowed by that customer.", outContent.toString().trim());
         assertTrue(bookCopy.isBorrowed());
         assertEquals(wrongUserId, bookCopy.getUserId());
@@ -318,7 +322,7 @@ public class ManagerTest {
         int nonExistentCopyId = 999999;
         boolean found = BookCopy.getBookCopies().stream().anyMatch(bc -> bc.getCopyId() == nonExistentCopyId);
         assertFalse(found);
-        Manager.returnBookCopy(nonExistentCopyId, userId);
+        manager.returnBookCopy(nonExistentCopyId, userId);
         assertEquals("The book copy (id = " + nonExistentCopyId + ") does not exist.", outContent.toString().trim());
     }
 
@@ -330,9 +334,9 @@ public class ManagerTest {
     void returnBookCopyWithNonExistingCustomerTest() {
         int nonExistentUserId = 999999;
         int copyId = 1;
-        boolean found = Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == nonExistentUserId);
+        boolean found = customer.getCustomers().stream().anyMatch(c -> c.getUserId() == nonExistentUserId);
         assertFalse(found);
-        Manager.returnBookCopy(copyId, nonExistentUserId);
+        manager.returnBookCopy(copyId, nonExistentUserId);
         assertEquals("No customer with (id = " + nonExistentUserId + ") exists.", outContent.toString().trim());
     }
 
@@ -350,13 +354,13 @@ public class ManagerTest {
         bookCopy.setBorrowed(true);
         bookCopy.setBorrowedDate(LocalDate.now().minusDays(40));
 
-        Manager.returnBookCopy(copyId, userId);
+        manager.returnBookCopy(copyId, userId);
         String output = outContent.toString().trim();
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded"));
         assertTrue(output.contains("The customer hasn't paid yet, the return is only possible after the payment of the fee"));
-        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
+        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
     }
 
     /**
@@ -374,16 +378,16 @@ public class ManagerTest {
         bookCopy.setBorrowedDate(LocalDate.now().minusDays(40));
         String simulatedInput = "yes\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-        Manager.returnBookCopy(copyId, userId);
+        manager.returnBookCopy(copyId, userId);
         String output = outContent.toString().trim();
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded."));
-        assertTrue(output.contains("The payment has been successful. Book copy returned successfully"));
-        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
+        assertTrue(output.contains("The payment has been successful. book copy returned successfully"));
+        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 
-    //CUSTOMER
+    //customer
 
     /**
      * Tests the scenario where a customer with borrowed books is deleted.
@@ -393,10 +397,10 @@ public class ManagerTest {
     void deletingCustomerWithBorrowedBooksTest() {
         Customer customer = new Customer("Cid", "Miguel", "miguel@tum.de", "640882288");
         BookCopy bookCopy = new BookCopy("0-5678-8901-2", "C2", "Anaya");
-        Manager.borrowBookCopy(1, 1);
+        manager.borrowBookCopy(1, 1);
         int customerId = 1;
-        Manager.deleteCustomer(customerId);
-        assertTrue(Manager.customerExistsTests(customerId));
+        manager.deleteCustomer(customerId);
+        assertTrue(manager.customerExistsTests(customerId));
     }
 
     /**
@@ -406,8 +410,8 @@ public class ManagerTest {
     @Test
     void deletingCustomerWithNoBorrowedBooksTest() {
         int customerId = 2;
-        Manager.deleteCustomer(customerId);
-        assertFalse(Manager.customerExistsTests(customerId), "not deleted");
+        manager.deleteCustomer(customerId);
+        assertFalse(manager.customerExistsTests(customerId), "not deleted");
     }
 
     /**
@@ -416,9 +420,9 @@ public class ManagerTest {
      */
     @Test
     void deletingNonExistingCustomerTest() {
-        int userId = Customer.getNextId() + 1;
-        Manager.deleteCustomer(userId);
-        assertFalse(Manager.customerExistsTests(userId));
+        int userId = customer.getNextId() + 1;
+        manager.deleteCustomer(userId);
+        assertFalse(manager.customerExistsTests(userId));
     }
 
     // SEARCH TESTS
@@ -430,7 +434,7 @@ public class ManagerTest {
     @Test
     void searchByTitleTest() {
         String title = "Tomatoes";
-        Manager.searchByTitle(title);
+        manager.searchByTitle(title);
         String output = outContent.toString().trim();
         assertTrue(output.contains("Tomatoes"));
     }
@@ -442,7 +446,7 @@ public class ManagerTest {
     @Test
     void searchByAuthorTest() {
         String author = "Dr Pepper";
-        Manager.searchByAuthor(author);
+        manager.searchByAuthor(author);
         String output = outContent.toString().trim();
         assertFalse(output.isEmpty());
         assertTrue(output.contains(author));
@@ -455,7 +459,7 @@ public class ManagerTest {
     @Test
     void searchByISBNTest() {
         String isbn = "0-7642-1858-1";
-        Manager.searchByISBN(isbn);
+        manager.searchByISBN(isbn);
         String output = outContent.toString().trim();
         assertFalse(output.isEmpty());
         assertTrue(output.contains(isbn));
@@ -468,9 +472,9 @@ public class ManagerTest {
     @Test
     void searchByNonExistentTitleTest() {
         String title = "NonExistentTitle";
-        boolean found = Book.getBooks().stream().anyMatch(book -> book.getTitle().equals(title));
+        boolean found = book.getBooks().stream().anyMatch(book -> book.getTitle().equals(title));
         assertFalse(found, "Found non-existent title while testing");
-        Manager.searchByTitle(title);
+        manager.searchByTitle(title);
         String output = outContent.toString().trim();
         assertTrue(output.isEmpty());
     }
@@ -482,9 +486,9 @@ public class ManagerTest {
     @Test
     void searchByNonExistentAuthorTest() {
         String author = "NonExistentAuthor";
-        boolean found = Book.getBooks().stream().anyMatch(book -> book.getAuthor().equals(author));//extra check:)
+        boolean found = book.getBooks().stream().anyMatch(book -> book.getAuthor().equals(author));//extra check:)
         assertFalse(found, "Found non-existent author while testing");
-        Manager.searchByAuthor(author);
+        manager.searchByAuthor(author);
         String output = outContent.toString().trim();
         assertTrue(output.isEmpty());
     }
@@ -496,9 +500,9 @@ public class ManagerTest {
     @Test
     void searchByNonExistentISBNTest() {
         String isbn = "0-0000-0000-0";
-        boolean found = Book.getBooks().stream().anyMatch(book -> book.getIsbn().equals(isbn)); //extra check:)
+        boolean found = book.getBooks().stream().anyMatch(book -> book.getIsbn().equals(isbn)); //extra check:)
         assertFalse(found, "Found non-existent ISBN while testing");
-        Manager.searchByISBN(isbn);
+        manager.searchByISBN(isbn);
         String output = outContent.toString().trim();
         assertTrue(output.isEmpty());
     }
@@ -509,9 +513,9 @@ public class ManagerTest {
      */
     @AfterEach
     public void clear() {
-        Manager.deletionBooks();
-        Manager.deletionBooksCopies();
-        Manager.deletionCustomers();
+        manager.deletionBooks();
+        manager.deletionBooksCopies();
+        manager.deletionCustomers();
         System.setOut(originalOut);
         outContent.reset();
     }

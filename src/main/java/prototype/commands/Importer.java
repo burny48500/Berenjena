@@ -18,15 +18,19 @@ import java.io.Reader;
  */
 public class Importer {
 
-    private static String directory;
-    private static String filename;
-    private static boolean testMode = false;
+    private String directory;
+    private String filename;
+    private boolean testMode = false;
+    private Book book;
+    private Importer importer;
+    private Manager manager;
+    private Customer customer;
 
     /**
      * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
      * this method does nothing.
      */
-    public static void selectFile() {
+    public void selectFile() {
         if (!testMode) {
             Frame frame = new Frame();
             try {
@@ -48,7 +52,7 @@ public class Importer {
      * Imports book data from a selected CSV file. The CSV file should have the columns:
      * "Title", "Author", "ISBN", and "Year".
      */
-    public static void importBook() {
+    public void importBook() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
@@ -72,7 +76,7 @@ public class Importer {
                         System.out.println("ISBN: " + column3);
                         System.out.println("Year: " + column4);
                         System.out.println("---------------");
-                        if (!Book.sameBook(column3)) {
+                        if (!book.sameBook(column3)) {
                             new Book(column1, column2, column3, column4);
                         } else {
                             System.out.println("The book is already created.");
@@ -101,7 +105,7 @@ public class Importer {
      * Imports book copy data from a selected CSV file. The CSV file should have the columns:
      * "ISBN", "Shelf Location", "Publisher", and "CustomerId".
      */
-    public static void importBookCopy() {
+    public void importBookCopy() {
         selectFile();
         if (filename != null) {
             File selectedFile = new File(directory, filename);
@@ -122,9 +126,9 @@ public class Importer {
                         System.out.println("Shelf Location: " + column2);
                         System.out.println("Publisher: " + column3);
                         System.out.println("---------------");
-                        if (Book.sameBook(column1)) {
+                        if (book.sameBook(column1)) {
                             if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
-                                if (Manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
+                                if (manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
                                     new BookCopy(column1, column2, column3, column4);
                                 } else {
                                     System.out.println("The according Customer does not exist in the System. Please import first!");
@@ -157,7 +161,7 @@ public class Importer {
      * Imports customer data from a selected CSV file. The CSV file should have the columns:
      * "Name", "First Name", "Mail", and "Phone Number".
      */
-    public static void importCustomer() {
+    public void importCustomer() {
         selectFile();
 
         if (filename != null) {
@@ -165,7 +169,7 @@ public class Importer {
 
             try (Reader reader = new FileReader(selectedFile);
                  CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
-                Customer.setText(false); // No message of adding every time a new customer
+                customer.setText(false); // No message of adding every time a new customer
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
@@ -182,7 +186,7 @@ public class Importer {
                         System.out.println("Phone Number: " + column4);
                         System.out.println("---------------");
 
-                        if (!Customer.sameCustomer(column3)) {
+                        if (!customer.sameCustomer(column3)) {
                             new Customer(column1, column2, column3, column4);
                         } else {
                             System.out.println("Customer with same mail is already created.\n");
@@ -197,7 +201,7 @@ public class Importer {
                 } else {
                     System.out.println("All customers were imported successfully!");
                 }
-                Customer.setText(true); // Put it again as normally
+                customer.setText(true); // Put it again as normally
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -207,24 +211,24 @@ public class Importer {
     }
 
     //GETTERS AND SETTERS
-    public static String getDirectory() {
+    public String getDirectory() {
         return directory;
     }
 
-    public static void setDirectory(String directory) {
-        Importer.directory = directory;
+    public void setDirectory(String directory) {
+        importer.directory = directory;
     }
 
-    public static String getFilename() {
+    public String getFilename() {
         return filename;
     }
 
-    public static void setFilename(String filename) {
-        Importer.filename = filename;
+    public void setFilename(String filename) {
+        importer.filename = filename;
     }
 
-    public static void setTestMode(boolean testMode) {
-        Importer.testMode = testMode;
+    public void setTestMode(boolean testMode) {
+        importer.testMode = testMode;
     }
 
 }

@@ -10,8 +10,8 @@ import java.util.Objects;
  */
 public class Book {
     private String title, author, isbn, year;
-    private static int nextBookId = 1;
-    private static int bookId;
+    private int nextBookId = 1;
+    private int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
     /**
@@ -44,7 +44,7 @@ public class Book {
      * @param isbn The ISBN to validate.
      * @return True if the ISBN is valid, false otherwise.
      */
-    public static boolean isValidIsbn(String isbn) {
+    public boolean isValidIsbn(String isbn) {
         return isbn.matches("^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$");
     }
 
@@ -54,7 +54,7 @@ public class Book {
      * @param year The publication year to validate.
      * @return True if the year is valid, false otherwise.
      */
-    public static boolean isValidYear(String year) {
+    public boolean isValidYear(String year) {
         try {
             int yearValue = Integer.parseInt(year);
             return yearValue >= 1900 && yearValue <= 2023;
@@ -69,7 +69,7 @@ public class Book {
      * @param isbn The ISBN to check.
      * @return True if a book with the given ISBN exists, false otherwise.
      */
-    public static boolean sameBook(String isbn) {
+    public boolean sameBook(String isbn) {
         for (Book book : books) {
             if (Objects.equals(book.isbn, isbn)) {
                 return true;
@@ -110,20 +110,20 @@ public class Book {
         this.author = author;
     }
 
-    public static int getNextBookId() {
+    public int getNextBookId() {
         return nextBookId;
     }
 
-    public static void setNextBookId(int nextBookId) {
-        Book.nextBookId = nextBookId;
+    public void setNextBookId(int nextBookId) {
+        this.nextBookId = nextBookId;
     }
 
     public static ArrayList<Book> getBooks() {
         return books;
     }
 
-    public static void setBooks(ArrayList<Book> books) {
-        Book.books = books;
+    public void setBooks(ArrayList<Book> books) {
+        this.books = books;
     }
 
     public String getIsbn() {

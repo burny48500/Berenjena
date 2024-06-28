@@ -21,11 +21,11 @@ public class Customer {
     private static boolean text = false;
 
     // Regex pattern for email validation
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+    private final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
 
     // Regex pattern for phone number validation
-    private static final Pattern PHONE_PATTERN = Pattern.compile(
+    private final Pattern PHONE_PATTERN = Pattern.compile(
             "^\\+?[0-9. ()-]{6,25}$");
 
     /**
@@ -64,7 +64,7 @@ public class Customer {
      * @param userid  the user ID of the customer
      * @param newMail the new email address
      */
-    public static void modifyMail(int userid, String newMail) {
+    public void modifyMail(int userid, String newMail) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {
@@ -86,7 +86,7 @@ public class Customer {
      * @param newPhoneNumber the new phone number
      */
 
-    public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
+    public void modifyPhoneNumber(int userid, String newPhoneNumber) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {
@@ -107,7 +107,7 @@ public class Customer {
      * @param mail the email address to check
      * @return true if a customer with the same email exists, false otherwise
      */
-    public static boolean sameCustomer(String mail) {
+    public boolean sameCustomer(String mail) {
         for (Customer customer : customers) {
             if (customer.getMail().equals(mail)) {
                 return true;
@@ -121,7 +121,7 @@ public class Customer {
      * @param email the email address to validate
      * @return true if the email format is valid, false otherwise
      */
-    private static boolean isValidEmail(String email) {
+    private boolean isValidEmail(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
@@ -131,7 +131,7 @@ public class Customer {
      * @param phoneNumber the phone number to validate
      * @return true if the phone number format is valid, false otherwise
      */
-    private static boolean isValidPhoneNumber(String phoneNumber) {
+    private boolean isValidPhoneNumber(String phoneNumber) {
         return PHONE_PATTERN.matcher(phoneNumber).matches();
     }
 
@@ -164,11 +164,11 @@ public class Customer {
         return customers;
     }
 
-    public static void setCustomers(ArrayList<Customer> customers) {
-        Customer.customers = customers;
+    public void setCustomers(ArrayList<Customer> customers) {
+        this.customers = customers;
     }
 
-    public static boolean isText() {
+    public boolean isText() {
         return text;
     }
 

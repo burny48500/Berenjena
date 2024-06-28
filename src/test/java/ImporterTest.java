@@ -11,12 +11,14 @@ import java.io.Writer;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for the Importer class.
+ * Test class for the importer class.
  * Tests the functionality of importing books, book copies, and customers from CSV files.
  */
-class ImporterTest {
+class importerTest {
 
     private File tempFile;
+    private Importer importer;
+    private Book book;
 
     /**
      * Sets up the test environment by creating a temporary file.
@@ -27,9 +29,9 @@ class ImporterTest {
     void setUp() throws IOException {
         tempFile = File.createTempFile("test", ".csv");
         tempFile.deleteOnExit();
-        Importer.setDirectory(tempFile.getParent());
-        Importer.setFilename(tempFile.getName());
-        Importer.setTestMode(true);
+        importer.setDirectory(tempFile.getParent());
+        importer.setFilename(tempFile.getName());
+        importer.setTestMode(true);
     }
 
     /**
@@ -38,7 +40,7 @@ class ImporterTest {
     @AfterEach
     void tearDown() {
         tempFile.delete();
-        Importer.setTestMode(false);
+        importer.setTestMode(false);
     }
 
     /**
@@ -52,8 +54,8 @@ class ImporterTest {
             writer.write("Title,Author,ISBN,Year\n");
             writer.write("Effective Java,Joshua Bloch,978-0134685991,1987\n");
         }
-        Importer.importBook();
-        assertTrue(Book.sameBook("978-0134685991"));
+        importer.importBook();
+        assertTrue(book.sameBook("978-0134685991"));
     }
 
     /**
@@ -71,8 +73,8 @@ class ImporterTest {
             writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
             writer.write("978-0201485677,A2,LibrosPeter," + customerId + "\n");
         }
-        Importer.importBookCopy();
-        assertTrue(Book.sameBook("978-0201485677"));
+        importer.importBookCopy();
+        assertTrue(book.sameBook("978-0201485677"));
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
                 assertTrue(bookCopy.isBorrowed());  // Checks whether the book was successfully imported as already on loan
@@ -95,8 +97,8 @@ class ImporterTest {
             writer.write("ISBN,Shelf Location,Publisher,CustomerId\n");
             writer.write("978-0201485677,A2,LibrosPeter,-1\n");
         }
-        Importer.importBookCopy();
-        assertTrue(Book.sameBook("978-0201485677"));
+        importer.importBookCopy();
+        assertTrue(book.sameBook("978-0201485677"));
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
                 assertFalse(bookCopy.isBorrowed());  // Checks whether the book was successfully imported not on loan
@@ -116,7 +118,7 @@ class ImporterTest {
             writer.write("Name,First Name,Mail,Phone Number\n");
             writer.write("Cid,Miguel,miguel.cid@tum.de,123-456-7890\n");
         }
-        Importer.importCustomer();
+        importer.importCustomer();
         assertTrue(Customer.sameCustomer("miguel.cid@tum.de"));
     }
 
@@ -131,7 +133,7 @@ class ImporterTest {
             writer.write("IncorrectHeader1,IncorrectHeader2,IncorrectHeader3,IncorrectHeader4\n");
             writer.write("Test Book,123456789,Test Author,Hola\n");
         }
-        Importer.importBook();
+        importer.importBook();
     }
 
     /**
@@ -146,7 +148,7 @@ class ImporterTest {
             writer.write("0-7050-3533-99,NonExistent Shelf,Anaya\n");
         }
 
-        Importer.importBookCopy();
+        importer.importBookCopy();
     }
 
     /**
@@ -161,6 +163,6 @@ class ImporterTest {
             writer.write("Name,First Name,Mail,Phone Number\n");
             writer.write("Cid,Miguel,miguel.cid@tum.de,123-456-7890\n");
         }
-        Importer.importCustomer();
+        importer.importCustomer();
     }
 }

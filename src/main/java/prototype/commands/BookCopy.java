@@ -19,7 +19,7 @@ public class BookCopy {
     private String shelfLocation;
     private int userId;
     private String publisher;
-    static ArrayList<BookCopy> bookCopies = new ArrayList<>();
+    private static ArrayList<BookCopy> bookCopies = new ArrayList<>();
 
     /**
      * Constructs a new BookCopy that is not borrowed.
@@ -61,6 +61,7 @@ public class BookCopy {
     }
 
     //GETTERS AND SETTERS
+
     public static int getNextBookId() {
         return nextBookId;
     }
@@ -95,10 +96,6 @@ public class BookCopy {
 
     public String getShelfLocation() {
         return shelfLocation;
-    }
-
-    public static void setShelfLocation(String shelfLocation) {
-        shelfLocation = shelfLocation;
     }
 
     public int getUserId() {
