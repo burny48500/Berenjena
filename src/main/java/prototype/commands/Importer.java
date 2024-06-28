@@ -76,7 +76,7 @@ public class Importer {
                         System.out.println("ISBN: " + column3);
                         System.out.println("Year: " + column4);
                         System.out.println("---------------");
-                        if (!book.sameBook(column3)) {
+                        if (!Book.sameBook(column3)) {
                             new Book(column1, column2, column3, column4);
                         } else {
                             System.out.println("The book is already created.");
@@ -118,7 +118,7 @@ public class Importer {
                         String column1 = csvRecord.get("ISBN");
                         String column2 = csvRecord.get("Shelf Location");
                         String column3 = csvRecord.get("Publisher");
-                        String column4 = csvRecord.get("CumstomerId");
+                        String column4 = csvRecord.get("CustomerId");
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
                         System.out.println("---------------");
@@ -126,9 +126,9 @@ public class Importer {
                         System.out.println("Shelf Location: " + column2);
                         System.out.println("Publisher: " + column3);
                         System.out.println("---------------");
-                        if (book.sameBook(column1)) {
-                            if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
-                                if (manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
+                        if (Book.sameBook(column1)) {
+                            if (Integer.parseInt(column4) != -1) {
+                                if (manager.customerExistsTests(Integer.parseInt(column4))) {
                                     new BookCopy(column1, column2, column3, column4);
                                 } else {
                                     System.out.println("The according Customer does not exist in the System. Please import first!");
@@ -141,12 +141,13 @@ public class Importer {
                         }
                     }
                 } catch (IllegalArgumentException e) {
+                    System.out.println(e);
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
-                    System.out.println("All book copies were imported successfully!");
+                    System.out.println("The book copies were imported successfully!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

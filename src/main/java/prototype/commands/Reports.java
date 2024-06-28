@@ -46,10 +46,10 @@ public class Reports {
     public void allNonBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
-                book.getBookByIsbn(bookCopy.getIsbn());
+                Book temp = book.getBookByIsbn(bookCopy.getIsbn());
                 assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
+                        "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
 
         }

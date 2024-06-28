@@ -55,7 +55,7 @@ class importerTest {
             writer.write("Effective Java,Joshua Bloch,978-0134685991,1987\n");
         }
         importer.importBook();
-        assertTrue(book.sameBook("978-0134685991"));
+        assertTrue(Book.sameBook("978-0134685991"));
     }
 
     /**
@@ -74,7 +74,7 @@ class importerTest {
             writer.write("978-0201485677,A2,LibrosPeter," + customerId + "\n");
         }
         importer.importBookCopy();
-        assertTrue(book.sameBook("978-0201485677"));
+        assertTrue(Book.sameBook("978-0201485677"));
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
                 assertTrue(bookCopy.isBorrowed());  // Checks whether the book was successfully imported as already on loan
@@ -98,7 +98,7 @@ class importerTest {
             writer.write("978-0201485677,A2,LibrosPeter,-1\n");
         }
         importer.importBookCopy();
-        assertTrue(book.sameBook("978-0201485677"));
+        assertTrue(Book.sameBook("978-0201485677"));
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getIsbn().equals("978-0201485677")) {
                 assertFalse(bookCopy.isBorrowed());  // Checks whether the book was successfully imported not on loan

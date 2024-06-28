@@ -78,7 +78,7 @@ public class CommandParser {
         String isbn;
         switch (answer) {
             case "0":
-                importer.selectFile();
+                importer.importBook();
                 break;
             case "1":
                 System.out.println("Enter the ISBN of the book:");

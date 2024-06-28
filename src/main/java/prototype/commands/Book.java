@@ -69,7 +69,7 @@ public class Book {
      * @param isbn The ISBN to check.
      * @return True if a book with the given ISBN exists, false otherwise.
      */
-    public boolean sameBook(String isbn) {
+    public static boolean sameBook(String isbn) {
         for (Book book : books) {
             if (Objects.equals(book.isbn, isbn)) {
                 return true;

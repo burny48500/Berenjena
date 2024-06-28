@@ -107,7 +107,7 @@ public class Customer {
      * @param mail the email address to check
      * @return true if a customer with the same email exists, false otherwise
      */
-    public boolean sameCustomer(String mail) {
+    public static boolean sameCustomer(String mail) {
         for (Customer customer : customers) {
             if (customer.getMail().equals(mail)) {
                 return true;
