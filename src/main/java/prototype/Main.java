@@ -12,7 +12,7 @@ public class Main {
      * @param args command-line arguments
      */
     public static void main(String[] args) {
-        // CLIRunner call
+        CommandParser parser = new CommandParser();
         CLIRunner runner = new CLIRunner();
         runner.run();
     }

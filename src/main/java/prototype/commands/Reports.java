@@ -32,7 +32,6 @@ public class Reports {
                 System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
                         "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
-
         }
     }
 
@@ -47,7 +46,6 @@ public class Reports {
                 System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
                         "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
-
         }
     }
 

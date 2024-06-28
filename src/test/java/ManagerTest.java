@@ -5,7 +5,6 @@ import prototype.commands.Book;
 import prototype.commands.BookCopy;
 import prototype.commands.Customer;
 import prototype.commands.Manager;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
