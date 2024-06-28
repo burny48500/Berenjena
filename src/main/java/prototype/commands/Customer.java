@@ -154,7 +154,7 @@ public class Customer {
         return customers;
     }
 
-    public void setCustomers(ArrayList<Customer> customers) {
+    public static void setCustomers(ArrayList<Customer> customers) {
         Customer.customers = customers;
     }
 

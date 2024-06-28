@@ -280,7 +280,7 @@ public class ManagerTest {
         manager.returnBookCopy(copyId, userId);
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
-        assertEquals("book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
+        assertEquals("Book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
     }
 
@@ -376,7 +376,7 @@ public class ManagerTest {
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded."));
-        assertTrue(output.contains("The payment has been successful. book copy returned successfully"));
+        assertTrue(output.contains("The payment has been successful. Book copy returned successfully"));
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 

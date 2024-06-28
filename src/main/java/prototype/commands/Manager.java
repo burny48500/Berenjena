@@ -12,9 +12,6 @@ import java.util.Objects;
  * as well as searching for books and managing customers.
  */
 public class Manager {
-    private Book book;
-    private Customer customer;
-    private BookCopy bookCopy;
 
     // CREATION AND DELETION OF BOOKS;BOOK COPIES;CUSTOMERS
 
@@ -30,8 +27,8 @@ public class Manager {
      * Deletes all books by clearing the book list and resetting the book ID counter.
      */
     public void deletionBooks() {
-        book.setBooks(new ArrayList<>());
-        book.setNextBookId(1);
+        Book.setBooks(new ArrayList<>());
+        Book.setNextBookId(1);
     }
 
     /**
@@ -64,7 +61,7 @@ public class Manager {
      * Deletes all customers by clearing the customer list and resetting the customer ID counter.
      */
     public void deletionCustomers() {
-        customer.setCustomers(new ArrayList<>());
+        Customer.setCustomers(new ArrayList<>());
         Customer.setNextId(1);
     }
 

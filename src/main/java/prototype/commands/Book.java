@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class Book {
     private String title, author, isbn, year;
-    private int nextBookId = 1;
+    private static int nextBookId = 1;
     private final int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
@@ -114,15 +114,15 @@ public class Book {
         return nextBookId;
     }
 
-    public void setNextBookId(int nextBookId) {
-        this.nextBookId = nextBookId;
+    public static void setNextBookId(int nextBookId) {
+        Book.nextBookId = nextBookId;
     }
 
     public static ArrayList<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(ArrayList<Book> books) {
+    public static void setBooks(ArrayList<Book> books) {
         Book.books = books;
     }
 
