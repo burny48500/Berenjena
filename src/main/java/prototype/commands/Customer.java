@@ -1,8 +1,6 @@
 package prototype.commands;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -11,11 +9,11 @@ import java.util.regex.Pattern;
  */
 public class Customer {
     private static int nextId = 1;
-    private int userId;
+    private final int userId;
     private String mail;
     private String phoneNumber;
-    private String name;
-    private String firstName;
+    private final String name;
+    private final String firstName;
     private int paymentStatus;
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
@@ -140,20 +138,12 @@ public class Customer {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getMail() {
         return mail;
     }
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -165,11 +155,7 @@ public class Customer {
     }
 
     public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public boolean isText() {
-        return text;
+        Customer.customers = customers;
     }
 
     public static void setText(boolean text) {
@@ -180,16 +166,8 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public int getPaymentStatus() {

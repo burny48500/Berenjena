@@ -14,11 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test class for the importer class.
  * Tests the functionality of importing books, book copies, and customers from CSV files.
  */
-class importerTest {
+class ImporterTest {
 
     private File tempFile;
-    private Importer importer;
-    private Book book;
+    private final Importer importer = new Importer();
 
     /**
      * Sets up the test environment by creating a temporary file.

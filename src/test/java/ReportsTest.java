@@ -15,8 +15,8 @@ public class ReportsTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
-    private Manager manager;
-    private Reports reports;
+    private final Manager manager = new Manager();
+    private final Reports reports = new Reports();
 
     /**
      * Setup method executed before each test.

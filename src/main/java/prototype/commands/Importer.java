@@ -21,11 +21,7 @@ public class Importer {
     private String directory;
     private String filename;
     private boolean testMode = false;
-    private Book book;
-    private Importer importer;
-    private Manager manager;
-    private Customer customer;
-
+    private final Manager manager = new Manager();
     /**
      * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
      * this method does nothing.
@@ -170,7 +166,7 @@ public class Importer {
 
             try (Reader reader = new FileReader(selectedFile);
                  CSVParser csvParser = CSVFormat.Builder.create().setHeader().setSkipHeaderRecord(true).build().parse(reader)) {
-                customer.setText(false); // No message of adding every time a new customer
+                Customer.setText(false); // No message of adding every time a new customer
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
@@ -187,7 +183,7 @@ public class Importer {
                         System.out.println("Phone Number: " + column4);
                         System.out.println("---------------");
 
-                        if (!customer.sameCustomer(column3)) {
+                        if (!Customer.sameCustomer(column3)) {
                             new Customer(column1, column2, column3, column4);
                         } else {
                             System.out.println("Customer with same mail is already created.\n");
@@ -202,7 +198,7 @@ public class Importer {
                 } else {
                     System.out.println("All customers were imported successfully!");
                 }
-                customer.setText(true); // Put it again as normally
+                Customer.setText(true); // Put it again as normally
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -217,7 +213,7 @@ public class Importer {
     }
 
     public void setDirectory(String directory) {
-        importer.directory = directory;
+        this.directory = directory;
     }
 
     public String getFilename() {
@@ -225,11 +221,11 @@ public class Importer {
     }
 
     public void setFilename(String filename) {
-        importer.filename = filename;
+        this.filename = filename;
     }
 
     public void setTestMode(boolean testMode) {
-        importer.testMode = testMode;
+        this.testMode = testMode;
     }
 
 }

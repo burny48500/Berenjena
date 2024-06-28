@@ -1,7 +1,6 @@
 package prototype.commands;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,9 +10,6 @@ import java.util.stream.Collectors;
  * related to books, book copies, and customers in the system.
  */
 public class Reports {
-    private Book book;
-    private BookCopy bookCopy;
-    private Customer customer;
 
     /**
      * Prints a report of all books in the system.
@@ -31,10 +27,10 @@ public class Reports {
     public void allBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.isBorrowed()) {
-                Book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                Book temp = Book.getBookByIsbn(bookCopy.getIsbn());
+                assert temp != null;
+                System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
+                        "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
 
         }
@@ -46,8 +42,8 @@ public class Reports {
     public void allNonBorrowedCopies() {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (!bookCopy.isBorrowed()) {
-                Book temp = book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
+                Book temp = Book.getBookByIsbn(bookCopy.getIsbn());
+                assert temp != null;
                 System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
                         "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
@@ -93,7 +89,7 @@ public class Reports {
     public void BorrowedCustomer(int userId) {
         boolean customerExists = false;
 
-        for (Customer customer : customer.getCustomers()) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 customerExists = true;
                 break;
@@ -106,10 +102,10 @@ public class Reports {
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
 
             if (userId == bookCopy.getUserId()) {
-                book.getBookByIsbn(bookCopy.getIsbn());
-                assert book != null;
-                System.out.println("Title: " + book.getTitle() + "; Author: " + book.getAuthor() +
-                        "; Year: " + book.getYear() + "; ISBN: " + book.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
+                Book temp = Book.getBookByIsbn(bookCopy.getIsbn());
+                assert temp != null;
+                System.out.println("Title: " + temp.getTitle() + "; Author: " + temp.getAuthor() +
+                        "; Year: " + temp.getYear() + "; ISBN: " + temp.getIsbn() + "; Copy ID: " + bookCopy.getCopyId());
             }
         }
     }

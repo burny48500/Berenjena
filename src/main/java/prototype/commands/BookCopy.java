@@ -1,10 +1,7 @@
 package prototype.commands;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Represents a book copy in a library system.
@@ -16,7 +13,7 @@ public class BookCopy {
     private boolean borrowed;
     private LocalDate borrowedDate;
     private final String isbn;
-    private String shelfLocation;
+    private final String shelfLocation;
     private int userId;
     private String publisher;
     private static ArrayList<BookCopy> bookCopies = new ArrayList<>();

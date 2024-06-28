@@ -47,8 +47,8 @@ public class Manager {
      * Deletes all book copies by clearing the book copy list and resetting the book copy ID counter.
      */
     public void deletionBooksCopies() {
-        bookCopy.setBookCopies(new ArrayList<>());
-        bookCopy.setNextBookId(1);
+        BookCopy.setBookCopies(new ArrayList<>());
+        BookCopy.setNextBookId(1);
     }
 
     /**
@@ -91,7 +91,7 @@ public class Manager {
      * @return the customer if found, otherwise null
      */
     public Customer customerExists(int userId) {
-        for (Customer customer : customer.customers) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 return customer;
             }
@@ -106,7 +106,7 @@ public class Manager {
      * @return true if the customer exists, otherwise false
      */
     public boolean customerExistsTests(int userId) {
-        for (Customer customer : customer.customers) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 return true;
             }
@@ -231,12 +231,12 @@ public class Manager {
      * @return true if the book was deleted, otherwise false
      */
     public boolean deleteBook(String ISBN) {
-        for (Book book : book.getBooks()) {
+        for (Book book : Book.getBooks()) {
             if (Objects.equals(book.getIsbn(), ISBN)) {
                 for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (Objects.equals(bookCopy.getIsbn(), ISBN)) {
                         if (!bookCopy.isBorrowed()) {
-                            book.getBooks().remove(book);
+                            Book.getBooks().remove(book);
                             System.out.println("The Book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
                             return true;
                         } else {
@@ -245,7 +245,7 @@ public class Manager {
                         }
                     }
                 }
-                book.getBooks().remove(book);
+                Book.getBooks().remove(book);
                 System.out.println("The book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
                 return true;
             }
@@ -260,22 +260,20 @@ public class Manager {
      * Deletes a customer if they have no borrowed books.
      *
      * @param userId the ID of the customer
-     * @return true if the customer was deleted, otherwise false
      */
-    public boolean deleteCustomer(int userId) {
+    public void deleteCustomer(int userId) {
         if (amountOfBooksPerCustomer(userId) > 0) {
             System.out.println("The customer can not be deleted because he has books borrowed.");
-            return false;
+            return;
         }
-        for (Customer customer : customer.getCustomers()) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId && amountOfBooksPerCustomer(userId) == 0) {
-                customer.getCustomers().remove(customer);
+                Customer.getCustomers().remove(customer);
                 System.out.println("The customer with (id = " + userId + ") was removed successfully.");
-                return true;
+                return;
             }
         }
         System.out.println("The customer with (id = " + userId + ") does not exist.");
-        return false;
     }
 
     /**
@@ -285,18 +283,16 @@ public class Manager {
      * @param name        the last name of the customer
      * @param mail        the email of the customer
      * @param phoneNumber the phone number of the customer
-     * @return true if the customer was created, otherwise false
      */
-    public boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
-        for (Customer customer : customer.getCustomers()) {
+    public void createCustomer(String firstname, String name, String mail, String phoneNumber) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getMail().equals(mail)) {
                 System.out.println("Customer with (mail = " + customer.getMail() + ") already exists.");
-                return false;
+                return;
             }
         }
         Customer newCustomer = new Customer(firstname, name, mail, phoneNumber);
         System.out.println("Customer with id=" + newCustomer.getUserId() + " was added successfully.");
-        return true;
     }
 
     // SEARCH OPTIONS
@@ -307,7 +303,7 @@ public class Manager {
      * @param title the title of the book
      */
     public void searchByTitle(String title) {
-        for (Book book : book.getBooks()) {
+        for (Book book : Book.getBooks()) {
             if (book.getTitle().equals(title)) {
                 for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {
@@ -326,7 +322,7 @@ public class Manager {
      * @param author the author of the book
      */
     public void searchByAuthor(String author) {
-        for (Book book : book.getBooks()) {
+        for (Book book : Book.getBooks()) {
             if (book.getAuthor().equals(author)) {
                 for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {
@@ -345,7 +341,7 @@ public class Manager {
      * @param isbn the ISBN of the book
      */
     public void searchByISBN(String isbn) {
-        for (Book book : book.getBooks()) {
+        for (Book book : Book.getBooks()) {
             if (book.getIsbn().equals(isbn)) {
                 for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {

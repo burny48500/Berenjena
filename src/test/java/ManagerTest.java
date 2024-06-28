@@ -22,10 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ManagerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
-    private Manager manager = new Manager();
-    private Book book;
-    private Customer customer;
-    
+    private final Manager manager = new Manager();
 
     /**
      * Sets up the test environment by initializing necessary data and redirecting system output.
@@ -38,9 +35,6 @@ public class ManagerTest {
         System.setOut(new PrintStream(outContent));
     }
 
-
-    //book
-
     /**
      * Tests deleting a book successfully.
      */
@@ -48,12 +42,12 @@ public class ManagerTest {
     public void DeleteBookSuccessfullyTest() {
         Book bookToDelete = new Book("Frankenstein", "Mary Shelley", "0-2456-4821-5", "2007");
         Book book = new Book("Dune", "Frank Herbert", "0-3756-9921-4", "1972");
-        assertTrue(book.getBooks().contains(book));
-        assertTrue(book.getBooks().contains(bookToDelete));
+        assertTrue(Book.getBooks().contains(book));
+        assertTrue(Book.getBooks().contains(bookToDelete));
         boolean deleted = manager.deleteBook("0-2456-4821-5");
         assertTrue(deleted);
-        assertTrue(book.getBooks().contains(book));
-        assertFalse(book.getBooks().contains(bookToDelete));
+        assertTrue(Book.getBooks().contains(book));
+        assertFalse(Book.getBooks().contains(bookToDelete));
     }
 
     /**
@@ -66,16 +60,16 @@ public class ManagerTest {
 
         String nonExistentISBN = "0-0000-0000-0";
         boolean foundCount = false;
-        for (Book book : book.getBooks()) {
+        for (Book book : Book.getBooks()) {
             if (book.getIsbn().equals(nonExistentISBN)) {
                 foundCount = true;
                 break;
             }
         }
         assertFalse(foundCount, "Found non-existent ISBN during deletion test"); //extra check:)
-        int bookSizeBeforeDeleting = book.getBooks().size();
+        int bookSizeBeforeDeleting = Book.getBooks().size();
         manager.deleteBook(nonExistentISBN);
-        assertEquals(bookSizeBeforeDeleting, book.getBooks().size());
+        assertEquals(bookSizeBeforeDeleting, Book.getBooks().size());
     }
 
     /**
@@ -87,10 +81,10 @@ public class ManagerTest {
         Customer customer = new Customer("Cornejo", "Urko", "urko.cornejo@tum.de", "0034640932256");
         BookCopy bookCopy = new BookCopy(book.getIsbn(), "B3", "Anaya");
 
-        book.getBooks().add(book);
+        Book.getBooks().add(book);
         manager.borrowBookCopy(bookCopy.getCopyId(), customer.getUserId());
         manager.deleteBook(book.getIsbn());
-        assertTrue(book.getBooks().contains(book));
+        assertTrue(Book.getBooks().contains(book));
     }
 
     //book COPY
@@ -202,8 +196,7 @@ public class ManagerTest {
             assertEquals(userId, borrowedCopy.getUserId());
         }
 
-        int newCopyId = 6;
-        final int finalNewCopyId = newCopyId;
+        final int finalNewCopyId = 6;
         manager.borrowBookCopy(finalNewCopyId, userId);
         BookCopy newBorrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == finalNewCopyId)
@@ -288,7 +281,7 @@ public class ManagerTest {
         assertFalse(bookCopy.isBorrowed());
         assertEquals(-1, bookCopy.getUserId());
         assertEquals("book copy (id = " + copyId + ") was returned successfully", outContent.toString().trim());
-        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 0));
     }
 
     /**
@@ -334,7 +327,7 @@ public class ManagerTest {
     void returnBookCopyWithNonExistingCustomerTest() {
         int nonExistentUserId = 999999;
         int copyId = 1;
-        boolean found = customer.getCustomers().stream().anyMatch(c -> c.getUserId() == nonExistentUserId);
+        boolean found = Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == nonExistentUserId);
         assertFalse(found);
         manager.returnBookCopy(copyId, nonExistentUserId);
         assertEquals("No customer with (id = " + nonExistentUserId + ") exists.", outContent.toString().trim());
@@ -360,7 +353,7 @@ public class ManagerTest {
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded"));
         assertTrue(output.contains("The customer hasn't paid yet, the return is only possible after the payment of the fee"));
-        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 2));
     }
 
     /**
@@ -384,7 +377,7 @@ public class ManagerTest {
         assertEquals(-1, bookCopy.getUserId());
         assertTrue(output.contains("The maximum borrowing time is exceeded."));
         assertTrue(output.contains("The payment has been successful. book copy returned successfully"));
-        assertTrue(customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
+        assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 
     //customer
@@ -420,7 +413,7 @@ public class ManagerTest {
      */
     @Test
     void deletingNonExistingCustomerTest() {
-        int userId = customer.getNextId() + 1;
+        int userId = Customer.getNextId() + 1;
         manager.deleteCustomer(userId);
         assertFalse(manager.customerExistsTests(userId));
     }
@@ -472,7 +465,7 @@ public class ManagerTest {
     @Test
     void searchByNonExistentTitleTest() {
         String title = "NonExistentTitle";
-        boolean found = book.getBooks().stream().anyMatch(book -> book.getTitle().equals(title));
+        boolean found = Book.getBooks().stream().anyMatch(book -> book.getTitle().equals(title));
         assertFalse(found, "Found non-existent title while testing");
         manager.searchByTitle(title);
         String output = outContent.toString().trim();
@@ -486,7 +479,7 @@ public class ManagerTest {
     @Test
     void searchByNonExistentAuthorTest() {
         String author = "NonExistentAuthor";
-        boolean found = book.getBooks().stream().anyMatch(book -> book.getAuthor().equals(author));//extra check:)
+        boolean found = Book.getBooks().stream().anyMatch(book -> book.getAuthor().equals(author));//extra check:)
         assertFalse(found, "Found non-existent author while testing");
         manager.searchByAuthor(author);
         String output = outContent.toString().trim();
@@ -500,7 +493,7 @@ public class ManagerTest {
     @Test
     void searchByNonExistentISBNTest() {
         String isbn = "0-0000-0000-0";
-        boolean found = book.getBooks().stream().anyMatch(book -> book.getIsbn().equals(isbn)); //extra check:)
+        boolean found = Book.getBooks().stream().anyMatch(book -> book.getIsbn().equals(isbn)); //extra check:)
         assertFalse(found, "Found non-existent ISBN while testing");
         manager.searchByISBN(isbn);
         String output = outContent.toString().trim();
