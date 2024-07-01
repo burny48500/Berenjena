@@ -322,10 +322,10 @@ public class CommandParser {
             case "4":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                reports.BorrowedCustomer(userId);
+                reports.borrowedCustomer(userId);
                 break;
             case "5":
-                reports.NumberOfBookCopiesPerPublisher();
+                reports.numberOfBookCopiesPerPublisher();
                 break;
             case "6":
                 initialMenu(true);
