@@ -1,8 +1,6 @@
 package prototype.commands;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -11,21 +9,21 @@ import java.util.regex.Pattern;
  */
 public class Customer {
     private static int nextId = 1;
-    private int userId;
+    private final int userId;
     private String mail;
     private String phoneNumber;
-    private String name;
-    private String firstName;
+    private final String name;
+    private final String firstName;
     private int paymentStatus;
     public static ArrayList<Customer> customers = new ArrayList<>();
     private static boolean text = false;
 
     // Regex pattern for email validation
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+    private final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
 
     // Regex pattern for phone number validation
-    private static final Pattern PHONE_PATTERN = Pattern.compile(
+    private final Pattern PHONE_PATTERN = Pattern.compile(
             "^\\+?[0-9. ()-]{6,25}$");
 
     /**
@@ -64,7 +62,7 @@ public class Customer {
      * @param userid  the user ID of the customer
      * @param newMail the new email address
      */
-    public static void modifyMail(int userid, String newMail) {
+    public void modifyMail(int userid, String newMail) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {
@@ -86,7 +84,7 @@ public class Customer {
      * @param newPhoneNumber the new phone number
      */
 
-    public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
+    public void modifyPhoneNumber(int userid, String newPhoneNumber) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {
@@ -121,7 +119,7 @@ public class Customer {
      * @param email the email address to validate
      * @return true if the email format is valid, false otherwise
      */
-    private static boolean isValidEmail(String email) {
+    private boolean isValidEmail(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 
@@ -131,7 +129,7 @@ public class Customer {
      * @param phoneNumber the phone number to validate
      * @return true if the phone number format is valid, false otherwise
      */
-    private static boolean isValidPhoneNumber(String phoneNumber) {
+    private boolean isValidPhoneNumber(String phoneNumber) {
         return PHONE_PATTERN.matcher(phoneNumber).matches();
     }
 
@@ -140,20 +138,12 @@ public class Customer {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getMail() {
         return mail;
     }
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -168,10 +158,6 @@ public class Customer {
         Customer.customers = customers;
     }
 
-    public static boolean isText() {
-        return text;
-    }
-
     public static void setText(boolean text) {
         Customer.text = text;
     }
@@ -180,16 +166,8 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public int getPaymentStatus() {

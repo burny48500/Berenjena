@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Book {
     private String title, author, isbn, year;
     private static int nextBookId = 1;
-    private static int bookId;
+    private final int bookId;
     private static ArrayList<Book> books = new ArrayList<>();
 
     /**
@@ -112,7 +112,7 @@ public class Book {
         this.author = author;
     }
 
-    public static int getNextBookId() {
+    public int getNextBookId() {
         return nextBookId;
     }
 

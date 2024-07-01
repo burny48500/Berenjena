@@ -1,11 +1,7 @@
 package prototype.commands;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Represents a book copy in a library system.
@@ -17,10 +13,10 @@ public class BookCopy {
     private boolean borrowed;
     private LocalDate borrowedDate;
     private final String isbn;
-    private String shelfLocation;
+    private final String shelfLocation;
     private int userId;
     private String publisher;
-    static ArrayList<BookCopy> bookCopies = new ArrayList<>();
+    private static ArrayList<BookCopy> bookCopies = new ArrayList<>();
 
     // ISBN-10 or ISBN-13 validation regex
     private static final Pattern ISBN_PATTERN = Pattern.compile("^(\\d{10}|\\d{13}|\\d{9}[\\dX])$");
@@ -79,6 +75,7 @@ public class BookCopy {
     }
 
     //GETTERS AND SETTERS
+
     public static int getNextBookId() {
         return nextBookId;
     }
@@ -113,11 +110,6 @@ public class BookCopy {
 
     public String getShelfLocation() {
         return shelfLocation;
-    }
-
-    public void setShelfLocation(String shelfLocation) {
-        validateShelfLocation(shelfLocation);
-        this.shelfLocation = shelfLocation;
     }
 
     public int getUserId() {

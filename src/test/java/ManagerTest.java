@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test class for the Manager class.
+ * Test class for the manager class.
  * Tests the functionality of managing books, book copies, and customers.
  */
 public class ManagerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
-    private Manager manager = new Manager();
+    private final Manager manager = new Manager();
 
     /**
      * Sets up the test environment by initializing necessary data and redirecting system output.
@@ -33,9 +33,6 @@ public class ManagerTest {
         manager.creationCustomers();
         System.setOut(new PrintStream(outContent));
     }
-
-
-    //BOOK
 
     /**
      * Tests deleting a book successfully.
@@ -89,7 +86,7 @@ public class ManagerTest {
         assertTrue(Book.getBooks().contains(book));
     }
 
-    //BOOK COPY
+    //book COPY
     //BORROW TESTS
 
     /**
@@ -198,8 +195,7 @@ public class ManagerTest {
             assertEquals(userId, borrowedCopy.getUserId());
         }
 
-        int newCopyId = 6;
-        final int finalNewCopyId = newCopyId;
+        final int finalNewCopyId = 6;
         manager.borrowBookCopy(finalNewCopyId, userId);
         BookCopy newBorrowedCopy = BookCopy.getBookCopies().stream()
                 .filter(copy -> copy.getCopyId() == finalNewCopyId)
@@ -264,7 +260,7 @@ public class ManagerTest {
         assertTrue(bookCopy.isBorrowed());
     }
 
-    //RETURN BOOK COPY
+    //RETURN book COPY
 
     /**
      * Tests the successful return of a book copy by a customer.
@@ -383,7 +379,7 @@ public class ManagerTest {
         assertTrue(Customer.getCustomers().stream().anyMatch(c -> c.getUserId() == userId && c.getPaymentStatus() == 1));
     }
 
-    //CUSTOMER
+    //customer
 
     /**
      * Tests the scenario where a customer with borrowed books is deleted.

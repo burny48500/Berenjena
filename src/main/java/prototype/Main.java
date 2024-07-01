@@ -6,7 +6,6 @@ import prototype.cli.CLIRunner;
  * The `Main` class serves as the entry point of the application.
  */
 public class Main {
-
     /**
      * The main method which initiates the CLIRunner and creates initial data.
      *
@@ -15,8 +14,6 @@ public class Main {
     public static void main(String[] args) {
         CommandParser parser = new CommandParser();
         CLIRunner runner = new CLIRunner();
-
-        parser.creation();
         runner.run();
     }
 }

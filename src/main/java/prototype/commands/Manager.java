@@ -82,7 +82,7 @@ public class Manager {
      */
     private int amountOfBooksPerCustomer(int userId) {
         int count = 0;
-        for (BookCopy bookCopy : BookCopy.bookCopies) {
+        for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getUserId() == userId) {
                 count += 1;
             }
@@ -97,7 +97,7 @@ public class Manager {
      * @return the customer if found, otherwise null
      */
     public Customer customerExists(int userId) {
-        for (Customer customer : Customer.customers) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 return customer;
             }
@@ -112,7 +112,7 @@ public class Manager {
      * @return true if the customer exists, otherwise false
      */
     public boolean customerExistsTests(int userId) {
-        for (Customer customer : Customer.customers) {
+        for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId) {
                 return true;
             }
@@ -129,19 +129,16 @@ public class Manager {
      * @param userId the ID of the customer
      */
     public void borrowBookCopy(int copyId, int userId) {
-        if (copyId >= 0 && userId >= 0) {
-            if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
-                for (BookCopy bookCopy : BookCopy.bookCopies) {
-                    if (bookCopy.getCopyId() == copyId) {
-                        if (!bookCopy.isBorrowed()) {
-                            bookCopy.setBorrowedDate(LocalDate.now());
-                            bookCopy.setBorrowed(true);
-                            bookCopy.setUserId(userId);
-                            System.out.println("Book copy (id = " + copyId + ") was borrowed successfully");
-                        } else {
-                            System.out.println("The book copy is already borrowed.");
-                        }
-                        return;
+        if (amountOfBooksPerCustomer(userId) < 5 && customerExistsTests(userId)) {
+            for (BookCopy bookCopy : BookCopy.getBookCopies()) {
+                if (bookCopy.getCopyId() == copyId) {
+                    if (!bookCopy.isBorrowed()) {
+                        bookCopy.setBorrowedDate(LocalDate.now());
+                        bookCopy.setBorrowed(true);
+                        bookCopy.setUserId(userId);
+                        System.out.println("Book copy (id = " + copyId + ") was borrowed successfully");
+                    } else {
+                        System.out.println("The book copy is already borrowed.");
                     }
                 }
                 System.out.println("The book copy (id = " + copyId + ") does not exist.");
@@ -163,7 +160,7 @@ public class Manager {
         boolean temp = false;
         Customer customer = customerExists(userId);
         if (customer != null) {
-            for (BookCopy bookCopy : BookCopy.bookCopies) {
+            for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                 if (bookCopy.getCopyId() == copyId) {
                     temp = true;
                     if (bookCopy.getUserId() == userId) {
@@ -214,7 +211,7 @@ public class Manager {
      */
     public boolean deleteBookCopy(int copyId) {
         boolean temp = false;
-        for (BookCopy bookCopy : BookCopy.bookCopies) {
+        for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             if (bookCopy.getCopyId() == copyId) {
                 temp = true;
             }
@@ -242,7 +239,7 @@ public class Manager {
     public boolean deleteBook(String ISBN) {
         for (Book book : Book.getBooks()) {
             if (Objects.equals(book.getIsbn(), ISBN)) {
-                for (BookCopy bookCopy : BookCopy.bookCopies) {
+                for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (Objects.equals(bookCopy.getIsbn(), ISBN)) {
                         if (!bookCopy.isBorrowed()) {
                             Book.getBooks().remove(book);
@@ -269,22 +266,20 @@ public class Manager {
      * Deletes a customer if they have no borrowed books.
      *
      * @param userId the ID of the customer
-     * @return true if the customer was deleted, otherwise false
      */
-    public boolean deleteCustomer(int userId) {
+    public void deleteCustomer(int userId) {
         if (amountOfBooksPerCustomer(userId) > 0) {
-            logger.log(Level.WARNING,"The customer can not be deleted because he has books borrowed.");
-            return false;
+            System.out.println("The customer can not be deleted because he has books borrowed.");
+            return;
         }
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getUserId() == userId && amountOfBooksPerCustomer(userId) == 0) {
                 Customer.getCustomers().remove(customer);
-                logger.log(Level.INFO,"The customer with (id = " + userId + ") was removed successfully.");
-                return true;
+                System.out.println("The customer with (id = " + userId + ") was removed successfully.");
+                return;
             }
         }
-        logger.log(Level.WARNING,"The customer with (id = " + userId + ") does not exist.");
-        return false;
+        System.out.println("The customer with (id = " + userId + ") does not exist.");
     }
 
     /**
@@ -294,18 +289,16 @@ public class Manager {
      * @param name        the last name of the customer
      * @param mail        the email of the customer
      * @param phoneNumber the phone number of the customer
-     * @return true if the customer was created, otherwise false
      */
-    public boolean createCustomer(String firstname, String name, String mail, String phoneNumber) {
+    public void createCustomer(String firstname, String name, String mail, String phoneNumber) {
         for (Customer customer : Customer.getCustomers()) {
             if (customer.getMail().equals(mail)) {
-                logger.log(Level.WARNING,"Customer with (mail = " + customer.getMail() + ") already exists.");
-                return false;
+                System.out.println("Customer with (mail = " + customer.getMail() + ") already exists.");
+                return;
             }
         }
         Customer newCustomer = new Customer(firstname, name, mail, phoneNumber);
-        logger.log(Level.INFO,"Customer with id=" + newCustomer.getUserId() + " was added successfully.");
-        return true;
+        System.out.println("Customer with id=" + newCustomer.getUserId() + " was added successfully.");
     }
 
     // SEARCH OPTIONS
@@ -318,7 +311,7 @@ public class Manager {
     public void searchByTitle(String title) {
         for (Book book : Book.getBooks()) {
             if (book.getTitle().equals(title)) {
-                for (BookCopy bookCopy : BookCopy.bookCopies) {
+                for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {
                         System.out.println("[" + book.getTitle() + ", " + book.getAuthor() + ", " + book.getIsbn() + ", "
                                 + bookCopy.getCopyId() + ", " + bookCopy.getShelfLocation() + ", "
@@ -337,7 +330,7 @@ public class Manager {
     public void searchByAuthor(String author) {
         for (Book book : Book.getBooks()) {
             if (book.getAuthor().equals(author)) {
-                for (BookCopy bookCopy : BookCopy.bookCopies) {
+                for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {
                         System.out.println("[" + book.getTitle() + ", " + book.getAuthor() + ", " + book.getIsbn() + ", "
                                 + bookCopy.getCopyId() + ", " + bookCopy.getShelfLocation() + ", "
@@ -356,7 +349,7 @@ public class Manager {
     public void searchByISBN(String isbn) {
         for (Book book : Book.getBooks()) {
             if (book.getIsbn().equals(isbn)) {
-                for (BookCopy bookCopy : BookCopy.bookCopies) {
+                for (BookCopy bookCopy : BookCopy.getBookCopies()) {
                     if (bookCopy.getIsbn().equals(book.getIsbn())) {
                         System.out.println("[" + book.getTitle() + ", " + book.getAuthor() + ", " + book.getIsbn() + ", "
                                 + bookCopy.getCopyId() + ", " + bookCopy.getShelfLocation() + ", "

@@ -7,15 +7,16 @@ import prototype.prompt.Prompter;
  * The `CommandParser` class handles the parsing and execution of commands from the user.
  */
 public class CommandParser {
-    private static final Prompter prompter = new Prompter();
+    private final Prompter prompter = new Prompter();
     private Importer importer = new Importer();
     private Manager manager = new Manager();
-
+    private Customer customer;
+    private Reports reports = new Reports();
 
     /**
      * Creates customers, books, and book copies.
      */
-    public  void creation() {
+    public void creation() {
         manager.creationCustomers();
         manager.creationBooks();
         manager.creationBookCopies();
@@ -265,14 +266,14 @@ public class CommandParser {
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new email of the customer:");
                 String newMail = prompter.nextInput();
-                Customer.modifyMail(userId, newMail);
+                customer.modifyMail(userId, newMail);
                 break;
             case "1":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new phone number of the customer:");
                 String newPhoneNumber = prompter.nextInput();
-                Customer.modifyPhoneNumber(userId, newPhoneNumber);
+                customer.modifyPhoneNumber(userId, newPhoneNumber);
                 break;
             case "2":
                 customersMenu(true);
@@ -307,24 +308,24 @@ public class CommandParser {
         int userId;
         switch (answer) {
             case "0":
-                Reports.allBooks();
+                reports.allBooks();
                 break;
             case "1":
-                Reports.allBorrowedCopies();
+                reports.allBorrowedCopies();
                 break;
             case "2":
-                Reports.allNonBorrowedCopies();
+                reports.allNonBorrowedCopies();
                 break;
             case "3":
-                Reports.allCustomers();
+                reports.allCustomers();
                 break;
             case "4":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
-                Reports.BorrowedCustomer(userId);
+                reports.BorrowedCustomer(userId);
                 break;
             case "5":
-                Reports.NumberOfBookCopiesPerPublisher();
+                reports.NumberOfBookCopiesPerPublisher();
                 break;
             case "6":
                 initialMenu(true);

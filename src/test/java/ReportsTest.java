@@ -9,13 +9,14 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for testing the functionality of the Reports class.
+ * Test class for testing the functionality of the reports class.
  */
 public class ReportsTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
-    private Manager manager = new Manager();
+    private final Manager manager = new Manager();
+    private final Reports reports = new Reports();
 
     /**
      * Setup method executed before each test.
@@ -30,28 +31,28 @@ public class ReportsTest {
     }
 
     /**
-     * Tests the 'allBooks' method of the Reports class.
+     * Tests the 'allBooks' method of the reports class.
      * Verifies the output when all books are listed.
      */
     @Test
     public void testAllBooks() {
         manager.borrowBookCopy(1, 1);
         outContent.reset();
-        Reports.allBooks();
+        reports.allBooks();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1" + System.lineSeparator() +
                 "Title: Tomatoes; Author: Ibañez; Year: 2005; ISBN: 0-7050-3533-6" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
     /**
-     * Tests the 'allBorrowedCopies' method of the Reports class.
+     * Tests the 'allBorrowedCopies' method of the reports class.
      * Verifies the output when all borrowed copies are listed.
      */
     @Test
     public void testAllBorrowedCopies() {
         manager.borrowBookCopy(1, 1);
         outContent.reset();
-        Reports.allBorrowedCopies();
+        reports.allBorrowedCopies();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 1" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -63,7 +64,7 @@ public class ReportsTest {
     @Test
     public void testAllNonBorrowedCopies() {
         outContent.reset();
-        Reports.allNonBorrowedCopies();
+        reports.allNonBorrowedCopies();
         String expectedOutput = "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 1" + System.lineSeparator() + "Title: Berenjena; Author: Dr Pepper; Year: 1980; ISBN: 0-7642-1858-1; Copy ID: 2" + System.lineSeparator() +
                 "Title: Tomatoes; Author: Ibañez; Year: 2005; ISBN: 0-7050-3533-6; Copy ID: 3" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
@@ -79,7 +80,7 @@ public class ReportsTest {
         manager.returnBookCopy(1, 1);
         manager.borrowBookCopy(1, 1);
         outContent.reset();
-        Reports.allCustomers();
+        reports.allCustomers();
         String expectedOutput = "User ID: 1; First Name: Miguel; Name: Cid; Payment Status: No fee; Number of Books Currently Borrowed: 1" + System.lineSeparator() +
                 "User ID: 2; First Name: Urko; Name: Cornejo; Payment Status: No fee; Number of Books Currently Borrowed: 0" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
@@ -93,7 +94,7 @@ public class ReportsTest {
     public void testBorrowedCustomer_Case1_ValidUserIdWithBorrowedBooks() {
         int userIdWithBorrowedBooks = 1;
         manager.borrowBookCopy(1, userIdWithBorrowedBooks);
-        assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithBorrowedBooks));
+        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithBorrowedBooks));
     }
 
     /**
@@ -103,7 +104,7 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case2_ValidUserIdWithoutBorrowedBooks() {
         int userIdWithoutBorrowedBooks = 2;
-        assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithoutBorrowedBooks));
+        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithoutBorrowedBooks));
     }
 
     /**
@@ -113,7 +114,7 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case3_InvalidUserId() {
         int invalidUserId = -1;
-        assertDoesNotThrow(() -> Reports.BorrowedCustomer(invalidUserId));
+        assertDoesNotThrow(() -> reports.BorrowedCustomer(invalidUserId));
     }
 
     /**
@@ -125,7 +126,7 @@ public class ReportsTest {
         int userIdWithMultipleBorrowedBooks = 3;
         manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
         manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
-        assertDoesNotThrow(() -> Reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
+        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
         manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
         manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
     }
@@ -137,7 +138,7 @@ public class ReportsTest {
     @Test
     public void testNumberOfBookCopiesPerPublisher() {
         outContent.reset();
-        Reports.NumberOfBookCopiesPerPublisher();
+        reports.NumberOfBookCopiesPerPublisher();
         String expectedOutput = "Anaya: 1 book copy (33.3%)" + System.lineSeparator() +
                 "Caramin: 1 book copy (33.3%)" + System.lineSeparator() +
                 "LibrosPeter: 1 book copy (33.3%)" + System.lineSeparator();
@@ -152,7 +153,7 @@ public class ReportsTest {
     public void testNumberOfBookCopiesPerPublisher_WithoutCopies() {
         outContent.reset();
         manager.deletionBooksCopies();
-        Reports.NumberOfBookCopiesPerPublisher();
+        reports.NumberOfBookCopiesPerPublisher();
         String expectedOutput = "No book copies found.";
         boolean check = outContent.toString().contains(expectedOutput);
         assertTrue(check);

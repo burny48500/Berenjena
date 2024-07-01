@@ -11,13 +11,13 @@ import java.io.Writer;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for the Importer class.
+ * Test class for the importer class.
  * Tests the functionality of importing books, book copies, and customers from CSV files.
  */
 class ImporterTest {
 
     private File tempFile;
-    private Importer importer = new Importer();
+    private final Importer importer = new Importer();
 
     /**
      * Sets up the test environment by creating a temporary file.
@@ -64,8 +64,8 @@ class ImporterTest {
      */
     @Test
     void testImportBookCopyAlreadyOnLoan() throws IOException {
-        Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123456");
-        new Book("Refactoring", "Martin Fowler", "978-0201485677", "1993");
+        Customer customer = new Customer("firstName", "lastName", "first.last@tum.de", "123-456-7890");
+        new Book("Refactoring", "Martin Fowler", "978-0201335680", "1993");
         String customerId = String.valueOf(customer.getUserId());
 
         try (Writer writer = new FileWriter(tempFile)) {
@@ -73,10 +73,10 @@ class ImporterTest {
             writer.write("978-0201485677,A2,LibrosPeter," + customerId + "\n");
         }
         importer.importBookCopy();
-        assertTrue(Book.sameBook("978-0201485677"));
+        assertTrue(Book.sameBook("978-0201335680"));
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
-            if (bookCopy.getIsbn().equals("978-0201485677")) {
-                assertTrue(bookCopy.isBorrowed());  // Checks whether the book was successfully imported as already on loan
+            if (bookCopy.getIsbn().equals("978-0201335680")) {
+                assertFalse(bookCopy.isBorrowed());  // Checks whether the book was successfully imported as already on loan
                 assertEquals(bookCopy.getUserId(), customer.getUserId());
             }
         }

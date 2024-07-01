@@ -18,22 +18,7 @@ public class Importer {
     private String directory;
     private String filename;
     private boolean testMode = false;
-    private Manager manager = new Manager();
-
-    // Strings to allow easier refactoring of the code;
-    static String title = "Title";
-    static String author = "Author";
-    static String isbn = "ISBN";
-    static String publishingYear = "Year";
-    static String shelfLocation = "Shelf Location";
-    static String publisher = "Publisher";
-    static String customerid = "CustomerId";
-    static String lastName = "Name";
-    static String firstName = "First Name";
-    static String mail = "Mail";
-    static String phoneNumber = "Phone Number";
-    static String separator = "---------------";
-
+    private final Manager manager = new Manager();
     /**
      * Opens a file dialog for the user to select a CSV file. If test mode is enabled,
      * this method does nothing.
@@ -122,10 +107,10 @@ public class Importer {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
-                        String column1 = csvRecord.get(isbn);
-                        String column2 = csvRecord.get(shelfLocation);
-                        String column3 = csvRecord.get(publisher);
-                        String column4 = csvRecord.get(customerid);
+                        String column1 = csvRecord.get("ISBN");
+                        String column2 = csvRecord.get("Shelf Location");
+                        String column3 = csvRecord.get("Publisher");
+                        String column4 = csvRecord.get("CustomerId");
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
                         System.out.println(separator);
@@ -134,8 +119,8 @@ public class Importer {
                         System.out.println(publisher + ": " + column3);
                         System.out.println(separator);
                         if (Book.sameBook(column1)) {
-                            if (Integer.parseInt(column4) != -1) {  // checks whether the book copy is on loan (has an assigned positive integer)
-                                if (manager.customerExistsTests(Integer.parseInt(column4))) {   // checks whether customer already exists in the system
+                            if (Integer.parseInt(column4) != -1) {
+                                if (manager.customerExistsTests(Integer.parseInt(column4))) {
                                     new BookCopy(column1, column2, column3, column4);
                                 } else {
                                     System.out.println("The according Customer does not exist in the System. Please import first!");
@@ -147,13 +132,14 @@ public class Importer {
                             System.out.println("Book copy not added, cause no book has that ISBN");
                         }
                     }
-                } catch (IncorrectCSVException e) {
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e);
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
-                    System.out.println("All book copies were imported successfully!");
+                    System.out.println("The book copies were imported successfully!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -218,8 +204,6 @@ public class Importer {
     }
 
     //GETTERS AND SETTERS
-
-
     public String getDirectory() {
         return directory;
     }
@@ -236,8 +220,8 @@ public class Importer {
         this.filename = filename;
     }
 
-    public boolean isTestMode() {
-        return testMode;
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
     }
 
     public void setTestMode(boolean testMode) {
