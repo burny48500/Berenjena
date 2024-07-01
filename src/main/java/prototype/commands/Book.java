@@ -1,6 +1,5 @@
 package prototype.commands;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -39,7 +38,6 @@ public class Book {
             books.add(this);
         }
     }
-
     /**
      * Validates the ISBN format.
      *
@@ -59,7 +57,7 @@ public class Book {
     public boolean isValidYear(String year) {
         try {
             int yearValue = Integer.parseInt(year);
-            return yearValue >= 868 && yearValue <= LocalDate.now().getYear();   // 868 - first ever published book according to Internet
+            return yearValue >= 1900 && yearValue <= 2023;
         } catch (NumberFormatException e) {
             return false;
         }

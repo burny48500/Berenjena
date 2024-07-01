@@ -3,10 +3,13 @@ package prototype.commands;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import prototype.IncorrectCSVException;
+import prototype.CommandParser;
 
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 
 /**
@@ -57,28 +60,29 @@ public class Importer {
 
                 for (CSVRecord csvRecord : csvParser) {
                     try {
-                        String column1 = csvRecord.get(title);
-                        String column2 = csvRecord.get(author);
-                        String column3 = csvRecord.get(isbn);
-                        String column4 = csvRecord.get(publishingYear);
+                        String column1 = csvRecord.get("Title");
+                        String column2 = csvRecord.get("Author");
+                        String column3 = csvRecord.get("ISBN");
+                        String column4 = csvRecord.get("Year");
 
                         System.out.println("\nBook " + csvRecord.getRecordNumber());
-                        System.out.println(separator);
-                        System.out.println(title + ": " + column1);
-                        System.out.println(author + ": " + column2);
-                        System.out.println(isbn + ": " + column3);
-                        System.out.println(publishingYear + ": " + column4);
-                        System.out.println(separator);
+                        System.out.println("---------------");
+                        System.out.println("Title: " + column1);
+                        System.out.println("Author: " + column2);
+                        System.out.println("ISBN: " + column3);
+                        System.out.println("Year: " + column4);
+                        System.out.println("---------------");
                         if (!Book.sameBook(column3)) {
                             new Book(column1, column2, column3, column4);
                         } else {
                             System.out.println("The book is already created.");
                         }
-                    } catch (IncorrectCSVException e) {
+                    } catch (IllegalArgumentException e) {
                         isCSVIncorrect = true;
                         break;
                     }
                 }
+
                 if (isCSVIncorrect) {
                     System.out.println("The CSV file is incorrect.");
                 } else {
@@ -113,11 +117,11 @@ public class Importer {
                         String column4 = csvRecord.get("CustomerId");
 
                         System.out.println("\nBook Copy " + csvRecord.getRecordNumber());
-                        System.out.println(separator);
-                        System.out.println(isbn + ": " + column1);
-                        System.out.println(shelfLocation + ": " + column2);
-                        System.out.println(publisher + ": " + column3);
-                        System.out.println(separator);
+                        System.out.println("---------------");
+                        System.out.println("ISBN: " + column1);
+                        System.out.println("Shelf Location: " + column2);
+                        System.out.println("Publisher: " + column3);
+                        System.out.println("---------------");
                         if (Book.sameBook(column1)) {
                             if (Integer.parseInt(column4) != -1) {
                                 if (manager.customerExistsTests(Integer.parseInt(column4))) {
@@ -166,18 +170,18 @@ public class Importer {
                 boolean isCSVIncorrect = false;
                 try {
                     for (CSVRecord csvRecord : csvParser) {
-                        String column1 = csvRecord.get(lastName);
-                        String column2 = csvRecord.get(firstName);
-                        String column3 = csvRecord.get(mail);
-                        String column4 = csvRecord.get(phoneNumber);
+                        String column1 = csvRecord.get("Name");
+                        String column2 = csvRecord.get("First Name");
+                        String column3 = csvRecord.get("Mail");
+                        String column4 = csvRecord.get("Phone Number");
 
                         System.out.println("\nCustomer " + csvRecord.getRecordNumber());
-                        System.out.println(separator);
-                        System.out.println(firstName + ": " + column2);
-                        System.out.println(lastName + ": " + column1);
-                        System.out.println(mail + ": " + column3);
-                        System.out.println(phoneNumber + ": " + column4);
-                        System.out.println(separator);
+                        System.out.println("---------------");
+                        System.out.println("First Name: " + column2);
+                        System.out.println("Name: " + column1);
+                        System.out.println("Mail: " + column3);
+                        System.out.println("Phone Number: " + column4);
+                        System.out.println("---------------");
 
                         if (!Customer.sameCustomer(column3)) {
                             new Customer(column1, column2, column3, column4);
@@ -186,7 +190,7 @@ public class Importer {
                         }
                     }
 
-                } catch (IncorrectCSVException e) {
+                } catch (IllegalArgumentException e) {
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {
@@ -224,7 +228,4 @@ public class Importer {
         this.testMode = testMode;
     }
 
-    public void setTestMode(boolean testMode) {
-        this.testMode = testMode;
-    }
 }
