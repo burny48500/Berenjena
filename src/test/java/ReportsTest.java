@@ -94,7 +94,7 @@ public class ReportsTest {
     public void testBorrowedCustomer_Case1_ValidUserIdWithBorrowedBooks() {
         int userIdWithBorrowedBooks = 1;
         manager.borrowBookCopy(1, userIdWithBorrowedBooks);
-        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithBorrowedBooks));
+        assertDoesNotThrow(() -> reports.borrowedCustomer(userIdWithBorrowedBooks));
     }
 
     /**
@@ -104,7 +104,7 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case2_ValidUserIdWithoutBorrowedBooks() {
         int userIdWithoutBorrowedBooks = 2;
-        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithoutBorrowedBooks));
+        assertDoesNotThrow(() -> reports.borrowedCustomer(userIdWithoutBorrowedBooks));
     }
 
     /**
@@ -114,7 +114,7 @@ public class ReportsTest {
     @Test
     public void testBorrowedCustomer_Case3_InvalidUserId() {
         int invalidUserId = -1;
-        assertDoesNotThrow(() -> reports.BorrowedCustomer(invalidUserId));
+        assertDoesNotThrow(() -> reports.borrowedCustomer(invalidUserId));
     }
 
     /**
@@ -126,7 +126,7 @@ public class ReportsTest {
         int userIdWithMultipleBorrowedBooks = 3;
         manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
         manager.borrowBookCopy(2, userIdWithMultipleBorrowedBooks);
-        assertDoesNotThrow(() -> reports.BorrowedCustomer(userIdWithMultipleBorrowedBooks));
+        assertDoesNotThrow(() -> reports.borrowedCustomer(userIdWithMultipleBorrowedBooks));
         manager.returnBookCopy(2, userIdWithMultipleBorrowedBooks);
         manager.returnBookCopy(3, userIdWithMultipleBorrowedBooks);
     }
@@ -138,7 +138,7 @@ public class ReportsTest {
     @Test
     public void testNumberOfBookCopiesPerPublisher() {
         outContent.reset();
-        reports.NumberOfBookCopiesPerPublisher();
+        reports.numberOfBookCopiesPerPublisher();
         String expectedOutput = "Anaya: 1 book copy (33.3%)" + System.lineSeparator() +
                 "Caramin: 1 book copy (33.3%)" + System.lineSeparator() +
                 "LibrosPeter: 1 book copy (33.3%)" + System.lineSeparator();
@@ -153,7 +153,7 @@ public class ReportsTest {
     public void testNumberOfBookCopiesPerPublisher_WithoutCopies() {
         outContent.reset();
         manager.deletionBooksCopies();
-        reports.NumberOfBookCopiesPerPublisher();
+        reports.numberOfBookCopiesPerPublisher();
         String expectedOutput = "No book copies found.";
         boolean check = outContent.toString().contains(expectedOutput);
         assertTrue(check);
