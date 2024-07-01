@@ -86,7 +86,7 @@ public class Reports {
     /**
      * Prints a list of customers who have borrowed books.
      */
-    public void BorrowedCustomer(int userId) {
+    public void borrowedCustomer(int userId) {
         boolean customerExists = false;
 
         for (Customer customer : Customer.getCustomers()) {
@@ -113,7 +113,7 @@ public class Reports {
     /**
      * Generates and prints a report of the number of book copies per publisher.
      */
-    public void NumberOfBookCopiesPerPublisher() {
+    public void numberOfBookCopiesPerPublisher() {
         ArrayList<String> listOfPublishers = new ArrayList<>();
         for (BookCopy bookCopy : BookCopy.getBookCopies()) {
             listOfPublishers.add(bookCopy.getPublisher());
