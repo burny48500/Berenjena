@@ -121,6 +121,7 @@ public class Importer {
                         System.out.println("ISBN: " + column1);
                         System.out.println("Shelf Location: " + column2);
                         System.out.println("Publisher: " + column3);
+                        System.out.println("Customer ID: " + column4);
                         System.out.println("---------------");
                         if (Book.sameBook(column1)) {
                             if (Integer.parseInt(column4) != -1) {
@@ -130,14 +131,14 @@ public class Importer {
                                     System.out.println("The according Customer does not exist in the System. Please import first!");
                                 }
                             } else {
-                                new BookCopy(column1, column2, column3);
+                                BookCopy a = new BookCopy(column1, column2, column3);
                             }
                         } else {
                             System.out.println("Book copy not added, cause no book has that ISBN");
                         }
                     }
                 } catch (IllegalArgumentException e) {
-                    System.out.println(e);
+                    e.printStackTrace();
                     isCSVIncorrect = true;
                 }
                 if (isCSVIncorrect) {

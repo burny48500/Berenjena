@@ -266,14 +266,14 @@ public class CommandParser {
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new email of the customer:");
                 String newMail = prompter.nextInput();
-                customer.modifyMail(userId, newMail);
+                Customer.modifyMail(userId, newMail);
                 break;
             case "1":
                 System.out.println("Enter the ID of the customer:");
                 userId = Integer.parseInt(prompter.nextInput());
                 System.out.println("Enter the new phone number of the customer:");
                 String newPhoneNumber = prompter.nextInput();
-                customer.modifyPhoneNumber(userId, newPhoneNumber);
+                Customer.modifyPhoneNumber(userId, newPhoneNumber);
                 break;
             case "2":
                 customersMenu(true);

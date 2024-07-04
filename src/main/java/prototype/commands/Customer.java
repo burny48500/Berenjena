@@ -62,7 +62,7 @@ public class Customer {
      * @param userid  the user ID of the customer
      * @param newMail the new email address
      */
-    public void modifyMail(int userid, String newMail) {
+    public static void modifyMail(int userid, String newMail) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {
@@ -84,7 +84,7 @@ public class Customer {
      * @param newPhoneNumber the new phone number
      */
 
-    public void modifyPhoneNumber(int userid, String newPhoneNumber) {
+    public static void modifyPhoneNumber(int userid, String newPhoneNumber) {
         boolean temp = false;
         for (Customer customer : customers) {
             if (customer.userId == userid) {

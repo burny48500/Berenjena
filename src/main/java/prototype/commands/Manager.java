@@ -237,7 +237,7 @@ public class Manager {
                             System.out.println("The Book with (ISBN = " + book.getIsbn() + ") was deleted successfully");
                             return true;
                         } else {
-                            System.out.println("The book can not be deleted cause it has borrowed book copies.");
+                            System.out.println("The book can not be deleted because it has borrowed book copies.");
                             return false;
                         }
                     }
