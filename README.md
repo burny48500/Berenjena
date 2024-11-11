@@ -1,25 +1,45 @@
 # Library Management System
 
-## Overview
-This Java project implements a library management system with functionalities for handling books, book copies, customers, and generating reports. It uses a command-line interface for interaction.
+Berenjena is a command-line based library management system implemented in Java that helps libraries manage their books, book copies, and customers.
+
+## Project Description
+
+This Library Management System is designed to help libraries transition from Excel-based management to a specialized software solution. The system handles core library operations including book management, customer management, and borrowing processes.
+
+## Features
+
+- Book Management
+  - Import books via CSV
+  - Delete books by ISBN
+  - Search books by ISBN, title, or author
+  
+- Book Copy Management
+  - Import book copies via CSV
+  - Delete book copies by ID
+  - Track borrowing status
+  
+- Customer Management
+  - Import customers via CSV
+  - Delete customers by ID
+  - Track borrowing limits and overdue fees
+  
+- Borrowing Operations
+  - Borrow books (with automatic validation)
+  - Return books (with overdue fee calculation)
+  - Enforce borrowing limits (max 5 books per customer)
+  
+- Reporting
+  - List all books
+  - List borrowed book copies
+  - List non-borrowed book copies
+  - List all customers
+  - List customer's borrowed books
+  - List book copies per publisher
 
 ## Prerequisites
-Before running the tests, ensure that you have the following installed:
-- Java JDK (Java Development Kit) installed on your system.
-- JUnit testing framework
 
-## Directory Structure
-- `/src/main/java/prototype/Main.java` - The main entry point of the application.
-- `/src/main/java/prototype/CommandParser.java` - Handles user input and navigates through the menu.
-- `/src/main/java/prototype/cli/CLIRunner.java` - Initiates the command line interface.
-- `/src/main/java/prototype/prompt/Prompter.java` - Handles the scanner input.
-- `/src/main/java/prototype/commands/Books.java` - Book object
-- `/src/main/java/prototype/commands/BookCopies.java` - Book copy object.
-- `/src/main/java/prototype/commands/Customers.java` - Customer object.
-- `/src/main/java/prototype/commands/Importer.java` - Imports customers/books/book copies using CSV files.
-- `/src/main/java/prototype/commands/Manager.java` - Manages book, book copy and customer objects with all type of functionalities.
-- `/src/main/java/prototype/commands/Reports.java` - Handles the generation of different reports.
-- `/src/main/java/prototype/commands/Exit.java` - Provides functionality to exit the application.
+- Java SE 17
+- Maven or Gradle (depending on chosen build tool)
 
 ### Test Directory Structure
 The test directory (`/test/`) contains the following files:
